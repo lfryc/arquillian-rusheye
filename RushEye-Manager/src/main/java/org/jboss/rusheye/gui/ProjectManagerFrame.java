@@ -13,6 +13,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
 import org.jboss.rusheye.Main;
 import org.jboss.rusheye.gui.view.DoubleView;
+import org.jboss.rusheye.gui.view.SingleView;
 import org.jboss.rusheye.project.TestCase;
 
 /**
@@ -27,23 +28,7 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
         jTree1.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
 
             public void valueChanged(TreeSelectionEvent tse) {
-                DefaultMutableTreeNode node = (DefaultMutableTreeNode) jTree1.getLastSelectedPathComponent();
-                if (node == null)return;
-                //Object nodeInfo = node.getUserObject();
-                
-                if (node.isLeaf()) {
-                    TreeNode nodes[] = node.getPath();
-                    System.out.println(nodes[1] + " " + nodes[2]);
-                    TestCase testCase = Main.mainProject.findCase(nodes[1].toString());
-                    
-                    JPanel panel = Main.interfaceFrame.getMainPanel();
-                    panel.removeAll();
-
-                    panel.add(new DoubleView(Main.mainProject.getPatternPath()+"/"+nodes[1]+"."+nodes[2]+"."+testCase.getExtension(),
-                            Main.mainProject.getSamplesPath()+"/"+nodes[1]+"."+nodes[2]+"."+testCase.getExtension()));
-                    
-                    panel.validate();
-                }
+                putTestIntoView();
             }
         });
     }
@@ -58,6 +43,39 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
 
     public JTree getTree() {
         return jTree1;
+    }
+
+    public void putTestIntoView() {
+        DefaultMutableTreeNode node = (DefaultMutableTreeNode) jTree1.getLastSelectedPathComponent();
+        if (node == null) {
+            return;
+        }
+        //Object nodeInfo = node.getUserObject();
+
+        if (node.isLeaf()) {
+            TreeNode nodes[] = node.getPath();
+            System.out.println(nodes[1] + " " + nodes[2]);
+            Main.current = Main.mainProject.findCase(nodes[1].toString());
+            Main.current.setCurrentTest(nodes[2].toString());
+            JPanel panel = Main.interfaceFrame.getMainPanel();
+            panel.removeAll();
+
+            switch (Main.interfaceFrame.getView()) {
+                case InterfaceFrame.SINGLE:
+                    panel.add(new SingleView(Main.mainProject.getPatternPath() + "/" + Main.current.getCaseName() + "." + Main.current.getCurrentTest() + "." + Main.current.getExtension(),
+                            Main.mainProject.getSamplesPath() + "/" + Main.current.getCaseName() + "." + nodes[2] + "." + Main.current.getExtension()));
+                    break;
+                case InterfaceFrame.DOUBLE:
+                    panel.add(new DoubleView(Main.mainProject.getPatternPath() + "/" + Main.current.getCaseName() + "." + Main.current.getCurrentTest() + "." + Main.current.getExtension(),
+                            Main.mainProject.getSamplesPath() + "/" + Main.current.getCaseName() + "." + nodes[2] + "." + Main.current.getExtension()));
+                    break;
+                default:
+                    panel.add(new JPanel());
+                    break;
+            }
+
+            panel.validate();
+        }
     }
 
     /**

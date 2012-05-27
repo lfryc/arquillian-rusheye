@@ -21,5 +21,11 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.jboss.rusheye</groupId>
+      <artifactId>rusheye-impl</artifactId>
+      <version>1.0.0-SNAPSHOT</version>
+      <type>jar</type>
+    </dependency>
   </dependencies>
 </project>

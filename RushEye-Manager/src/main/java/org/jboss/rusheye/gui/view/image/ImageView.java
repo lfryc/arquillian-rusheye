@@ -6,6 +6,7 @@ package org.jboss.rusheye.gui.view.image;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.image.BufferedImage;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -16,24 +17,31 @@ import javax.swing.JScrollPane;
  * @author hcube
  */
 public class ImageView extends JPanel {
-    
-    private Rule columnView, rowView;
 
+    private Rule columnView, rowView;
     private ScrollableImage picture;
 
+    public ImageView(BufferedImage img) {
+        ImageIcon image = new ImageIcon(img);
+        initComponent(image);
+    }
+
     public ImageView(String imagePath) {
-        setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.LINE_AXIS));
-        
         ImageIcon image = new ImageIcon(imagePath);
+        initComponent(image);
+    }
+
+    private void initComponent(ImageIcon image) {
+        setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.LINE_AXIS));
 
         columnView = new Rule(RuleOrientation.HORIZONTAL, false);
-        rowView = new Rule(RuleOrientation.VERTICAL, true);
+        rowView = new Rule(RuleOrientation.VERTICAL, false);
 
         columnView.setPreferredWidth(image.getIconWidth());
         rowView.setPreferredHeight(image.getIconHeight());
 
         picture = new ScrollableImage(image, columnView.getIncrement());
-        
+
         JScrollPane pictureScrollPane = new JScrollPane(picture);
         pictureScrollPane.setViewportBorder(BorderFactory.createLineBorder(Color.black));
 
@@ -45,7 +53,7 @@ public class ImageView extends JPanel {
         pictureScrollPane.setCorner(JScrollPane.UPPER_RIGHT_CORNER, new JPanel());
 
         add(pictureScrollPane);
-        setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
+        setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
     }
     
 }

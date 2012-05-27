@@ -4,10 +4,59 @@
  */
 package org.jboss.rusheye.gui.view;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.JPanel;
+import org.jboss.rusheye.core.DefaultImageComparator;
+import org.jboss.rusheye.gui.view.image.ImageView;
+import org.jboss.rusheye.parser.DefaultConfiguration;
+import org.jboss.rusheye.result.ResultEvaluator;
+import org.jboss.rusheye.suite.ComparisonResult;
+import org.jboss.rusheye.suite.Configuration;
+import org.jboss.rusheye.suite.ResultConclusion;
+
 /**
  *
  * @author hcube
  */
-public class SingleView {
-    
+public class SingleView extends JPanel {
+
+    private ImageView imageView;
+    private String path1, path2;
+    private BufferedImage pattern,sample,diff;
+    private ComparisonResult result;
+    private Configuration configuration;
+    private ResultConclusion conclusion;
+
+    public SingleView(String path1, String path2) {
+        this.path1 = path1;
+        this.path2 = path2;
+        
+        try {
+            pattern = ImageIO.read(new File(this.path1));
+            sample = ImageIO.read(new File(this.path2));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        
+        configuration = new DefaultConfiguration();
+        result = new DefaultImageComparator().compare(pattern, sample, configuration.getPerception(),
+                configuration.getMasks());
+        conclusion = new ResultEvaluator().evaluate(configuration.getPerception(), result);
+        
+        diff = result.getDiffImage();
+        
+        imageView = new ImageView(diff);
+        
+        initComponents();
+    }
+
+    private void initComponents() {
+        setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.LINE_AXIS));
+        add(imageView);
+    }
 }

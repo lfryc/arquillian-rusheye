@@ -14,6 +14,7 @@ import java.util.Collections;
 public class TestCase implements Comparable<TestCase>{
     
     private ArrayList<String> testNames;
+    private String currentTest;
     private String caseName;
     private String extension;
     
@@ -62,6 +63,14 @@ public class TestCase implements Comparable<TestCase>{
         }
         
         return result;
+    }
+
+    public String getCurrentTest() {
+        return currentTest;
+    }
+
+    public void setCurrentTest(String currentTest) {
+        this.currentTest = currentTest;
     }
 
 }
