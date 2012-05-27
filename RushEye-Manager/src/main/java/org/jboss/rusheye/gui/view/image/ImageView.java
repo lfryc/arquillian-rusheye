@@ -1,0 +1,51 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package org.jboss.rusheye.gui.view.image;
+
+import java.awt.Color;
+import java.awt.Dimension;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+
+/**
+ *
+ * @author hcube
+ */
+public class ImageView extends JPanel {
+    
+    private Rule columnView, rowView;
+
+    private ScrollableImage picture;
+
+    public ImageView(String imagePath) {
+        setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.LINE_AXIS));
+        
+        ImageIcon image = new ImageIcon(imagePath);
+
+        columnView = new Rule(RuleOrientation.HORIZONTAL, false);
+        rowView = new Rule(RuleOrientation.VERTICAL, true);
+
+        columnView.setPreferredWidth(image.getIconWidth());
+        rowView.setPreferredHeight(image.getIconHeight());
+
+        picture = new ScrollableImage(image, columnView.getIncrement());
+        
+        JScrollPane pictureScrollPane = new JScrollPane(picture);
+        pictureScrollPane.setViewportBorder(BorderFactory.createLineBorder(Color.black));
+
+        pictureScrollPane.setColumnHeaderView(columnView);
+        pictureScrollPane.setRowHeaderView(rowView);
+
+        pictureScrollPane.setCorner(JScrollPane.UPPER_LEFT_CORNER, new JPanel());
+        pictureScrollPane.setCorner(JScrollPane.LOWER_LEFT_CORNER, new JPanel());
+        pictureScrollPane.setCorner(JScrollPane.UPPER_RIGHT_CORNER, new JPanel());
+
+        add(pictureScrollPane);
+        setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
+    }
+    
+}
