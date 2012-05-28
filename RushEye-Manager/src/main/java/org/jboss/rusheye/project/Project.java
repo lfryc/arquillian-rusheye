@@ -20,6 +20,8 @@ public class Project {
     
     private List<TestCase> cases;
     
+    private TestCase currentCase;
+    
     private String patternPath;
     private String samplesPath;
     
@@ -104,6 +106,14 @@ public class Project {
     public TestCase findCase(String name){
         for(TestCase current : cases) if(current.getCaseName().equals(name)) return current;
         return null;
+    }
+
+    public TestCase getCurrentCase() {
+        return currentCase;
+    }
+
+    public void setCurrentCase(TestCase currentCase) {
+        this.currentCase = currentCase;
     }
 
 }

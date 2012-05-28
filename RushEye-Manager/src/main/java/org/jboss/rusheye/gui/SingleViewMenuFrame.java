@@ -14,11 +14,24 @@ import org.jboss.rusheye.gui.view.DoubleView;
  */
 public class SingleViewMenuFrame extends javax.swing.JFrame {
 
+    public static final int PATTERN = 0;
+    public static final int SAMPLE = 1;
+    public static final int DIFF = 2;
+    
+    private int state = 2;
     /**
      * Creates new form SingleViewMenuFrame
      */
     public SingleViewMenuFrame() {
         initComponents();
+    }
+    
+        public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
     }
 
     /**
@@ -34,8 +47,6 @@ public class SingleViewMenuFrame extends javax.swing.JFrame {
         patternRadio = new javax.swing.JRadioButton();
         sampleRadio = new javax.swing.JRadioButton();
         diffRadio = new javax.swing.JRadioButton();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         buttonGroup2.add(patternRadio);
         patternRadio.setText("Pattern");
@@ -91,22 +102,23 @@ public class SingleViewMenuFrame extends javax.swing.JFrame {
 
     private void diffRadioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_diffRadioActionPerformed
         if (diffRadio.isSelected()) {
-            JPanel panel = Main.interfaceFrame.getMainPanel();
-            panel.removeAll();
-
-            //panel.add(new SingleView(Main.mainProject.getPatternPath() + "/" + nodes[1] + "." + nodes[2] + "." + testCase.getExtension(),
-            //        Main.mainProject.getSamplesPath() + "/" + nodes[1] + "." + nodes[2] + "." + testCase.getExtension()));
-
-            panel.validate();
+            state = SingleViewMenuFrame.DIFF;
+            Main.projectFrame.putTestIntoView();
         }
     }//GEN-LAST:event_diffRadioActionPerformed
 
     private void sampleRadioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sampleRadioActionPerformed
-        // TODO add your handling code here:
+        if (sampleRadio.isSelected()) {
+            state = SingleViewMenuFrame.SAMPLE;
+            Main.projectFrame.putTestIntoView();
+        }
     }//GEN-LAST:event_sampleRadioActionPerformed
 
     private void patternRadioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_patternRadioActionPerformed
-        // TODO add your handling code here:
+        if (patternRadio.isSelected()) {
+            state = SingleViewMenuFrame.PATTERN;
+            Main.projectFrame.putTestIntoView();
+        }
     }//GEN-LAST:event_patternRadioActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup2;
@@ -114,4 +126,6 @@ public class SingleViewMenuFrame extends javax.swing.JFrame {
     private javax.swing.JRadioButton patternRadio;
     private javax.swing.JRadioButton sampleRadio;
     // End of variables declaration//GEN-END:variables
+
+
 }

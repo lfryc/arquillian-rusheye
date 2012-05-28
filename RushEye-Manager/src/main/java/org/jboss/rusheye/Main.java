@@ -33,5 +33,5 @@ public class Main
     public static SingleViewMenuFrame singleFrame;
     
     public static Project mainProject = ProjectFactory.emptyProject();
-    public static TestCase current = new TestCase();
+    
 }

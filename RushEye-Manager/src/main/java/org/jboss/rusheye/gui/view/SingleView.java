@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import org.jboss.rusheye.core.DefaultImageComparator;
+import org.jboss.rusheye.gui.SingleViewMenuFrame;
 import org.jboss.rusheye.gui.view.image.ImageView;
 import org.jboss.rusheye.parser.DefaultConfiguration;
 import org.jboss.rusheye.result.ResultEvaluator;
@@ -32,7 +33,7 @@ public class SingleView extends JPanel {
     private Configuration configuration;
     private ResultConclusion conclusion;
 
-    public SingleView(String path1, String path2) {
+    public SingleView(String path1, String path2, int state) {
         this.path1 = path1;
         this.path2 = path2;
         
@@ -50,7 +51,17 @@ public class SingleView extends JPanel {
         
         diff = result.getDiffImage();
         
-        imageView = new ImageView(diff);
+        switch (state){
+            case SingleViewMenuFrame.SAMPLE:
+                imageView = new ImageView(sample);
+                break;
+            case SingleViewMenuFrame.PATTERN:
+                imageView = new ImageView(pattern);
+                break;
+            case SingleViewMenuFrame.DIFF:
+                imageView = new ImageView(diff);
+                break;
+        }
         
         initComponents();
     }

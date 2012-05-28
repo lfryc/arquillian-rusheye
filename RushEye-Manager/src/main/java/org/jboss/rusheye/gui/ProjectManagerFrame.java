@@ -55,19 +55,22 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
         if (node.isLeaf()) {
             TreeNode nodes[] = node.getPath();
             System.out.println(nodes[1] + " " + nodes[2]);
-            Main.current = Main.mainProject.findCase(nodes[1].toString());
-            Main.current.setCurrentTest(nodes[2].toString());
+            Main.mainProject.setCurrentCase(Main.mainProject.findCase(nodes[1].toString()));
+            Main.mainProject.getCurrentCase().setCurrentTest(nodes[2].toString());
+            
             JPanel panel = Main.interfaceFrame.getMainPanel();
             panel.removeAll();
+            
+            TestCase current = Main.mainProject.getCurrentCase();
 
             switch (Main.interfaceFrame.getView()) {
                 case InterfaceFrame.SINGLE:
-                    panel.add(new SingleView(Main.mainProject.getPatternPath() + "/" + Main.current.getCaseName() + "." + Main.current.getCurrentTest() + "." + Main.current.getExtension(),
-                            Main.mainProject.getSamplesPath() + "/" + Main.current.getCaseName() + "." + nodes[2] + "." + Main.current.getExtension()));
+                    panel.add(new SingleView(Main.mainProject.getPatternPath() + "/" + current.getCaseName() + "." + current.getCurrentTest() + "." + current.getExtension(),
+                            Main.mainProject.getSamplesPath() + "/" + current.getCaseName() + "." + current.getCurrentTest() + "." + current.getExtension(),Main.singleFrame.getState()));
                     break;
                 case InterfaceFrame.DOUBLE:
-                    panel.add(new DoubleView(Main.mainProject.getPatternPath() + "/" + Main.current.getCaseName() + "." + Main.current.getCurrentTest() + "." + Main.current.getExtension(),
-                            Main.mainProject.getSamplesPath() + "/" + Main.current.getCaseName() + "." + nodes[2] + "." + Main.current.getExtension()));
+                    panel.add(new DoubleView(Main.mainProject.getPatternPath() + "/" + Main.mainProject.getCurrentCase().getCaseName() + "." + Main.mainProject.getCurrentCase().getCurrentTest() + "." + Main.mainProject.getCurrentCase().getExtension(),
+                            Main.mainProject.getSamplesPath() + "/" + Main.mainProject.getCurrentCase().getCaseName() + "." + nodes[2] + "." + Main.mainProject.getCurrentCase().getExtension()));
                     break;
                 default:
                     panel.add(new JPanel());
