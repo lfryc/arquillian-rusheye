@@ -5,7 +5,6 @@
 package org.jboss.rusheye.gui.view.image;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -20,7 +19,9 @@ public class ImageView extends JPanel {
 
     private Rule columnView, rowView;
     private ScrollableImage picture;
-
+    
+    private JScrollPane pictureScrollPane;
+    
     public ImageView(BufferedImage img) {
         ImageIcon image = new ImageIcon(img);
         initComponent(image);
@@ -42,18 +43,29 @@ public class ImageView extends JPanel {
 
         picture = new ScrollableImage(image, columnView.getIncrement());
 
-        JScrollPane pictureScrollPane = new JScrollPane(picture);
+        pictureScrollPane = new JScrollPane(picture);
         pictureScrollPane.setViewportBorder(BorderFactory.createLineBorder(Color.black));
 
         pictureScrollPane.setColumnHeaderView(columnView);
         pictureScrollPane.setRowHeaderView(rowView);
-
+        
         pictureScrollPane.setCorner(JScrollPane.UPPER_LEFT_CORNER, new JPanel());
         pictureScrollPane.setCorner(JScrollPane.LOWER_LEFT_CORNER, new JPanel());
         pictureScrollPane.setCorner(JScrollPane.UPPER_RIGHT_CORNER, new JPanel());
 
         add(pictureScrollPane);
         setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+    }
+    
+    public void addListener(ScrollableImage other){
+        ScrollAdjustmentListener scrollListener = new ScrollAdjustmentListener(picture,other);
+        
+        pictureScrollPane.getHorizontalScrollBar().addAdjustmentListener(scrollListener);
+        pictureScrollPane.getVerticalScrollBar().addAdjustmentListener(scrollListener);
+    }
+    
+    public ScrollableImage getPicture(){
+        return picture;
     }
     
 }

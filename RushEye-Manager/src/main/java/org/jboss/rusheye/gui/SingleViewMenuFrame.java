@@ -47,6 +47,8 @@ public class SingleViewMenuFrame extends javax.swing.JFrame {
         patternRadio = new javax.swing.JRadioButton();
         sampleRadio = new javax.swing.JRadioButton();
         diffRadio = new javax.swing.JRadioButton();
+        jSeparator1 = new javax.swing.JSeparator();
+        jCheckBox1 = new javax.swing.JCheckBox();
 
         buttonGroup2.add(patternRadio);
         patternRadio.setText("Pattern");
@@ -73,6 +75,9 @@ public class SingleViewMenuFrame extends javax.swing.JFrame {
             }
         });
 
+        jCheckBox1.setText("Mask");
+        jCheckBox1.setEnabled(false);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -80,10 +85,15 @@ public class SingleViewMenuFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(patternRadio)
-                    .addComponent(sampleRadio)
-                    .addComponent(diffRadio))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jSeparator1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(patternRadio)
+                            .addComponent(sampleRadio)
+                            .addComponent(diffRadio)
+                            .addComponent(jCheckBox1))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -94,6 +104,10 @@ public class SingleViewMenuFrame extends javax.swing.JFrame {
                 .addComponent(sampleRadio)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(diffRadio)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jCheckBox1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -123,6 +137,8 @@ public class SingleViewMenuFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JRadioButton diffRadio;
+    private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JRadioButton patternRadio;
     private javax.swing.JRadioButton sampleRadio;
     // End of variables declaration//GEN-END:variables
