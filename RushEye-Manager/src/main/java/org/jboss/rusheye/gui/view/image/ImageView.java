@@ -19,7 +19,7 @@ public class ImageView extends JPanel {
 
     private Rule columnView, rowView;
     private ScrollableImage picture;
-    
+    private double scale = 1;
     private JScrollPane pictureScrollPane;
     
     public ImageView(BufferedImage img) {
@@ -55,17 +55,33 @@ public class ImageView extends JPanel {
 
         add(pictureScrollPane);
         setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        
+        addZoomListener();
     }
     
-    public void addListener(ScrollableImage other){
+    public void addScrollListener(ScrollableImage other){
         ScrollAdjustmentListener scrollListener = new ScrollAdjustmentListener(picture,other);
         
         pictureScrollPane.getHorizontalScrollBar().addAdjustmentListener(scrollListener);
         pictureScrollPane.getVerticalScrollBar().addAdjustmentListener(scrollListener);
     }
     
+    public void addZoomListener(){
+        ZoomMouseListener zoomListener = new ZoomMouseListener();
+        picture.addMouseListener(zoomListener);
+        picture.addMouseWheelListener(zoomListener);
+    }
+    
     public ScrollableImage getPicture(){
         return picture;
+    }
+
+    public double getScale() {
+        return scale;
+    }
+
+    public void setScale(double scale) {
+        this.scale = scale;
     }
     
 }

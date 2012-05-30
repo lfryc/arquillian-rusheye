@@ -8,9 +8,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.jboss.rusheye.exception.ManagerException;
+import org.jboss.rusheye.suite.ResultConclusion;
 
 /**
  *
@@ -79,7 +78,10 @@ public class Project {
                     tmp.setExtension(parts[2]);
                     lastCase = parts[0];
                 }
-                tmp.addTestName(parts[1]);
+                Test tmpTest = new Test();
+                tmpTest.setName(parts[1]);
+                tmpTest.setConclusion(ResultConclusion.NOT_TESTED);
+                tmp.addTest(tmpTest);
             }
             else throw new ManagerException("Pattern and sample name do not match");
         }

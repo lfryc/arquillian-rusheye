@@ -13,30 +13,31 @@ import java.util.Collections;
  */
 public class TestCase implements Comparable<TestCase>{
     
-    private ArrayList<String> testNames;
-    private String currentTest;
+    private ArrayList<Test> tests;
+    private Test currentTest;
     private String caseName;
     private String extension;
     
+    
     public TestCase(){
-        testNames = new ArrayList<String>();
+        tests = new ArrayList<Test>();
     }
 
     public int compareTo(TestCase t) {
         return caseName.compareTo(t.getCaseName());
     }
 
-    public ArrayList<String> getTestNames() {
-        return testNames;
+    public ArrayList<Test> getTests() {
+        return tests;
     }
 
-    public void setTestNames(ArrayList<String> testNames) {
-        this.testNames = testNames;
+    public void setTestNames(ArrayList<Test> tests) {
+        this.tests = tests;
     }
     
-    public void addTestName(String name){
-        testNames.add(name);
-        Collections.sort(testNames);
+    public void addTest(Test test){
+        tests.add(test);
+        Collections.sort(tests);
     }
 
     public String getCaseName() {
@@ -58,19 +59,25 @@ public class TestCase implements Comparable<TestCase>{
     public String toString(){
         String result = caseName + ":\n";
         
-        for(int i=0;i<testNames.size();++i){
-            result += "\t" + testNames.get(i) + "\n";
+        for(int i=0;i<tests.size();++i){
+            result += "\t" + tests.get(i).getName() + "\n";
         }
         
         return result;
     }
 
-    public String getCurrentTest() {
+    public Test getCurrentTest() {
         return currentTest;
     }
 
-    public void setCurrentTest(String currentTest) {
-        this.currentTest = currentTest;
+    public void setCurrentTest(Test test) {
+        this.currentTest = test;
     }
 
+    public Test findTest(String name){
+        for(Test test : tests){
+            if(test.getName().equals(name)) return test;
+        }
+        return null;
+    }
 }

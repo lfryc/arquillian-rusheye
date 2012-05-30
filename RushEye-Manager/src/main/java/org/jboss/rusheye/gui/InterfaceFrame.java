@@ -14,6 +14,7 @@ import javax.swing.tree.TreeSelectionModel;
 import org.jboss.rusheye.Main;
 import org.jboss.rusheye.exception.ManagerException;
 import org.jboss.rusheye.project.ProjectFactory;
+import org.jboss.rusheye.project.Test;
 import org.jboss.rusheye.project.TestCase;
 
 /**
@@ -65,8 +66,8 @@ public class InterfaceFrame extends javax.swing.JFrame {
             DefaultMutableTreeNode root = new DefaultMutableTreeNode("Test cases");
             for (TestCase current : Main.mainProject.getCases()) {
                 DefaultMutableTreeNode caseNode = new DefaultMutableTreeNode(current.getCaseName());
-                for (String test : current.getTestNames()) {
-                    DefaultMutableTreeNode testNode = new DefaultMutableTreeNode(test);
+                for (Test test : current.getTests()) {
+                    DefaultMutableTreeNode testNode = new DefaultMutableTreeNode(test.getName());
                     caseNode.add(testNode);
                 }
                 root.add(caseNode);

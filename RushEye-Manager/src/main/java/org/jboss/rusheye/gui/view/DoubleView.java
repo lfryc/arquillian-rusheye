@@ -27,8 +27,8 @@ public class DoubleView extends javax.swing.JPanel {
     }
 
     public void initComponents() {
-        imageView1.addListener(imageView2.getPicture());
-        imageView2.addListener(imageView1.getPicture());
+        imageView1.addScrollListener(imageView2.getPicture());
+        imageView2.addScrollListener(imageView1.getPicture());
         
         setLayout(new java.awt.GridLayout(1, 0));
         add(imageView1);
