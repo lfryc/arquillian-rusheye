@@ -13,6 +13,7 @@ import org.jboss.rusheye.suite.ResultConclusion;
 public class Test implements Comparable<Test> {
     private String name;
     private ResultConclusion conclusion;
+    private boolean checked;
 
     public String getName() {
         return name;
@@ -37,5 +38,13 @@ public class Test implements Comparable<Test> {
     @Override
     public String toString(){
         return name;
+    }
+
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
     }
 }

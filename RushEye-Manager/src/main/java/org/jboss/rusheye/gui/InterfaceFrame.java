@@ -112,10 +112,13 @@ public class InterfaceFrame extends javax.swing.JFrame {
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
-        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        jMenu5 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem12 = new javax.swing.JMenuItem();
+        jMenuItem13 = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         jMenuItem8 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
@@ -155,7 +158,8 @@ public class InterfaceFrame extends javax.swing.JFrame {
         jMenu1.add(jMenuItem6);
 
         jMenu2.add(jMenu1);
-        jMenu2.add(jSeparator1);
+
+        jMenu5.setText("Sources");
 
         jMenuItem1.setText("Open patterns");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
@@ -163,7 +167,7 @@ public class InterfaceFrame extends javax.swing.JFrame {
                 jMenuItem1ActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem1);
+        jMenu5.add(jMenuItem1);
 
         jMenuItem2.setLabel("Open samples");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
@@ -171,7 +175,7 @@ public class InterfaceFrame extends javax.swing.JFrame {
                 jMenuItem2ActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem2);
+        jMenu5.add(jMenuItem2);
 
         jMenuItem7.setText("Parse directories");
         jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
@@ -179,7 +183,16 @@ public class InterfaceFrame extends javax.swing.JFrame {
                 jMenuItem7ActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem7);
+        jMenu5.add(jMenuItem7);
+
+        jMenu2.add(jMenu5);
+        jMenu2.add(jSeparator1);
+
+        jMenuItem12.setText("Test all");
+        jMenu2.add(jMenuItem12);
+
+        jMenuItem13.setText("Generate results");
+        jMenu2.add(jMenuItem13);
         jMenu2.add(jSeparator2);
 
         jMenuItem8.setText("Exit");
@@ -322,10 +335,13 @@ public class InterfaceFrame extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem11;
+    private javax.swing.JMenuItem jMenuItem12;
+    private javax.swing.JMenuItem jMenuItem13;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;

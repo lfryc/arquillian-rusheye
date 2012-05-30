@@ -13,6 +13,7 @@ import org.jboss.rusheye.Main;
 import org.jboss.rusheye.gui.view.DoubleView;
 import org.jboss.rusheye.gui.view.SingleView;
 import org.jboss.rusheye.project.TestCase;
+import org.jboss.rusheye.suite.ResultConclusion;
 
 /**
  *
@@ -126,8 +127,18 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
         jScrollPane2.setViewportView(jTree1);
 
         jButton1.setText("Positive");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Negative");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jLabel4.setText("jLabel4");
 
@@ -197,6 +208,17 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        Main.mainProject.getCurrentCase().getCurrentTest().setConclusion(ResultConclusion.PERCEPTUALLY_SAME);
+        Main.mainProject.getCurrentCase().getCurrentTest().setChecked(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        Main.mainProject.getCurrentCase().getCurrentTest().setConclusion(ResultConclusion.DIFFER);
+        Main.mainProject.getCurrentCase().getCurrentTest().setChecked(true);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;

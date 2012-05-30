@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
+import org.jboss.rusheye.Main;
 import org.jboss.rusheye.core.DefaultImageComparator;
 import org.jboss.rusheye.gui.SingleViewMenuFrame;
 import org.jboss.rusheye.gui.view.image.ImageView;
@@ -48,6 +49,8 @@ public class SingleView extends JPanel {
         result = new DefaultImageComparator().compare(pattern, sample, configuration.getPerception(),
                 configuration.getMasks());
         conclusion = new ResultEvaluator().evaluate(configuration.getPerception(), result);
+        if(Main.mainProject.getCurrentCase().getCurrentTest().isChecked() == false)
+            Main.mainProject.getCurrentCase().getCurrentTest().setConclusion(conclusion);
         
         diff = result.getDiffImage();
         
