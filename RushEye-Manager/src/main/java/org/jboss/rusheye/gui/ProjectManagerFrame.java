@@ -74,6 +74,8 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
                     panel.add(new DoubleView(Main.mainProject.getPatternPath() + "/" + Main.mainProject.getCurrentCase().getCaseName() + "." + Main.mainProject.getCurrentCase().getCurrentTest() + "." + Main.mainProject.getCurrentCase().getExtension(),
                             Main.mainProject.getSamplesPath() + "/" + Main.mainProject.getCurrentCase().getCaseName() + "." + nodes[2] + "." + Main.mainProject.getCurrentCase().getExtension()));
                     break;
+                case InterfaceFrame.CONSOLE:
+                    panel.add(Main.console);
                 default:
                     panel.add(new JPanel());
                     break;

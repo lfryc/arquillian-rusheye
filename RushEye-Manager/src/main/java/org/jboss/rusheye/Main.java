@@ -3,6 +3,7 @@ package org.jboss.rusheye;
 import org.jboss.rusheye.gui.InterfaceFrame;
 import org.jboss.rusheye.gui.ProjectManagerFrame;
 import org.jboss.rusheye.gui.SingleViewMenuFrame;
+import org.jboss.rusheye.gui.view.TextView;
 import org.jboss.rusheye.project.Project;
 import org.jboss.rusheye.project.ProjectFactory;
 import org.jboss.rusheye.project.TestCase;
@@ -24,6 +25,8 @@ public class Main
 
                 singleFrame = new SingleViewMenuFrame();
                 singleFrame.setVisible(false);
+                
+                console = new TextView();
             }
         });
     }
@@ -31,6 +34,8 @@ public class Main
     public static InterfaceFrame interfaceFrame;
     public static ProjectManagerFrame projectFrame;
     public static SingleViewMenuFrame singleFrame;
+    
+    public static TextView console;
     
     public static Project mainProject = ProjectFactory.emptyProject();
     
