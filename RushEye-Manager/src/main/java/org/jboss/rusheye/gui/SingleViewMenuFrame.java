@@ -5,7 +5,7 @@
 package org.jboss.rusheye.gui;
 
 import javax.swing.JPanel;
-import org.jboss.rusheye.Main;
+import org.jboss.rusheye.manager.Main;
 import org.jboss.rusheye.gui.view.DoubleView;
 
 /**

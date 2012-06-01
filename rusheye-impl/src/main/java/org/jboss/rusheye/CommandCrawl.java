@@ -92,19 +92,28 @@ public class CommandCrawl extends CommandBase {
         addDocumentRoot();
         writeDocument();
     }
-
-    private void writeDocument() {
+    
+    public void crawl(OutputStream os){
+        document = DocumentHelper.createDocument();
+        addDocumentRoot();
+        writeDocument(os);
+    }
+    
+    private void writeDocument(OutputStream os){
         OutputFormat format = OutputFormat.createPrettyPrint();
-        OutputStream out = openOutputStream();
 
         try {
-            XMLWriter writer = new XMLWriter(out, format);
+            XMLWriter writer = new XMLWriter(os, format);
             writer.write(document);
             writer.close();
         } catch (IOException e) {
             printErrorMessage(e);
             System.exit(7);
         }
+    }
+
+    private void writeDocument() {
+        writeDocument(openOutputStream());
     }
 
     private OutputStream openOutputStream() {
@@ -308,5 +317,21 @@ public class CommandCrawl extends CommandBase {
             }
         }
         return null;
+    }
+
+    public List<File> getFiles() {
+        return files;
+    }
+
+    public void setFiles(List<File> files) {
+        this.files = files;
+    }
+
+    public File getOutput() {
+        return output;
+    }
+
+    public void setOutput(File output) {
+        this.output = output;
     }
 }

@@ -11,7 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
-import org.jboss.rusheye.Main;
+import org.jboss.rusheye.manager.Main;
 import org.jboss.rusheye.core.DefaultImageComparator;
 import org.jboss.rusheye.gui.SingleViewMenuFrame;
 import org.jboss.rusheye.gui.view.image.ImageView;

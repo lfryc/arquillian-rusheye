@@ -1,4 +1,4 @@
-package org.jboss.rusheye;
+package org.jboss.rusheye.manager;
 
 import org.jboss.rusheye.gui.InterfaceFrame;
 import org.jboss.rusheye.gui.ProjectManagerFrame;

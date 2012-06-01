@@ -4,7 +4,10 @@
  */
 package org.jboss.rusheye.gui;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JTree;
@@ -12,7 +15,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeSelectionModel;
 import org.jboss.rusheye.CommandCrawl;
-import org.jboss.rusheye.Main;
+import org.jboss.rusheye.manager.Main;
 import org.jboss.rusheye.exception.ManagerException;
 import org.jboss.rusheye.project.ProjectFactory;
 import org.jboss.rusheye.project.Test;
@@ -344,6 +347,7 @@ public class InterfaceFrame extends javax.swing.JFrame {
             String path2 = choosePath();
             if (path1 != null && path2 != null) {
                 Main.mainProject = ProjectFactory.projectFromDirs(path1, path2);
+                if(Main.projectFrame == null) System.out.println("To frame");
                 Main.projectFrame.getPatternsPathField().setText(path1);
                 Main.projectFrame.getSamplesPathField().setText(path2);
                 createTree();
@@ -395,7 +399,17 @@ public class InterfaceFrame extends javax.swing.JFrame {
 
     private void jMenuItem14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem14ActionPerformed
         CommandCrawl crawl = new CommandCrawl();
-        crawl.crawl();
+        List<File> tmp = new ArrayList<File>();
+        tmp.add(new File(Main.mainProject.getPatternPath()));
+        crawl.setFiles(tmp);
+        crawl.initialize();
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        crawl.crawl(stream);
+        Main.console.getConsoleArea().setText(stream.toString());
+         this.setView(InterfaceFrame.CONSOLE);
+        this.getMainPanel().removeAll();
+        this.getMainPanel().add(Main.console);
+        this.validate();
     }//GEN-LAST:event_jMenuItem14ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

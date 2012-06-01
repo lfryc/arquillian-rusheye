@@ -9,7 +9,7 @@ import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
-import org.jboss.rusheye.Main;
+import org.jboss.rusheye.manager.Main;
 import org.jboss.rusheye.gui.view.DoubleView;
 import org.jboss.rusheye.gui.view.SingleView;
 import org.jboss.rusheye.project.TestCase;
