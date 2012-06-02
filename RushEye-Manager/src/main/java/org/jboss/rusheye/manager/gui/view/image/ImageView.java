@@ -6,10 +6,14 @@ package org.jboss.rusheye.manager.gui.view.image;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import org.jboss.rusheye.manager.project.TestCase;
 import org.jboss.rusheye.manager.utils.ImageUtils;
 
 /**
@@ -31,6 +35,11 @@ public class ImageView extends JPanel {
     }
 
     public ImageView(String imagePath) {
+        try {
+            img = ImageIO.read(new File(imagePath));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
         ImageIcon image = new ImageIcon(imagePath);
         initComponent(image);
     }

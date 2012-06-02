@@ -28,9 +28,11 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
 
             public void valueChanged(TreeSelectionEvent tse) {
                 putTestIntoView();
-                //jLabel4.setText(((TestCase)Main.mainProject.getCurrentCase().getParent()).getName());
-                //jLabel5.setText(Main.mainProject.getCurrentCase().getName());
-                //jLabel6.setText(Main.mainProject.getCurrentCase().getConclusion().toString());
+                if (Main.mainProject.getCurrentCase()!= null && Main.mainProject.getCurrentCase().isLeaf()) {
+                    jLabel4.setText(((TestCase) Main.mainProject.getCurrentCase().getParent()).getName());
+                    jLabel5.setText(Main.mainProject.getCurrentCase().getName());
+                    jLabel6.setText(Main.mainProject.getCurrentCase().getConclusion().toString());
+                }
             }
         });
     }
@@ -52,17 +54,16 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
         if (node == null) {
             return;
         }
-        
+
         if (node.isLeaf()) {
             System.out.println(node.getPath());
-            //String nodes[] = node.getPath().split(".");
-            
+            System.out.println(Main.mainProject.findTest(node.getPath()));
             Main.mainProject.setCurrentCase(Main.mainProject.findTest(node.getPath()));
             System.out.println(Main.mainProject.getCurrentCase().getName());
-            
+
             JPanel panel = Main.interfaceFrame.getMainPanel();
             panel.removeAll();
-            
+
             TestCase current = Main.mainProject.getCurrentCase();
 
             switch (Main.interfaceFrame.getView()) {
@@ -80,7 +81,7 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
                     panel.add(new JPanel());
                     break;
             }
-            
+
             panel.validate();
         }
     }
@@ -220,7 +221,6 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
         Main.mainProject.getCurrentCase().setConclusion(ResultConclusion.DIFFER);
         Main.mainProject.getCurrentCase().setChecked(true);
     }//GEN-LAST:event_jButton2ActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;

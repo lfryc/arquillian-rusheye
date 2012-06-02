@@ -48,7 +48,8 @@ public class TestCase extends TestNode {
         else{
             for (int i = 0; i < this.getChildCount(); ++i) {
                 TestCase child = (TestCase) this.getChildAt(i);
-                return child.findTest(path);
+                TestCase result = child.findTest(path);
+                if(result != null) return result;
             }
         }
         

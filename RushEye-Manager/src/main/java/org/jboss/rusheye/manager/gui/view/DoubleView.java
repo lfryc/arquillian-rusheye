@@ -19,13 +19,6 @@ public class DoubleView extends javax.swing.JPanel {
         initComponents();
     }
 
-    public DoubleView(BufferedImage img1, BufferedImage img2) {
-        imageView1 = new ImageView(img1);
-        imageView2 = new ImageView(img2);
-
-        initComponents();
-    }
-
     public void initComponents() {
         imageView1.addScrollListener(imageView2.getPicture());
         imageView2.addScrollListener(imageView1.getPicture());
