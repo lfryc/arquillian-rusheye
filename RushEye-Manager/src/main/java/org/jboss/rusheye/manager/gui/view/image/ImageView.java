@@ -10,6 +10,7 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import org.jboss.rusheye.manager.utils.ImageUtils;
 
 /**
  *
@@ -21,8 +22,10 @@ public class ImageView extends JPanel {
     private ScrollableImage picture;
     private double scale = 1;
     private JScrollPane pictureScrollPane;
+    private BufferedImage img;
     
     public ImageView(BufferedImage img) {
+        this.img = img;
         ImageIcon image = new ImageIcon(img);
         initComponent(image);
     }
@@ -35,8 +38,8 @@ public class ImageView extends JPanel {
     private void initComponent(ImageIcon image) {
         setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.LINE_AXIS));
 
-        columnView = new Rule(RuleOrientation.HORIZONTAL, false);
-        rowView = new Rule(RuleOrientation.VERTICAL, false);
+        columnView = new Rule(RuleOrientation.HORIZONTAL, false,scale);
+        rowView = new Rule(RuleOrientation.VERTICAL, false,scale);
 
         columnView.setPreferredWidth(image.getIconWidth());
         rowView.setPreferredHeight(image.getIconHeight());
@@ -67,7 +70,7 @@ public class ImageView extends JPanel {
     }
     
     public void addZoomListener(){
-        ZoomMouseListener zoomListener = new ZoomMouseListener();
+        ZoomMouseListener zoomListener = new ZoomMouseListener(this);
         picture.addMouseListener(zoomListener);
         picture.addMouseWheelListener(zoomListener);
     }
@@ -82,6 +85,19 @@ public class ImageView extends JPanel {
 
     public void setScale(double scale) {
         this.scale = scale;
+        rescale();
+    }
+    
+    public void changeScale(double val){
+        this.scale += val;
+        rescale();
+    }
+    
+    public void rescale(){
+        this.removeAll();
+        ImageIcon image = new ImageIcon(ImageUtils.scale(img, scale));
+        initComponent(image);
+        this.validate();
     }
     
 }

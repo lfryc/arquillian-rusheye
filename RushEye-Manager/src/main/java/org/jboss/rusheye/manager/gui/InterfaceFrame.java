@@ -4,8 +4,10 @@
  */
 package org.jboss.rusheye.manager.gui;
 
+import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFileChooser;
@@ -26,13 +28,11 @@ import org.jboss.rusheye.manager.project.TestCase;
  * @author hcube
  */
 public class InterfaceFrame extends javax.swing.JFrame {
-    
+
     public static final int SINGLE = 1;
     public static final int DOUBLE = 2;
     public static final int CONSOLE = 3;
-    
     private int view = InterfaceFrame.DOUBLE;
-
     private JFileChooser fc;
 
     /**
@@ -41,7 +41,7 @@ public class InterfaceFrame extends javax.swing.JFrame {
     public InterfaceFrame() {
         initFileChooser();
         initComponents();
-        
+
         this.validate();
     }
 
@@ -88,11 +88,11 @@ public class InterfaceFrame extends javax.swing.JFrame {
             ex.printStackTrace();
         }
     }
-    
-    public JPanel getMainPanel(){
+
+    public JPanel getMainPanel() {
         return mainPanel;
     }
-    
+
     public int getView() {
         return view;
     }
@@ -347,7 +347,9 @@ public class InterfaceFrame extends javax.swing.JFrame {
             String path2 = choosePath();
             if (path1 != null && path2 != null) {
                 Main.mainProject = ProjectFactory.projectFromDirs(path1, path2);
-                if(Main.projectFrame == null) System.out.println("To frame");
+                if (Main.projectFrame == null) {
+                    System.out.println("To frame");
+                }
                 Main.projectFrame.getPatternsPathField().setText(path1);
                 Main.projectFrame.getSamplesPathField().setText(path2);
                 createTree();
@@ -388,12 +390,20 @@ public class InterfaceFrame extends javax.swing.JFrame {
     private void jMenuItem16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem16ActionPerformed
         JFileChooser fc2 = new JFileChooser();
         fc2.setCurrentDirectory(new java.io.File("."));
-        
+
         int returnVal = fc2.showSaveDialog(this);
 
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc2.getSelectedFile();
             System.out.println(file.getAbsolutePath());
+            try {
+                BufferedWriter out = new BufferedWriter(new FileWriter(file));
+                out.write(Main.console.getConsoleArea().getText());
+                out.close();
+            } catch (Exception e) {
+                System.out.println("Can not save Manager Console output to file");
+                e.printStackTrace();
+            }
         }
     }//GEN-LAST:event_jMenuItem16ActionPerformed
 
@@ -406,12 +416,11 @@ public class InterfaceFrame extends javax.swing.JFrame {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         crawl.crawl(stream);
         Main.console.getConsoleArea().setText(stream.toString());
-         this.setView(InterfaceFrame.CONSOLE);
+        this.setView(InterfaceFrame.CONSOLE);
         this.getMainPanel().removeAll();
         this.getMainPanel().add(Main.console);
         this.validate();
     }//GEN-LAST:event_jMenuItem14ActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
@@ -445,7 +454,4 @@ public class InterfaceFrame extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator6;
     private javax.swing.JPanel mainPanel;
     // End of variables declaration//GEN-END:variables
-
-
-
 }

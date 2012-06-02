@@ -16,7 +16,15 @@ public class Rule extends JComponent {
     private boolean isMetric;
     private int increment;
     private int units;
+    private double scaleMod = 1;
 
+    public Rule(RuleOrientation orientation, boolean m, double scale) {
+        this.orientation = orientation;
+        isMetric = m;
+        setIncrementAndUnits();
+        scaleMod = scale;
+    }
+    
     public Rule(RuleOrientation orientation, boolean m) {
         this.orientation = orientation;
         isMetric = m;
@@ -97,7 +105,7 @@ public class Rule extends JComponent {
             
             int nr = i / units;
             if(!isMetric)nr*=100;
-            text = Integer.toString(nr);
+            text = Integer.toString((int)(nr/scaleMod));
             
             if (i % units == 0) {
                 tickLength = 5;
