@@ -20,7 +20,6 @@ import org.jboss.rusheye.CommandCrawl;
 import org.jboss.rusheye.manager.Main;
 import org.jboss.rusheye.manager.exception.ManagerException;
 import org.jboss.rusheye.manager.project.ProjectFactory;
-import org.jboss.rusheye.manager.project.Test;
 import org.jboss.rusheye.manager.project.TestCase;
 
 /**
@@ -67,7 +66,7 @@ public class InterfaceFrame extends javax.swing.JFrame {
             Main.mainProject.parseDirs();
             Main.projectFrame.setVisible(true);
             JTree tree = Main.projectFrame.getTree();
-
+            /*
             DefaultMutableTreeNode root = new DefaultMutableTreeNode("Test cases");
             for (TestCase current : Main.mainProject.getCases()) {
                 DefaultMutableTreeNode caseNode = new DefaultMutableTreeNode(current.getCaseName());
@@ -77,8 +76,8 @@ public class InterfaceFrame extends javax.swing.JFrame {
                 }
                 root.add(caseNode);
             }
-
-            DefaultTreeModel model = new DefaultTreeModel(root);
+            */
+            DefaultTreeModel model = new DefaultTreeModel(Main.mainProject.getRoot());
             tree.setModel(model);
             tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 

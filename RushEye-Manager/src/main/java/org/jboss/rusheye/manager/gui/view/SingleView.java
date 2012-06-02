@@ -49,8 +49,8 @@ public class SingleView extends JPanel {
         result = new DefaultImageComparator().compare(pattern, sample, configuration.getPerception(),
                 configuration.getMasks());
         conclusion = new ResultEvaluator().evaluate(configuration.getPerception(), result);
-        if(Main.mainProject.getCurrentCase().getCurrentTest().isChecked() == false)
-            Main.mainProject.getCurrentCase().getCurrentTest().setConclusion(conclusion);
+        if(Main.mainProject.getCurrentCase().isChecked() == false)
+            Main.mainProject.getCurrentCase().setConclusion(conclusion);
         
         diff = result.getDiffImage();
         

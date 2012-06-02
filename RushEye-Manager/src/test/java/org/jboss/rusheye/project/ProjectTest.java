@@ -8,6 +8,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import junit.framework.TestCase;
 import org.jboss.rusheye.manager.exception.ManagerException;
+import org.jboss.rusheye.manager.project.Project;
 
 /**
  *
@@ -29,20 +30,4 @@ public class ProjectTest extends TestCase {
         super.tearDown();
     }
 
-    /**
-     * Test of parseDirs method, of class Project. You need directories with images in specific path.
-     */
-    public void testParseDirs() {
-        /*System.out.println("parseDirs");
-        Project instance = new Project();
-        instance.setPatternPath("./screenshots-20100117-1800");
-        instance.setSamplesPath("./screenshots-20100117-2237");
-        try {
-            instance.parseDirs();
-            assertEquals(74,instance.getCases().size());
-        } catch (ManagerException ex) {
-            ex.printStackTrace();
-        }*/
-
-    }
 }

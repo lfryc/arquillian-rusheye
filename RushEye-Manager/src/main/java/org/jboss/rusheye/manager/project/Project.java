@@ -16,19 +16,17 @@ import org.jboss.rusheye.suite.ResultConclusion;
  * @author hcube
  */
 public class Project {
-    
-    private List<TestCase> cases;
-    
+
+    private TestCase root;
     private TestCase currentCase;
-    
     private String patternPath;
     private String samplesPath;
-    
-    Project(){
-        cases = new ArrayList<TestCase>();
+
+    public Project() {
+        root = new TestCase();
     }
-    
-    Project(String patternPath, String samplesPath) {
+
+    public Project(String patternPath, String samplesPath) {
         this();
         this.patternPath = patternPath;
         this.samplesPath = samplesPath;
@@ -55,59 +53,68 @@ public class Project {
         this.samplesPath = samplesPath;
     }
     
-    public List<TestCase> getCases() {
-        return cases;
+    public TestCase getRoot() {
+        return root;
     }
 
     public void parseDirs() throws ManagerException {
+        root = new TestCase();
+        root.setAllowsChildren(true);
+        root.setName("Test Cases");
+        
         ArrayList<String> patternList = parseDir(patternPath);
         ArrayList<String> samplesList = parseDir(samplesPath);
-        
-        if(patternList.size() != samplesList.size()) throw new ManagerException("Not the same file number in pattern and samples");
-        
+
+        if (patternList.size() != samplesList.size()) {
+            throw new ManagerException("Not the same file number in pattern and samples");
+        }
+
         String lastCase = "";
         TestCase tmp = null;
-        
-        for(int i=0;i<patternList.size(); ++i){
-            if(patternList.get(i).equals(samplesList.get(i))){
+
+        for (int i = 0; i < patternList.size(); ++i) {
+            if (patternList.get(i).equals(samplesList.get(i))) {
                 String parts[] = patternList.get(i).split("[.]");
-                if( !parts[0].equals(lastCase) ){//if we get new case :
-                    if(tmp != null) cases.add(tmp);//add last case
-                    tmp = new TestCase();//create new case
-                    tmp.setCaseName(parts[0]);
-                    tmp.setExtension(parts[2]);
-                    lastCase = parts[0];
+                if (parts.length == 3) {//[case].[test].[extension]
+                    
+                    if (parts[0].equals(lastCase) == false) {//if we get new case :
+                        if (tmp != null) {
+                            tmp.setParent(root);
+                            tmp.setAllowsChildren(true);
+                            root.addChild(tmp);//add last case
+                        }
+
+                        tmp = new TestCase();//create new case
+                        tmp.setName(parts[0]);
+                        lastCase = parts[0];
+                    }
+                    
+                    TestCase tmpTest = new TestCase();
+                    tmpTest.setName(parts[1]);
+                    tmpTest.setFilename(patternList.get(i));
+                    tmpTest.setConclusion(ResultConclusion.NOT_TESTED);
+                    tmpTest.setParent(tmp);
+                    tmp.addChild(tmpTest);
                 }
-                Test tmpTest = new Test();
-                tmpTest.setName(parts[1]);
-                tmpTest.setConclusion(ResultConclusion.NOT_TESTED);
-                tmp.addTest(tmpTest);
+            } else {
+                throw new ManagerException("Pattern and sample name do not match");
             }
-            else throw new ManagerException("Pattern and sample name do not match");
         }
-        
-        for(TestCase current : cases){
-            System.out.println(current);
-        }
-        System.out.println(cases.size());
-        
+
+        System.out.println(root.toString());
+
     }
-    
-    private ArrayList<String> parseDir(String path){
+
+    private ArrayList<String> parseDir(String path) {
         File folder = new File(path);
         File[] files = folder.listFiles();
-        
+
         ArrayList<String> names = new ArrayList<String>();
-        for(int i=0;i<files.length;++i){
+        for (int i = 0; i < files.length; ++i) {
             names.add(files[i].getName());
         }
         Collections.sort(names);
         return names;
-    }
-
-    public TestCase findCase(String name){
-        for(TestCase current : cases) if(current.getCaseName().equals(name)) return current;
-        return null;
     }
 
     public TestCase getCurrentCase() {
@@ -118,4 +125,8 @@ public class Project {
         this.currentCase = currentCase;
     }
 
+    public TestCase findTest(String name){
+        return root.findTest(name);
+    }
+    
 }

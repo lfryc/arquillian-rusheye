@@ -28,9 +28,9 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
 
             public void valueChanged(TreeSelectionEvent tse) {
                 putTestIntoView();
-                jLabel4.setText(Main.mainProject.getCurrentCase().getCaseName());
-                jLabel5.setText(Main.mainProject.getCurrentCase().getCurrentTest().toString());
-                jLabel6.setText(Main.mainProject.getCurrentCase().getCurrentTest().getConclusion().toString());
+                //jLabel4.setText(((TestCase)Main.mainProject.getCurrentCase().getParent()).getName());
+                //jLabel5.setText(Main.mainProject.getCurrentCase().getName());
+                //jLabel6.setText(Main.mainProject.getCurrentCase().getConclusion().toString());
             }
         });
     }
@@ -48,17 +48,17 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
     }
 
     public void putTestIntoView() {
-        DefaultMutableTreeNode node = (DefaultMutableTreeNode) jTree1.getLastSelectedPathComponent();
+        TestCase node = (TestCase) jTree1.getLastSelectedPathComponent();
         if (node == null) {
             return;
         }
-        //Object nodeInfo = node.getUserObject();
-
+        
         if (node.isLeaf()) {
-            TreeNode nodes[] = node.getPath();
-            System.out.println(nodes[1] + " " + nodes[2]);
-            Main.mainProject.setCurrentCase(Main.mainProject.findCase(nodes[1].toString()));
-            Main.mainProject.getCurrentCase().setCurrentTest(Main.mainProject.getCurrentCase().findTest(nodes[2].toString()));
+            System.out.println(node.getPath());
+            //String nodes[] = node.getPath().split(".");
+            
+            Main.mainProject.setCurrentCase(Main.mainProject.findTest(node.getPath()));
+            System.out.println(Main.mainProject.getCurrentCase().getName());
             
             JPanel panel = Main.interfaceFrame.getMainPanel();
             panel.removeAll();
@@ -67,12 +67,12 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
 
             switch (Main.interfaceFrame.getView()) {
                 case InterfaceFrame.SINGLE:
-                    panel.add(new SingleView(Main.mainProject.getPatternPath() + "/" + current.getCaseName() + "." + current.getCurrentTest() + "." + current.getExtension(),
-                            Main.mainProject.getSamplesPath() + "/" + current.getCaseName() + "." + current.getCurrentTest() + "." + current.getExtension(),Main.singleFrame.getState()));
+                    panel.add(new SingleView(Main.mainProject.getPatternPath() + "/" + current.getFilename(),
+                            Main.mainProject.getSamplesPath() + "/" + current.getFilename(), Main.singleFrame.getState()));
                     break;
                 case InterfaceFrame.DOUBLE:
-                    panel.add(new DoubleView(Main.mainProject.getPatternPath() + "/" + Main.mainProject.getCurrentCase().getCaseName() + "." + Main.mainProject.getCurrentCase().getCurrentTest() + "." + Main.mainProject.getCurrentCase().getExtension(),
-                            Main.mainProject.getSamplesPath() + "/" + Main.mainProject.getCurrentCase().getCaseName() + "." + nodes[2] + "." + Main.mainProject.getCurrentCase().getExtension()));
+                    panel.add(new DoubleView(Main.mainProject.getPatternPath() + "/" + current.getFilename(),
+                            Main.mainProject.getSamplesPath() + "/" + current.getFilename()));
                     break;
                 case InterfaceFrame.CONSOLE:
                     panel.add(Main.console);
@@ -80,7 +80,7 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
                     panel.add(new JPanel());
                     break;
             }
-
+            
             panel.validate();
         }
     }
@@ -212,13 +212,13 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Main.mainProject.getCurrentCase().getCurrentTest().setConclusion(ResultConclusion.PERCEPTUALLY_SAME);
-        Main.mainProject.getCurrentCase().getCurrentTest().setChecked(true);
+        Main.mainProject.getCurrentCase().setConclusion(ResultConclusion.PERCEPTUALLY_SAME);
+        Main.mainProject.getCurrentCase().setChecked(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        Main.mainProject.getCurrentCase().getCurrentTest().setConclusion(ResultConclusion.DIFFER);
-        Main.mainProject.getCurrentCase().getCurrentTest().setChecked(true);
+        Main.mainProject.getCurrentCase().setConclusion(ResultConclusion.DIFFER);
+        Main.mainProject.getCurrentCase().setChecked(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
