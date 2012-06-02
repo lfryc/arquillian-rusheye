@@ -2,10 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.jboss.rusheye.gui.view;
+package org.jboss.rusheye.manager.gui.view;
 
 import java.awt.image.BufferedImage;
-import org.jboss.rusheye.gui.view.image.ImageView;
+import org.jboss.rusheye.manager.gui.view.image.ImageView;
 
 public class DoubleView extends javax.swing.JPanel {
 

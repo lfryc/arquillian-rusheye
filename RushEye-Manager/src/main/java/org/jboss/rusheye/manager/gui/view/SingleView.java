@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.jboss.rusheye.gui.view;
+package org.jboss.rusheye.manager.gui.view;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -13,8 +13,8 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import org.jboss.rusheye.manager.Main;
 import org.jboss.rusheye.core.DefaultImageComparator;
-import org.jboss.rusheye.gui.SingleViewMenuFrame;
-import org.jboss.rusheye.gui.view.image.ImageView;
+import org.jboss.rusheye.manager.gui.SingleViewMenuFrame;
+import org.jboss.rusheye.manager.gui.view.image.ImageView;
 import org.jboss.rusheye.parser.DefaultConfiguration;
 import org.jboss.rusheye.result.ResultEvaluator;
 import org.jboss.rusheye.suite.ComparisonResult;

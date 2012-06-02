@@ -2,13 +2,13 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.jboss.rusheye.project;
+package org.jboss.rusheye.manager.project;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import org.jboss.rusheye.exception.ManagerException;
+import org.jboss.rusheye.manager.exception.ManagerException;
 import org.jboss.rusheye.suite.ResultConclusion;
 
 /**

@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.jboss.rusheye.gui;
+package org.jboss.rusheye.manager.gui;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -16,10 +16,10 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeSelectionModel;
 import org.jboss.rusheye.CommandCrawl;
 import org.jboss.rusheye.manager.Main;
-import org.jboss.rusheye.exception.ManagerException;
-import org.jboss.rusheye.project.ProjectFactory;
-import org.jboss.rusheye.project.Test;
-import org.jboss.rusheye.project.TestCase;
+import org.jboss.rusheye.manager.exception.ManagerException;
+import org.jboss.rusheye.manager.project.ProjectFactory;
+import org.jboss.rusheye.manager.project.Test;
+import org.jboss.rusheye.manager.project.TestCase;
 
 /**
  *

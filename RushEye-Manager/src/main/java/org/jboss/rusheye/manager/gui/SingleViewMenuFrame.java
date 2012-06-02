@@ -2,11 +2,11 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.jboss.rusheye.gui;
+package org.jboss.rusheye.manager.gui;
 
 import javax.swing.JPanel;
 import org.jboss.rusheye.manager.Main;
-import org.jboss.rusheye.gui.view.DoubleView;
+import org.jboss.rusheye.manager.gui.view.DoubleView;
 
 /**
  *

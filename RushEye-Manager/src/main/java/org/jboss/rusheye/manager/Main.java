@@ -1,12 +1,12 @@
 package org.jboss.rusheye.manager;
 
-import org.jboss.rusheye.gui.InterfaceFrame;
-import org.jboss.rusheye.gui.ProjectManagerFrame;
-import org.jboss.rusheye.gui.SingleViewMenuFrame;
-import org.jboss.rusheye.gui.view.TextView;
-import org.jboss.rusheye.project.Project;
-import org.jboss.rusheye.project.ProjectFactory;
-import org.jboss.rusheye.project.TestCase;
+import org.jboss.rusheye.manager.gui.InterfaceFrame;
+import org.jboss.rusheye.manager.gui.ProjectManagerFrame;
+import org.jboss.rusheye.manager.gui.SingleViewMenuFrame;
+import org.jboss.rusheye.manager.gui.view.TextView;
+import org.jboss.rusheye.manager.project.Project;
+import org.jboss.rusheye.manager.project.ProjectFactory;
+import org.jboss.rusheye.manager.project.TestCase;
 
 /**
  * Hello world!

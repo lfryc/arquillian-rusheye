@@ -7,7 +7,7 @@ package org.jboss.rusheye.project;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import junit.framework.TestCase;
-import org.jboss.rusheye.exception.ManagerException;
+import org.jboss.rusheye.manager.exception.ManagerException;
 
 /**
  *
