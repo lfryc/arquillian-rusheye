@@ -27,7 +27,8 @@ public class ImageView extends JPanel {
     private double scale = 1;
     private JScrollPane pictureScrollPane;
     private BufferedImage img;
-    
+    private boolean allowScale = true;
+
     public ImageView(BufferedImage img) {
         this.img = img;
         ImageIcon image = new ImageIcon(img);
@@ -47,8 +48,8 @@ public class ImageView extends JPanel {
     private void initComponent(ImageIcon image) {
         setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.LINE_AXIS));
 
-        columnView = new Rule(RuleOrientation.HORIZONTAL, false,scale);
-        rowView = new Rule(RuleOrientation.VERTICAL, false,scale);
+        columnView = new Rule(RuleOrientation.HORIZONTAL, false, scale);
+        rowView = new Rule(RuleOrientation.VERTICAL, false, scale);
 
         columnView.setPreferredWidth(image.getIconWidth());
         rowView.setPreferredHeight(image.getIconHeight());
@@ -60,31 +61,31 @@ public class ImageView extends JPanel {
 
         pictureScrollPane.setColumnHeaderView(columnView);
         pictureScrollPane.setRowHeaderView(rowView);
-        
+
         pictureScrollPane.setCorner(JScrollPane.UPPER_LEFT_CORNER, new JPanel());
         pictureScrollPane.setCorner(JScrollPane.LOWER_LEFT_CORNER, new JPanel());
         pictureScrollPane.setCorner(JScrollPane.UPPER_RIGHT_CORNER, new JPanel());
 
         add(pictureScrollPane);
         setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        
+
         addZoomListener();
     }
-    
-    public void addScrollListener(ScrollableImage other){
-        ScrollAdjustmentListener scrollListener = new ScrollAdjustmentListener(picture,other);
-        
+
+    public void addScrollListener(ScrollableImage other) {
+        ScrollAdjustmentListener scrollListener = new ScrollAdjustmentListener(picture, other);
+
         pictureScrollPane.getHorizontalScrollBar().addAdjustmentListener(scrollListener);
         pictureScrollPane.getVerticalScrollBar().addAdjustmentListener(scrollListener);
     }
-    
-    public void addZoomListener(){
+
+    public void addZoomListener() {
         ZoomMouseListener zoomListener = new ZoomMouseListener(this);
         picture.addMouseListener(zoomListener);
         picture.addMouseWheelListener(zoomListener);
     }
-    
-    public ScrollableImage getPicture(){
+
+    public ScrollableImage getPicture() {
         return picture;
     }
 
@@ -96,17 +97,27 @@ public class ImageView extends JPanel {
         this.scale = scale;
         rescale();
     }
-    
-    public void changeScale(double val){
+
+    public void changeScale(double val) {
         this.scale += val;
         rescale();
     }
-    
-    public void rescale(){
-        this.removeAll();
-        ImageIcon image = new ImageIcon(ImageUtils.scale(img, scale));
-        initComponent(image);
-        this.validate();
+
+    public void rescale() {
+        if (allowScale) {
+            this.removeAll();
+            ImageIcon image = new ImageIcon(ImageUtils.scale(img, scale));
+            initComponent(image);
+            this.validate();
+        }
     }
-    
+
+    public boolean isAllowScale() {
+        return allowScale;
+    }
+
+    public void setAllowScale(boolean allowScale) {
+        this.allowScale = allowScale;
+    }
+
 }

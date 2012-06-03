@@ -68,8 +68,10 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
 
             switch (Main.interfaceFrame.getView()) {
                 case InterfaceFrame.SINGLE:
-                    panel.add(new SingleView(Main.mainProject.getPatternPath() + "/" + current.getFilename(),
-                            Main.mainProject.getSamplesPath() + "/" + current.getFilename(), Main.singleFrame.getState()));
+                    SingleView view = new SingleView(Main.mainProject.getPatternPath() + "/" + current.getFilename(),
+                            Main.mainProject.getSamplesPath() + "/" + current.getFilename(), Main.singleFrame.getState());
+                    Main.singleFrame.setView(view);
+                    panel.add(view);
                     break;
                 case InterfaceFrame.DOUBLE:
                     panel.add(new DoubleView(Main.mainProject.getPatternPath() + "/" + current.getFilename(),

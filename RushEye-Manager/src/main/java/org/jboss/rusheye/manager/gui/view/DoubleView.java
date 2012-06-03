@@ -15,6 +15,9 @@ public class DoubleView extends javax.swing.JPanel {
     public DoubleView(String path1, String path2) {
         imageView1 = new ImageView(path1);
         imageView2 = new ImageView(path2);
+        
+        imageView1.setAllowScale(false);
+        imageView2.setAllowScale(false);
 
         initComponents();
     }

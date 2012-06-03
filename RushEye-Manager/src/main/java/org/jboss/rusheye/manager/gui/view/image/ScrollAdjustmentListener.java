@@ -27,6 +27,7 @@ public class ScrollAdjustmentListener implements AdjustmentListener {
 
     public void adjustmentValueChanged(AdjustmentEvent ae) {
         otherPicture.scrollRectToVisible(parentPicture.getVisibleRect());
+        //System.out.println(parentPicture.getVisibleRect());
     }
 
     

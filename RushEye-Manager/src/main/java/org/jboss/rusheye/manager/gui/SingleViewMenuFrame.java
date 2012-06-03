@@ -7,6 +7,7 @@ package org.jboss.rusheye.manager.gui;
 import javax.swing.JPanel;
 import org.jboss.rusheye.manager.Main;
 import org.jboss.rusheye.manager.gui.view.DoubleView;
+import org.jboss.rusheye.manager.gui.view.SingleView;
 
 /**
  *
@@ -19,6 +20,8 @@ public class SingleViewMenuFrame extends javax.swing.JFrame {
     public static final int DIFF = 2;
     
     private int state = 2;
+    
+    private SingleView view;
     /**
      * Creates new form SingleViewMenuFrame
      */
@@ -49,6 +52,8 @@ public class SingleViewMenuFrame extends javax.swing.JFrame {
         diffRadio = new javax.swing.JRadioButton();
         jSeparator1 = new javax.swing.JSeparator();
         jCheckBox1 = new javax.swing.JCheckBox();
+        jButton1 = new javax.swing.JButton();
+        jSeparator2 = new javax.swing.JSeparator();
 
         buttonGroup2.add(patternRadio);
         patternRadio.setText("Pattern");
@@ -78,6 +83,13 @@ public class SingleViewMenuFrame extends javax.swing.JFrame {
         jCheckBox1.setText("Mask");
         jCheckBox1.setEnabled(false);
 
+        jButton1.setText("Focus");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -86,13 +98,15 @@ public class SingleViewMenuFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jSeparator1)
+                    .addComponent(jSeparator2)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(patternRadio)
                             .addComponent(sampleRadio)
                             .addComponent(diffRadio)
                             .addComponent(jCheckBox1))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -108,6 +122,10 @@ public class SingleViewMenuFrame extends javax.swing.JFrame {
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCheckBox1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -118,6 +136,7 @@ public class SingleViewMenuFrame extends javax.swing.JFrame {
         if (diffRadio.isSelected()) {
             state = SingleViewMenuFrame.DIFF;
             Main.projectFrame.putTestIntoView();
+            jButton1.setEnabled(true);
         }
     }//GEN-LAST:event_diffRadioActionPerformed
 
@@ -125,6 +144,7 @@ public class SingleViewMenuFrame extends javax.swing.JFrame {
         if (sampleRadio.isSelected()) {
             state = SingleViewMenuFrame.SAMPLE;
             Main.projectFrame.putTestIntoView();
+            jButton1.setEnabled(false);
         }
     }//GEN-LAST:event_sampleRadioActionPerformed
 
@@ -132,16 +152,32 @@ public class SingleViewMenuFrame extends javax.swing.JFrame {
         if (patternRadio.isSelected()) {
             state = SingleViewMenuFrame.PATTERN;
             Main.projectFrame.putTestIntoView();
+            jButton1.setEnabled(false);
         }
     }//GEN-LAST:event_patternRadioActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        view.focus();
+        System.out.println("Focused on error");
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JRadioButton diffRadio;
+    private javax.swing.JButton jButton1;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JRadioButton patternRadio;
     private javax.swing.JRadioButton sampleRadio;
     // End of variables declaration//GEN-END:variables
 
+    public SingleView getView() {
+        return view;
+    }
+
+    public void setView(SingleView view) {
+        this.view = view;
+    }
 
 }
