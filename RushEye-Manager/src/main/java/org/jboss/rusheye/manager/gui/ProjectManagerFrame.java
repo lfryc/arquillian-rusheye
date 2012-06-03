@@ -216,11 +216,13 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         Main.mainProject.getCurrentCase().setConclusion(ResultConclusion.PERCEPTUALLY_SAME);
+        jLabel6.setText(Main.mainProject.getCurrentCase().getConclusion().toString());
         Main.mainProject.getCurrentCase().setChecked(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         Main.mainProject.getCurrentCase().setConclusion(ResultConclusion.DIFFER);
+        jLabel6.setText(Main.mainProject.getCurrentCase().getConclusion().toString());
         Main.mainProject.getCurrentCase().setChecked(true);
     }//GEN-LAST:event_jButton2ActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables

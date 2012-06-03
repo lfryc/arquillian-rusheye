@@ -66,17 +66,7 @@ public class InterfaceFrame extends javax.swing.JFrame {
             Main.mainProject.parseDirs();
             Main.projectFrame.setVisible(true);
             JTree tree = Main.projectFrame.getTree();
-            /*
-            DefaultMutableTreeNode root = new DefaultMutableTreeNode("Test cases");
-            for (TestCase current : Main.mainProject.getCases()) {
-                DefaultMutableTreeNode caseNode = new DefaultMutableTreeNode(current.getCaseName());
-                for (Test test : current.getTests()) {
-                    DefaultMutableTreeNode testNode = new DefaultMutableTreeNode(test.getName());
-                    caseNode.add(testNode);
-                }
-                root.add(caseNode);
-            }
-            */
+
             DefaultTreeModel model = new DefaultTreeModel(Main.mainProject.getRoot());
             tree.setModel(model);
             tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
@@ -127,11 +117,10 @@ public class InterfaceFrame extends javax.swing.JFrame {
         jMenuItem2 = new javax.swing.JMenuItem();
         jSeparator5 = new javax.swing.JPopupMenu.Separator();
         jMenuItem7 = new javax.swing.JMenuItem();
-        jSeparator1 = new javax.swing.JPopupMenu.Separator();
-        jMenuItem12 = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         jMenuItem14 = new javax.swing.JMenuItem();
         jMenuItem13 = new javax.swing.JMenuItem();
+        jSeparator7 = new javax.swing.JPopupMenu.Separator();
         jMenuItem15 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
@@ -224,10 +213,6 @@ public class InterfaceFrame extends javax.swing.JFrame {
         jMenu5.add(jMenuItem7);
 
         jMenu2.add(jMenu5);
-        jMenu2.add(jSeparator1);
-
-        jMenuItem12.setText("Test all");
-        jMenu2.add(jMenuItem12);
         jMenu2.add(jSeparator2);
 
         jMenuItem14.setText("Generate Suite Descriptor");
@@ -240,6 +225,7 @@ public class InterfaceFrame extends javax.swing.JFrame {
 
         jMenuItem13.setText("Generate Result Descriptor");
         jMenu2.add(jMenuItem13);
+        jMenu2.add(jSeparator7);
 
         jMenuItem15.setText("Console");
         jMenuItem15.addActionListener(new java.awt.event.ActionListener() {
@@ -420,6 +406,7 @@ public class InterfaceFrame extends javax.swing.JFrame {
         this.getMainPanel().add(Main.console);
         this.validate();
     }//GEN-LAST:event_jMenuItem14ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
@@ -431,7 +418,6 @@ public class InterfaceFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem11;
-    private javax.swing.JMenuItem jMenuItem12;
     private javax.swing.JMenuItem jMenuItem13;
     private javax.swing.JMenuItem jMenuItem14;
     private javax.swing.JMenuItem jMenuItem15;
@@ -445,12 +431,12 @@ public class InterfaceFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JMenuItem jMenuItem9;
-    private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JPopupMenu.Separator jSeparator4;
     private javax.swing.JPopupMenu.Separator jSeparator5;
     private javax.swing.JPopupMenu.Separator jSeparator6;
+    private javax.swing.JPopupMenu.Separator jSeparator7;
     private javax.swing.JPanel mainPanel;
     // End of variables declaration//GEN-END:variables
 }
