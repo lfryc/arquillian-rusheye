@@ -21,6 +21,9 @@ public class Project {
     private TestCase currentCase;
     private String patternPath;
     private String samplesPath;
+    
+    private File suiteDescriptor;
+    private File resultDescriptor;
 
     public Project() {
         root = new TestCase();
@@ -35,6 +38,10 @@ public class Project {
         } catch (ManagerException ex) {
             ex.printStackTrace();
         }
+    }
+    
+    public Project(File suiteDescriptor){
+        this.suiteDescriptor = suiteDescriptor;
     }
 
     public String getPatternPath() {

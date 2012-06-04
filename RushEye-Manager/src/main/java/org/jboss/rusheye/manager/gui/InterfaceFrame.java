@@ -21,6 +21,7 @@ import org.jboss.rusheye.manager.Main;
 import org.jboss.rusheye.manager.exception.ManagerException;
 import org.jboss.rusheye.manager.project.ProjectFactory;
 import org.jboss.rusheye.manager.project.TestCase;
+import org.jboss.rusheye.parser.Parser;
 
 /**
  *
@@ -224,6 +225,11 @@ public class InterfaceFrame extends javax.swing.JFrame {
         jMenu2.add(jMenuItem14);
 
         jMenuItem13.setText("Generate Result Descriptor");
+        jMenuItem13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem13ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem13);
         jMenu2.add(jSeparator7);
 
@@ -406,6 +412,17 @@ public class InterfaceFrame extends javax.swing.JFrame {
         this.getMainPanel().add(Main.console);
         this.validate();
     }//GEN-LAST:event_jMenuItem14ActionPerformed
+
+    private void jMenuItem13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem13ActionPerformed
+        try {
+            Parser parser = new Parser();
+            //parser.setProperties(properties);
+
+            //parser.parseFile(input);
+        } catch (Exception e) {
+             System.exit(100);
+        }
+    }//GEN-LAST:event_jMenuItem13ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jMenu1;

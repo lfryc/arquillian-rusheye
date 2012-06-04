@@ -4,6 +4,8 @@
  */
 package org.jboss.rusheye.manager.project;
 
+import java.io.File;
+
 /**
  *
  * @author hcube
@@ -18,7 +20,6 @@ public class ProjectFactory {
     }
     
     public static Project projectFromDescriptor(String descriptorPath){
-        //TODO constructor
-        return null;
+        return new Project(new File(descriptorPath));
     }
 }

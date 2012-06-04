@@ -145,11 +145,11 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
             }
         });
 
-        jLabel4.setText("jLabel4");
+        jLabel4.setText("      ");
 
-        jLabel5.setText("jLabel5");
+        jLabel5.setText("     ");
 
-        jLabel6.setText("jLabel6");
+        jLabel6.setText("     ");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
