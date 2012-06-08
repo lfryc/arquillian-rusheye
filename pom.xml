@@ -71,6 +71,7 @@
 		<module>rusheye-api</module>
 		<module>rusheye-impl</module>
 	 <module>RushEye-Manager</module>
+         <module>rusheye-dist</module>
 	</modules>
 
 	<build>
