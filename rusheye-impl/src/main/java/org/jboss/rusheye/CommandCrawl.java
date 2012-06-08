@@ -322,11 +322,11 @@ public class CommandCrawl extends CommandBase {
     }
 
     public List<File> getFiles() {
-        return files;
+        return patterns;
     }
 
     public void setFiles(List<File> files) {
-        this.files = files;
+        this.patterns = files;
     }
 
     public File getOutput() {
