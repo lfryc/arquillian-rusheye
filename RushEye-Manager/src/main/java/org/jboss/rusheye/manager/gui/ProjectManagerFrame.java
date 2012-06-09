@@ -8,8 +8,11 @@ import javax.swing.JPanel;
 import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
+import javax.swing.tree.TreeSelectionModel;
 import org.jboss.rusheye.manager.Main;
+import org.jboss.rusheye.manager.exception.ManagerException;
 import org.jboss.rusheye.manager.gui.view.DoubleView;
 import org.jboss.rusheye.manager.gui.view.SingleView;
 import org.jboss.rusheye.manager.project.TestCase;
@@ -21,6 +24,11 @@ import org.jboss.rusheye.suite.ResultConclusion;
  */
 public class ProjectManagerFrame extends javax.swing.JFrame {
 
+    public static final int SHOW_ALL = 0;
+    public static final int NOT_TESTED = 1;
+    public static final int DIFF = 2;
+    private int filter = 0;
+
     public ProjectManagerFrame() {
         initComponents();
 
@@ -28,7 +36,7 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
 
             public void valueChanged(TreeSelectionEvent tse) {
                 putTestIntoView();
-                if (Main.mainProject.getCurrentCase()!= null && Main.mainProject.getCurrentCase().isLeaf()) {
+                if (Main.mainProject.getCurrentCase() != null && Main.mainProject.getCurrentCase().isLeaf()) {
                     jLabel4.setText(((TestCase) Main.mainProject.getCurrentCase().getParent()).getName());
                     jLabel5.setText(Main.mainProject.getCurrentCase().getName());
                     jLabel6.setText(Main.mainProject.getCurrentCase().getConclusion().toString());
@@ -47,6 +55,26 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
 
     public JTree getTree() {
         return jTree1;
+    }
+
+    public void createTree() {
+        try {
+            Main.mainProject.parseDirs();
+            Main.projectFrame.setVisible(true);
+
+            updateTreeModel();
+
+        } catch (ManagerException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void updateTreeModel() {
+        DefaultTreeModel model = new DefaultTreeModel(Main.mainProject.getRoot());
+        jTree1.setModel(model);
+        jTree1.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+
+        Main.projectFrame.validate();
     }
 
     public void putTestIntoView() {
@@ -109,6 +137,11 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
 
         setTitle("ProjectManager");
 
@@ -150,6 +183,36 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
         jLabel5.setText("     ");
 
         jLabel6.setText("     ");
+
+        jMenu1.setText("Filters");
+
+        jMenuItem1.setText("Show all");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+
+        jMenuItem2.setText("Show not tested");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem2);
+
+        jMenuItem3.setText("Show diff");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem3);
+
+        jMenuBar1.add(jMenu1);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -204,7 +267,7 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
                     .addComponent(jButton1))
@@ -225,6 +288,30 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
         jLabel6.setText(Main.mainProject.getCurrentCase().getConclusion().toString());
         Main.mainProject.getCurrentCase().setChecked(true);
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        filter = ProjectManagerFrame.SHOW_ALL;
+
+        TestCase root = Main.mainProject.getRoot();
+        root.setAllVisible();
+        this.updateTreeModel();
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        filter = ProjectManagerFrame.NOT_TESTED;
+
+        TestCase root = Main.mainProject.getRoot();
+        root.setVisibility(ResultConclusion.NOT_TESTED);
+        this.updateTreeModel();
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        filter = ProjectManagerFrame.DIFF;
+
+        TestCase root = Main.mainProject.getRoot();
+        root.setVisibility(ResultConclusion.DIFFER);
+        this.updateTreeModel();
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -234,6 +321,11 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTree jTree1;
     private javax.swing.JTextField patternsPathField;

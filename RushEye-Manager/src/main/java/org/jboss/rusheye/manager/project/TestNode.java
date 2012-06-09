@@ -4,8 +4,10 @@
  */
 package org.jboss.rusheye.manager.project;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.List;
 import javax.swing.tree.TreeNode;
 
 /**
@@ -18,17 +20,18 @@ public class TestNode implements TreeNode,Comparable<TestNode>{
     private NodeList children;
     private TestNode parent;
     private boolean allowsChildren;
+    private boolean visible = true;
     
     public TestNode(){
         children = new NodeList();
     }
 
     public TreeNode getChildAt(int i) {
-        return children.get(i);
+        return visibleChildren().get(i);
     }
 
     public int getChildCount() {
-        return children.size();
+        return visibleChildren().size();
     }
 
     public TreeNode getParent() {
@@ -36,10 +39,10 @@ public class TestNode implements TreeNode,Comparable<TestNode>{
     }
 
     public int getIndex(TreeNode tn) {
-        for(int i=0; i<children.size();++i){
+        for(int i=0; i<visibleChildren().size();++i){
             if(tn instanceof TestNode){
                 TestNode tn2 = (TestNode) tn;
-                if(children.get(i).equals(tn2))return i;
+                if(visibleChildren().get(i).equals(tn2))return i;
             }
         }
         return -1;
@@ -50,12 +53,12 @@ public class TestNode implements TreeNode,Comparable<TestNode>{
     }
 
     public boolean isLeaf() {
-        if(children.isEmpty()) return true;
+        if(visibleChildren().isEmpty()) return true;
         else return false;
     }
 
     public Enumeration children() {
-        return children;
+        return visibleChildren();
     }
     
     public void addChild(TestNode node){
@@ -72,6 +75,20 @@ public class TestNode implements TreeNode,Comparable<TestNode>{
         
         return result;
     }
+    
+    public NodeList getAllChildren(){
+        return children;
+    }
+    
+    private NodeList visibleChildren(){
+        NodeList result = new NodeList();
+        
+        for(TestNode node : children){
+            if(node.isVisible()) result.add(node);
+        }
+        
+        return result;
+    } 
     
     @Override
     public boolean equals(Object o){
@@ -112,5 +129,13 @@ public class TestNode implements TreeNode,Comparable<TestNode>{
 
     public void setParent(TestNode parent) {
         this.parent = parent;
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
     }
 }

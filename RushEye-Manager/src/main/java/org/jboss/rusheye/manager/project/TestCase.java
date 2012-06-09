@@ -43,16 +43,18 @@ public class TestCase extends TestNode {
     }
 
     public TestCase findTest(String path) {
-        if(this.getPath().equals(path))
+        if (this.getPath().equals(path)) {
             return this;
-        else{
+        } else {
             for (int i = 0; i < this.getChildCount(); ++i) {
                 TestCase child = (TestCase) this.getChildAt(i);
                 TestCase result = child.findTest(path);
-                if(result != null) return result;
+                if (result != null) {
+                    return result;
+                }
             }
         }
-        
+
         return null;
     }
 
@@ -64,4 +66,33 @@ public class TestCase extends TestNode {
         this.filename = filename;
     }
 
+    public void setVisibility(ResultConclusion con) {
+        if (conclusion == null || conclusion == con) {
+            this.setVisible(true);
+        } else {
+            this.setVisible(false);
+        }
+
+        System.out.println(conclusion + " " + this.isVisible());
+        for (int i = 0; i < this.getAllChildren().size(); ++i) {
+            ((TestCase) this.getAllChildren().get(i)).setVisibility(con);
+        }
+        
+        collapseInvalidLeafs();
+    }
+    
+    private void collapseInvalidLeafs(){
+        if(conclusion == null && this.getChildCount()==0) this.setVisible(false);
+        for (int i = 0; i < this.getAllChildren().size(); ++i) {
+            ((TestCase) this.getAllChildren().get(i)).collapseInvalidLeafs();
+        }
+    }
+
+    public void setAllVisible() {
+        this.setVisible(true);
+
+        for (int i = 0; i < this.getAllChildren().size(); ++i) {
+            ((TestCase) this.getAllChildren().get(i)).setAllVisible();
+        }
+    }
 }

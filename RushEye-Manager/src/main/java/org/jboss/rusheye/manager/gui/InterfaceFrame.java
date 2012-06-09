@@ -21,6 +21,7 @@ import org.jboss.rusheye.manager.Main;
 import org.jboss.rusheye.manager.exception.ManagerException;
 import org.jboss.rusheye.manager.project.ProjectFactory;
 import org.jboss.rusheye.manager.project.TestCase;
+import org.jboss.rusheye.manager.utils.FileChooserUtils;
 import org.jboss.rusheye.parser.Parser;
 
 /**
@@ -39,17 +40,9 @@ public class InterfaceFrame extends javax.swing.JFrame {
      * Creates new form InterfaceFrame
      */
     public InterfaceFrame() {
-        initFileChooser();
         initComponents();
 
         this.validate();
-    }
-
-    private void initFileChooser() {
-        fc = new JFileChooser();
-        fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        fc.setAcceptAllFileFilterUsed(false);
-        fc.setCurrentDirectory(new java.io.File("."));
     }
 
     private String choosePath() {
@@ -60,23 +53,6 @@ public class InterfaceFrame extends javax.swing.JFrame {
             return file.getAbsolutePath();
         }
         return null;
-    }
-
-    private void createTree() {
-        try {
-            Main.mainProject.parseDirs();
-            Main.projectFrame.setVisible(true);
-            JTree tree = Main.projectFrame.getTree();
-
-            DefaultTreeModel model = new DefaultTreeModel(Main.mainProject.getRoot());
-            tree.setModel(model);
-            tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
-
-            Main.projectFrame.validate();
-
-        } catch (ManagerException ex) {
-            ex.printStackTrace();
-        }
     }
 
     public JPanel getMainPanel() {
@@ -332,6 +308,7 @@ public class InterfaceFrame extends javax.swing.JFrame {
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
         if (evt.getSource() == jMenuItem5) {
+            fc = FileChooserUtils.dirChooser();
             fc.setDialogTitle("Open Pattern Dir");
             String path1 = choosePath();
             fc.setDialogTitle("Open Samples Dir");
@@ -343,7 +320,7 @@ public class InterfaceFrame extends javax.swing.JFrame {
                 }
                 Main.projectFrame.getPatternsPathField().setText(path1);
                 Main.projectFrame.getSamplesPathField().setText(path2);
-                createTree();
+                Main.projectFrame.createTree();
             }
         }
     }//GEN-LAST:event_jMenuItem5ActionPerformed
@@ -353,7 +330,7 @@ public class InterfaceFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem8ActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
-        createTree();
+        Main.projectFrame.createTree();
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
@@ -379,13 +356,12 @@ public class InterfaceFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem15ActionPerformed
 
     private void jMenuItem16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem16ActionPerformed
-        JFileChooser fc2 = new JFileChooser();
-        fc2.setCurrentDirectory(new java.io.File("."));
-
-        int returnVal = fc2.showSaveDialog(this);
+        fc = FileChooserUtils.saveChooser();
+        
+        int returnVal = fc.showSaveDialog(this);
 
         if (returnVal == JFileChooser.APPROVE_OPTION) {
-            File file = fc2.getSelectedFile();
+            File file = fc.getSelectedFile();
             System.out.println(file.getAbsolutePath());
             try {
                 BufferedWriter out = new BufferedWriter(new FileWriter(file));
