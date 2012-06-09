@@ -13,20 +13,20 @@ import java.awt.event.AdjustmentListener;
  */
 public class ScrollAdjustmentListener implements AdjustmentListener {
     
-    ScrollableImage parentPicture;
-    ScrollableImage otherPicture;
+    ImageView parentView;
+    ImageView otherView;
 
-    ScrollAdjustmentListener(ScrollableImage picture) {
-        parentPicture = picture;
+    ScrollAdjustmentListener(ImageView view) {
+        parentView = view;
     }
 
-    ScrollAdjustmentListener(ScrollableImage picture, ScrollableImage other) {
-        parentPicture = picture;
-        otherPicture = other;
+    ScrollAdjustmentListener(ImageView view, ImageView other) {
+        parentView = view;
+        otherView = other;
     }
 
     public void adjustmentValueChanged(AdjustmentEvent ae) {
-        otherPicture.scrollRectToVisible(parentPicture.getVisibleRect());
+        otherView.getPicture().scrollRectToVisible(parentView.getPicture().getVisibleRect());
     }
 
     

@@ -32,6 +32,7 @@ public class ImageView extends JPanel {
     private boolean allowScale = true;
     private BottomMenu menu;
     private TestCase testCase;
+    private ScrollAdjustmentListener scrollListener;
 
     public ImageView(TestCase testCase, String key) {
         this.testCase = testCase;
@@ -48,6 +49,9 @@ public class ImageView extends JPanel {
         img = testCase.getImage(key);
         ImageIcon image = new ImageIcon(img);
         initComponent(image);
+        
+        addScrollListener();
+        
         this.validate();
     }
 
@@ -109,9 +113,11 @@ public class ImageView extends JPanel {
         
     }
 
-    public void addScrollListener(ScrollableImage other) {
-        ScrollAdjustmentListener scrollListener = new ScrollAdjustmentListener(picture, other);
-
+    public void initScrollListener(ImageView other) {
+        scrollListener = new ScrollAdjustmentListener(this, other);
+    }
+    
+    public void addScrollListener(){
         pictureScrollPane.getHorizontalScrollBar().addAdjustmentListener(scrollListener);
         pictureScrollPane.getVerticalScrollBar().addAdjustmentListener(scrollListener);
     }

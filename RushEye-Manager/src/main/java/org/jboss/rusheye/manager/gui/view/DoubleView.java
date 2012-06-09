@@ -25,8 +25,11 @@ public class DoubleView extends javax.swing.JPanel {
         imageView1.setAllowScale(false);
         imageView2.setAllowScale(false);
         
-        imageView1.addScrollListener(imageView2.getPicture());
-        imageView2.addScrollListener(imageView1.getPicture());
+        imageView1.initScrollListener(imageView2);
+        imageView2.initScrollListener(imageView1);
+        
+        imageView1.addScrollListener();
+        imageView2.addScrollListener();
         
         setLayout(new java.awt.GridLayout(1, 0));
         add(imageView1);
