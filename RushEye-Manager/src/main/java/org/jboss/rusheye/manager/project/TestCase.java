@@ -73,7 +73,6 @@ public class TestCase extends TestNode {
             this.setVisible(false);
         }
 
-        System.out.println(conclusion + " " + this.isVisible());
         for (int i = 0; i < this.getAllChildren().size(); ++i) {
             ((TestCase) this.getAllChildren().get(i)).setVisibility(con);
         }

@@ -61,6 +61,8 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
         try {
             Main.mainProject.parseDirs();
             Main.projectFrame.setVisible(true);
+            
+            jTree1.setCellRenderer(new CustomTreeRenderer());
 
             updateTreeModel();
 
