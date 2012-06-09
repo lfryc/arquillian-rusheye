@@ -5,24 +5,26 @@
 package org.jboss.rusheye.manager.gui.view;
 
 import java.awt.image.BufferedImage;
+import org.jboss.rusheye.manager.gui.view.image.ImagePool;
 import org.jboss.rusheye.manager.gui.view.image.ImageView;
+import org.jboss.rusheye.manager.project.TestCase;
 
 public class DoubleView extends javax.swing.JPanel {
 
     private ImageView imageView1;
     private ImageView imageView2;
-
-    public DoubleView(String path1, String path2) {
-        imageView1 = new ImageView(path1);
-        imageView2 = new ImageView(path2);
+    
+    public DoubleView(TestCase testCase) {
+        imageView1 = new ImageView(testCase,ImagePool.PATTERN);
+        imageView2 = new ImageView(testCase,ImagePool.SAMPLE);
         
-        imageView1.setAllowScale(false);
-        imageView2.setAllowScale(false);
-
         initComponents();
     }
 
     public void initComponents() {
+        imageView1.setAllowScale(false);
+        imageView2.setAllowScale(false);
+        
         imageView1.addScrollListener(imageView2.getPicture());
         imageView2.addScrollListener(imageView1.getPicture());
         

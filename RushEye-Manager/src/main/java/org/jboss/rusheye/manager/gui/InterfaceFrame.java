@@ -12,15 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
-import javax.swing.JTree;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreeSelectionModel;
 import org.jboss.rusheye.CommandCrawl;
 import org.jboss.rusheye.manager.Main;
-import org.jboss.rusheye.manager.exception.ManagerException;
 import org.jboss.rusheye.manager.project.ProjectFactory;
-import org.jboss.rusheye.manager.project.TestCase;
 import org.jboss.rusheye.manager.utils.FileChooserUtils;
 import org.jboss.rusheye.parser.Parser;
 
@@ -101,8 +95,6 @@ public class InterfaceFrame extends javax.swing.JFrame {
         jMenuItem15 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
-        jSeparator3 = new javax.swing.JPopupMenu.Separator();
-        jMenuItem11 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem9 = new javax.swing.JMenuItem();
         jMenuItem10 = new javax.swing.JMenuItem();
@@ -228,15 +220,6 @@ public class InterfaceFrame extends javax.swing.JFrame {
             }
         });
         jMenu3.add(jMenuItem3);
-        jMenu3.add(jSeparator3);
-
-        jMenuItem11.setText("Single View Menu");
-        jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem11ActionPerformed(evt);
-            }
-        });
-        jMenu3.add(jMenuItem11);
 
         jMenuBar1.add(jMenu3);
 
@@ -341,12 +324,7 @@ public class InterfaceFrame extends javax.swing.JFrame {
     private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
         view = InterfaceFrame.SINGLE;
         Main.projectFrame.putTestIntoView();
-        Main.singleFrame.setVisible(true);
     }//GEN-LAST:event_jMenuItem10ActionPerformed
-
-    private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
-        Main.singleFrame.setVisible(true);
-    }//GEN-LAST:event_jMenuItem11ActionPerformed
 
     private void jMenuItem15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem15ActionPerformed
         this.setView(InterfaceFrame.CONSOLE);
@@ -410,7 +388,6 @@ public class InterfaceFrame extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
-    private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem13;
     private javax.swing.JMenuItem jMenuItem14;
     private javax.swing.JMenuItem jMenuItem15;
@@ -425,7 +402,6 @@ public class InterfaceFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JPopupMenu.Separator jSeparator2;
-    private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JPopupMenu.Separator jSeparator4;
     private javax.swing.JPopupMenu.Separator jSeparator5;
     private javax.swing.JPopupMenu.Separator jSeparator6;

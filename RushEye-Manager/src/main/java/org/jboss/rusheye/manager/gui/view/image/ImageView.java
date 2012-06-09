@@ -5,6 +5,7 @@
 package org.jboss.rusheye.manager.gui.view.image;
 
 import java.awt.Color;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -13,6 +14,7 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import org.jboss.rusheye.manager.gui.view.BottomMenu;
 import org.jboss.rusheye.manager.project.TestCase;
 import org.jboss.rusheye.manager.utils.ImageUtils;
 
@@ -28,25 +30,29 @@ public class ImageView extends JPanel {
     private JScrollPane pictureScrollPane;
     private BufferedImage img;
     private boolean allowScale = true;
+    private BottomMenu menu;
+    private TestCase testCase;
 
-    public ImageView(BufferedImage img) {
-        this.img = img;
+    public ImageView(TestCase testCase, String key) {
+        this.testCase = testCase;
+        img = testCase.getImage(key);
         ImageIcon image = new ImageIcon(img);
+        
+        menu = new BottomMenu(this);
         initComponent(image);
     }
-
-    public ImageView(String imagePath) {
-        try {
-            img = ImageIO.read(new File(imagePath));
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        ImageIcon image = new ImageIcon(imagePath);
+    
+    public void changeImage(String key){
+        this.removeAll();
+        
+        img = testCase.getImage(key);
+        ImageIcon image = new ImageIcon(img);
         initComponent(image);
+        this.validate();
     }
 
     private void initComponent(ImageIcon image) {
-        setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.LINE_AXIS));
+        setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.Y_AXIS));
 
         columnView = new Rule(RuleOrientation.HORIZONTAL, false, scale);
         rowView = new Rule(RuleOrientation.VERTICAL, false, scale);
@@ -67,9 +73,40 @@ public class ImageView extends JPanel {
         pictureScrollPane.setCorner(JScrollPane.UPPER_RIGHT_CORNER, new JPanel());
 
         add(pictureScrollPane);
+        
         setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
         addZoomListener();
+        
+        add(menu);
+    }
+    
+        public void focus() {
+        
+        int w = img.getWidth();
+        int h = img.getHeight();
+
+        int x = 0;
+        int y = 0;
+        outer:
+        for (int i = 0; i < w; ++i) {
+            for (int k = 0; k < h; ++k) {
+                int color = img.getRGB(i, k);
+                int r = ImageUtils.getR(color);
+                int g = ImageUtils.getG(color);
+                int b = ImageUtils.getB(color);
+
+                //we find beginnig of blue bounding box
+                if (b > r && b > g) {
+                    x = i;
+                    y = k;
+                    break outer;
+                }
+            }
+        }
+        this.getPicture().scrollRectToVisible(new Rectangle(x, y,(int)this.getPicture().getVisibleRect().getWidth(), (int)this.getPicture().getVisibleRect().getHeight()));
+        System.out.println(this.getPicture().getVisibleRect());
+        
     }
 
     public void addScrollListener(ScrollableImage other) {
@@ -87,6 +124,10 @@ public class ImageView extends JPanel {
 
     public ScrollableImage getPicture() {
         return picture;
+    }
+    
+    public BufferedImage getImg(){
+        return img;
     }
 
     public double getScale() {
