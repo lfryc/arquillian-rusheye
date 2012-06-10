@@ -29,7 +29,6 @@ public class InterfaceFrame extends javax.swing.JFrame {
     public static final int DOUBLE = 2;
     public static final int CONSOLE = 3;
     private int view = InterfaceFrame.DOUBLE;
-    private JFileChooser fc;
 
     /**
      * Creates new form InterfaceFrame
@@ -38,16 +37,6 @@ public class InterfaceFrame extends javax.swing.JFrame {
         initComponents();
 
         this.validate();
-    }
-
-    private File chooseFile() {
-        int returnVal = fc.showOpenDialog(this);
-
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-            File file = fc.getSelectedFile();
-            return file;
-        }
-        return null;
     }
 
     public JPanel getMainPanel() {
@@ -61,7 +50,7 @@ public class InterfaceFrame extends javax.swing.JFrame {
     public void setView(int view) {
         this.view = view;
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -266,10 +255,9 @@ public class InterfaceFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        if (evt.getSource() == jMenuItem2) {
-            fc = FileChooserUtils.dirChooser();
-            fc.setDialogTitle("Open Samples Dir");
-            String path = chooseFile().getAbsolutePath();
+        File dir = FileChooserUtils.openDir("Open Samples Dir",this);
+        if (dir != null) {
+            String path = dir.getAbsolutePath();
             if (path != null) {
                 Main.mainProject.setSamplesPath(path);
                 Main.projectFrame.getSamplesPathField().setText(path);
@@ -278,10 +266,9 @@ public class InterfaceFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        if (evt.getSource() == jMenuItem1) {
-            fc = FileChooserUtils.dirChooser();
-            fc.setDialogTitle("Open Pattern Dir");
-            String path = chooseFile().getAbsolutePath();
+        File dir = FileChooserUtils.openDir("Open Pattern Dir",this);
+        if (dir != null) {
+            String path = dir.getAbsolutePath();
             if (path != null) {
                 Main.mainProject.setPatternPath(path);
                 Main.projectFrame.getPatternsPathField().setText(path);
@@ -298,18 +285,16 @@ public class InterfaceFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-        if (evt.getSource() == jMenuItem5) {
-            fc = FileChooserUtils.dirChooser();
-            fc.setDialogTitle("Open Pattern Dir");
-            String path1 = chooseFile().getAbsolutePath();
-            fc.setDialogTitle("Open Samples Dir");
-            String path2 = chooseFile().getAbsolutePath();
-            if (path1 != null && path2 != null) {
-                Main.mainProject = ProjectFactory.projectFromDirs(path1, path2);
-                Main.projectFrame.getPatternsPathField().setText(path1);
-                Main.projectFrame.getSamplesPathField().setText(path2);
-                Main.projectFrame.createTree();
-            }
+        JFileChooser fc = FileChooserUtils.dirChooser();
+        fc.setDialogTitle("Open Pattern Dir");
+        String path1 = FileChooserUtils.chooseFile(fc, this).getAbsolutePath();
+        fc.setDialogTitle("Open Samples Dir");
+        String path2 = FileChooserUtils.chooseFile(fc, this).getAbsolutePath();
+        if (path1 != null && path2 != null) {
+            Main.mainProject = ProjectFactory.projectFromDirs(path1, path2);
+            Main.projectFrame.getPatternsPathField().setText(path1);
+            Main.projectFrame.getSamplesPathField().setText(path2);
+            Main.projectFrame.createTree();
         }
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
@@ -339,7 +324,7 @@ public class InterfaceFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem15ActionPerformed
 
     private void jMenuItem16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem16ActionPerformed
-        fc = FileChooserUtils.saveChooser();
+        JFileChooser fc = FileChooserUtils.saveChooser();
 
         int returnVal = fc.showSaveDialog(this);
 
@@ -357,40 +342,19 @@ public class InterfaceFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem16ActionPerformed
 
     private void jMenuItem14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem14ActionPerformed
-        CommandCrawl crawl = new CommandCrawl();
-        List<File> tmp = new ArrayList<File>();
-        tmp.add(new File(Main.mainProject.getPatternPath()));
-        crawl.setFiles(tmp);
-        crawl.initialize();
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        crawl.crawl(stream);
-        Main.console.getConsoleArea().setText(stream.toString());
-        this.setView(InterfaceFrame.CONSOLE);
-        this.getMainPanel().removeAll();
-        this.getMainPanel().add(Main.console);
-        this.validate();
+        CrawlFrame crawlFrame = new CrawlFrame();
+        crawlFrame.setVisible(true);
     }//GEN-LAST:event_jMenuItem14ActionPerformed
 
     private void jMenuItem13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem13ActionPerformed
-       
-        Properties props = new Properties();
-        props.setProperty("samples-directory", Main.mainProject.getSamplesPath());
-        props.setProperty("patterns-directory", Main.mainProject.getPatternPath());
-        props.setProperty("file-storage-directory", "tmp_dir");
-        props.setProperty("result-output-file", "output.xml");
-        
-        Parser parser = new Parser();
-        parser.setProperties(props);
-        parser.parseFile(Main.mainProject.getSuiteDescriptor());
+        ParseFrame parseFrame = new ParseFrame();
+        parseFrame.setVisible(true);
     }//GEN-LAST:event_jMenuItem13ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-        fc = FileChooserUtils.fileChooser();
-        
-        File tmp = chooseFile();
-        
+        JFileChooser fc = FileChooserUtils.fileChooser();
+        File tmp = FileChooserUtils.chooseFile(fc, this);
         Main.mainProject.setSuiteDescriptor(tmp);
-        
     }//GEN-LAST:event_jMenuItem6ActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jMenu1;

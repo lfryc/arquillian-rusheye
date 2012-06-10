@@ -21,6 +21,7 @@ public class Project {
     private TestCase currentCase;
     private String patternPath;
     private String samplesPath;
+    private String maskPath;
     
     private File suiteDescriptor;
 
@@ -141,6 +142,14 @@ public class Project {
 
     public void setSuiteDescriptor(File suiteDescriptor) {
         this.suiteDescriptor = suiteDescriptor;
+    }
+
+    public String getMaskPath() {
+        return maskPath;
+    }
+
+    public void setMaskPath(String maskPath) {
+        this.maskPath = maskPath;
     }
     
 }

@@ -4,6 +4,7 @@
  */
 package org.jboss.rusheye.manager.utils;
 
+import java.awt.Component;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -38,5 +39,26 @@ public class FileChooserUtils {
         fc.setCurrentDirectory(new java.io.File("."));
 
         return fc;
+    }
+    
+    public static File chooseFile(JFileChooser fc, Component parent) {
+        
+        int returnVal = fc.showOpenDialog(parent);
+
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File file = fc.getSelectedFile();
+            return file;
+        }
+        else return null;
+    }
+    
+    public static File openDir(String msg, Component parent) {
+        JFileChooser fc = FileChooserUtils.dirChooser();
+        if (fc != null) {
+            fc.setDialogTitle(msg);
+            return FileChooserUtils.chooseFile(fc, parent);
+        } else {
+            return null;
+        }
     }
 }
