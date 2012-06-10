@@ -123,9 +123,10 @@ public class ImageView extends JPanel {
     }
 
     public void addZoomListener() {
-        ZoomMouseListener zoomListener = new ZoomMouseListener(this);
+        ZoomDragMouseListener zoomListener = new ZoomDragMouseListener(this);
         picture.addMouseListener(zoomListener);
         picture.addMouseWheelListener(zoomListener);
+        picture.addMouseMotionListener(zoomListener);
     }
 
     public ScrollableImage getPicture() {
