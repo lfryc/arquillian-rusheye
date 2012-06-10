@@ -23,7 +23,6 @@ public class Project {
     private String samplesPath;
     
     private File suiteDescriptor;
-    private File resultDescriptor;
 
     public Project() {
         root = new TestCase();
@@ -134,6 +133,14 @@ public class Project {
 
     public TestCase findTest(String name){
         return root.findTest(name);
+    }
+
+    public File getSuiteDescriptor() {
+        return suiteDescriptor;
+    }
+
+    public void setSuiteDescriptor(File suiteDescriptor) {
+        this.suiteDescriptor = suiteDescriptor;
     }
     
 }

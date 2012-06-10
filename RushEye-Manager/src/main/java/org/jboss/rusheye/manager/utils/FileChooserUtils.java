@@ -25,6 +25,14 @@ public class FileChooserUtils {
         return fc;
     }
     
+    public static JFileChooser fileChooser(){
+        JFileChooser fc = new JFileChooser();
+        fc.setAcceptAllFileFilterUsed(false);
+        fc.setCurrentDirectory(new java.io.File("."));
+        
+        return fc;
+    }
+    
     public static JFileChooser saveChooser(){
         JFileChooser fc = new JFileChooser();
         fc.setCurrentDirectory(new java.io.File("."));

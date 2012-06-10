@@ -17,6 +17,7 @@ import org.jboss.rusheye.manager.Main;
 import org.jboss.rusheye.manager.project.ProjectFactory;
 import org.jboss.rusheye.manager.utils.FileChooserUtils;
 import org.jboss.rusheye.parser.Parser;
+import org.jboss.rusheye.suite.Properties;
 
 /**
  *
@@ -39,12 +40,12 @@ public class InterfaceFrame extends javax.swing.JFrame {
         this.validate();
     }
 
-    private String choosePath() {
+    private File chooseFile() {
         int returnVal = fc.showOpenDialog(this);
 
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
-            return file.getAbsolutePath();
+            return file;
         }
         return null;
     }
@@ -125,6 +126,11 @@ public class InterfaceFrame extends javax.swing.JFrame {
         jMenu1.add(jMenuItem5);
 
         jMenuItem6.setText("Project From Descriptor");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem6);
 
         jMenu6.add(jMenu1);
@@ -261,8 +267,9 @@ public class InterfaceFrame extends javax.swing.JFrame {
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         if (evt.getSource() == jMenuItem2) {
+            fc = FileChooserUtils.dirChooser();
             fc.setDialogTitle("Open Samples Dir");
-            String path = choosePath();
+            String path = chooseFile().getAbsolutePath();
             if (path != null) {
                 Main.mainProject.setSamplesPath(path);
                 Main.projectFrame.getSamplesPathField().setText(path);
@@ -272,8 +279,9 @@ public class InterfaceFrame extends javax.swing.JFrame {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         if (evt.getSource() == jMenuItem1) {
+            fc = FileChooserUtils.dirChooser();
             fc.setDialogTitle("Open Pattern Dir");
-            String path = choosePath();
+            String path = chooseFile().getAbsolutePath();
             if (path != null) {
                 Main.mainProject.setPatternPath(path);
                 Main.projectFrame.getPatternsPathField().setText(path);
@@ -293,14 +301,11 @@ public class InterfaceFrame extends javax.swing.JFrame {
         if (evt.getSource() == jMenuItem5) {
             fc = FileChooserUtils.dirChooser();
             fc.setDialogTitle("Open Pattern Dir");
-            String path1 = choosePath();
+            String path1 = chooseFile().getAbsolutePath();
             fc.setDialogTitle("Open Samples Dir");
-            String path2 = choosePath();
+            String path2 = chooseFile().getAbsolutePath();
             if (path1 != null && path2 != null) {
                 Main.mainProject = ProjectFactory.projectFromDirs(path1, path2);
-                if (Main.projectFrame == null) {
-                    System.out.println("To frame");
-                }
                 Main.projectFrame.getPatternsPathField().setText(path1);
                 Main.projectFrame.getSamplesPathField().setText(path2);
                 Main.projectFrame.createTree();
@@ -335,12 +340,11 @@ public class InterfaceFrame extends javax.swing.JFrame {
 
     private void jMenuItem16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem16ActionPerformed
         fc = FileChooserUtils.saveChooser();
-        
+
         int returnVal = fc.showSaveDialog(this);
 
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
-            System.out.println(file.getAbsolutePath());
             try {
                 BufferedWriter out = new BufferedWriter(new FileWriter(file));
                 out.write(Main.console.getConsoleArea().getText());
@@ -368,16 +372,26 @@ public class InterfaceFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem14ActionPerformed
 
     private void jMenuItem13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem13ActionPerformed
-        try {
-            Parser parser = new Parser();
-            //parser.setProperties(properties);
-
-            //parser.parseFile(input);
-        } catch (Exception e) {
-             System.exit(100);
-        }
+       
+        Properties props = new Properties();
+        props.setProperty("samples-directory", Main.mainProject.getSamplesPath());
+        props.setProperty("patterns-directory", Main.mainProject.getPatternPath());
+        props.setProperty("file-storage-directory", "tmp_dir");
+        props.setProperty("result-output-file", "output.xml");
+        
+        Parser parser = new Parser();
+        parser.setProperties(props);
+        parser.parseFile(Main.mainProject.getSuiteDescriptor());
     }//GEN-LAST:event_jMenuItem13ActionPerformed
 
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        fc = FileChooserUtils.fileChooser();
+        
+        File tmp = chooseFile();
+        
+        Main.mainProject.setSuiteDescriptor(tmp);
+        
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
