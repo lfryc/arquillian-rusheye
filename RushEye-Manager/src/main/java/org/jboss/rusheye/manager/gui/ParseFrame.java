@@ -200,7 +200,7 @@ public class ParseFrame extends javax.swing.JFrame {
 
         Parser parser = new Parser();
         parser.setProperties(props);
-        parser.parseFile(Main.mainProject.getSuiteDescriptor());
+        new Thread(new ParserThread(parser)).start();
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
