@@ -158,6 +158,7 @@ public final class Parser {
                             System.out.println(pattern.getName());
                             TestCase patternCase = new TestCase();
                             patternCase.setName(pattern.getName());
+                            patternCase.setFilename(pattern.getSource());
                             patternCase.setParent(newCase);
                             newCase.addChild(patternCase);
                         }

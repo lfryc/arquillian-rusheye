@@ -5,19 +5,13 @@
 package org.jboss.rusheye.manager.gui;
 
 import java.io.BufferedWriter;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileWriter;
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
-import org.jboss.rusheye.CommandCrawl;
 import org.jboss.rusheye.manager.Main;
 import org.jboss.rusheye.manager.project.ProjectFactory;
 import org.jboss.rusheye.manager.utils.FileChooserUtils;
-import org.jboss.rusheye.parser.Parser;
-import org.jboss.rusheye.suite.Properties;
 
 /**
  *
@@ -50,7 +44,13 @@ public class InterfaceFrame extends javax.swing.JFrame {
     public void setView(int view) {
         this.view = view;
     }
-    
+
+    public void clean() {
+        Main.projectFrame.getPatternsPathField().setText("path...");
+        Main.projectFrame.getSamplesPathField().setText("path...");
+        mainPanel.removeAll();
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -64,7 +64,6 @@ public class InterfaceFrame extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu6 = new javax.swing.JMenu();
         jMenu1 = new javax.swing.JMenu();
-        jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
         jSeparator4 = new javax.swing.JPopupMenu.Separator();
@@ -96,14 +95,6 @@ public class InterfaceFrame extends javax.swing.JFrame {
         jMenu6.setText("File");
 
         jMenu1.setText("New Project");
-
-        jMenuItem4.setText("Empty Project");
-        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem4ActionPerformed(evt);
-            }
-        });
-        jMenu1.add(jMenuItem4);
 
         jMenuItem5.setText("Project From Directories");
         jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
@@ -246,7 +237,7 @@ public class InterfaceFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        File dir = FileChooserUtils.openDir("Open Samples Dir",this);
+        File dir = FileChooserUtils.openDir("Open Samples Dir", this);
         if (dir != null) {
             String path = dir.getAbsolutePath();
             if (path != null) {
@@ -254,10 +245,12 @@ public class InterfaceFrame extends javax.swing.JFrame {
                 Main.projectFrame.getSamplesPathField().setText(path);
             }
         }
+        Main.mainProject.getRoot().removeDiffRecursive();
+        mainPanel.removeAll();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        File dir = FileChooserUtils.openDir("Open Pattern Dir",this);
+        File dir = FileChooserUtils.openDir("Open Pattern Dir", this);
         if (dir != null) {
             String path = dir.getAbsolutePath();
             if (path != null) {
@@ -265,15 +258,13 @@ public class InterfaceFrame extends javax.swing.JFrame {
                 Main.projectFrame.getPatternsPathField().setText(path);
             }
         }
+        Main.mainProject.getRoot().removeDiffRecursive();
+        mainPanel.removeAll();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         Main.projectFrame.setVisible(true);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
-
-    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        Main.mainProject = ProjectFactory.emptyProject();
-    }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
         JFileChooser fc = FileChooserUtils.dirChooser();
@@ -287,6 +278,7 @@ public class InterfaceFrame extends javax.swing.JFrame {
             Main.projectFrame.getSamplesPathField().setText(path2);
             Main.projectFrame.createTree();
         }
+        clean();
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
@@ -341,9 +333,11 @@ public class InterfaceFrame extends javax.swing.JFrame {
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
         JFileChooser fc = FileChooserUtils.fileChooser();
         File tmp = FileChooserUtils.chooseFile(fc, this);
-        
+
         Main.mainProject = ProjectFactory.projectFromDescriptor(tmp);
         Main.projectFrame.createTree();
+        
+        clean();
     }//GEN-LAST:event_jMenuItem6ActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jMenu1;
@@ -362,7 +356,6 @@ public class InterfaceFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem17;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem8;

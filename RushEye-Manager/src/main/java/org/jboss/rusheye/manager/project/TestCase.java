@@ -52,6 +52,25 @@ public class TestCase extends TestNode {
         return pool;
     }
 
+    public void loadDiff() {
+        Configuration configuration = new DefaultConfiguration();
+        ComparisonResult result = new DefaultImageComparator().compare(getImage(ImagePool.PATTERN), getImage(ImagePool.SAMPLE), configuration.getPerception(),
+                configuration.getMasks());
+
+        conclusion = new ResultEvaluator().evaluate(configuration.getPerception(), result);
+
+        BufferedImage diff = result.getDiffImage();
+
+        pool.put(ImagePool.DIFF, diff);
+    }
+    
+    public void removeDiffRecursive(){
+        if(this.isLeaf())pool.remove(ImagePool.DIFF);
+        for(int i=0;i<this.getChildCount();++i){
+            ((TestCase)this.getChildAt(i)).removeDiffRecursive();
+        }
+    }
+
     public BufferedImage getImage(String key) {
         if (pool.get(key) == null) {
             if (key.equals(ImagePool.PATTERN)) {
@@ -59,7 +78,9 @@ public class TestCase extends TestNode {
                 if (pool.get(key) != null) {
                     return pool.get(key);
                 } else {
-                    if(pool.get(ImagePool.FAKE)==null)pool.put(ImagePool.FAKE,"empty.png");
+                    if (pool.get(ImagePool.FAKE) == null) {
+                        pool.put(ImagePool.FAKE, "empty.png");
+                    }
                     return pool.get(ImagePool.FAKE);
                 }
             } else if (key.equals(ImagePool.SAMPLE)) {
@@ -67,22 +88,16 @@ public class TestCase extends TestNode {
                 if (pool.get(key) != null) {
                     return pool.get(key);
                 } else {
-                    if(pool.get(ImagePool.FAKE)==null)pool.put(ImagePool.FAKE,"empty.png");
+                    if (pool.get(ImagePool.FAKE) == null) {
+                        pool.put(ImagePool.FAKE, "empty.png");
+                    }
                     return pool.get(ImagePool.FAKE);
                 }
-            } else {
-                Configuration configuration = new DefaultConfiguration();
-                ComparisonResult result = new DefaultImageComparator().compare(getImage(ImagePool.PATTERN), getImage(ImagePool.SAMPLE), configuration.getPerception(),
-                        configuration.getMasks());
-
-                conclusion = new ResultEvaluator().evaluate(configuration.getPerception(), result);
-
-                BufferedImage diff = result.getDiffImage();
-
-                pool.put(key, diff);
-
-                return getImage(key);
+            } else if(key.equals(ImagePool.DIFF)) {
+                loadDiff();
+                return pool.get(key);
             }
+            else return null;
         } else {
             return pool.get(key);
         }

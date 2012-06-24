@@ -46,4 +46,8 @@ public class ImagePool {
     public BufferedImage get(String key) {
         return pool.get(key);
     }
+    
+    public void remove(String key){
+        pool.remove(key);
+    }
 }
