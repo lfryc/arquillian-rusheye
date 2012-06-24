@@ -96,19 +96,12 @@ public class ZoomDragMouseListener implements MouseListener, MouseWheelListener,
             
             double v_x = tmpX - x;
             double v_y = tmpY - y;
-            System.out.println(x + " " + tmpX + " : " + v_x + " " + v_y);
+            System.out.println(tmpX + " " + tmpY + " : " + v_x + " " + v_y);
             
-            int mod_x = 0;
-            if(v_x>0) mod_x=5;
-            else mod_x=-5;
-            
-            int mod_y = 0;
-            if(v_y>0) mod_y=5;
-            else mod_y=-5;
-            
+          
             Rectangle parentRect= parent.getPicture().getVisibleRect();
             
-            parent.getPicture().scrollRectToVisible(new Rectangle((int)(parentRect.getX() + mod_x), (int)(parentRect.getY() +mod_y),(int)parentRect.getWidth(), (int)parentRect.getHeight()));
+            parent.getPicture().scrollRectToVisible(new Rectangle((int)(parentRect.getX() - v_x/1.5), (int)(parentRect.getY() - v_y/1.5),(int)parentRect.getWidth(), (int)parentRect.getHeight()));
             
             x = tmpX;
             y = tmpY;
