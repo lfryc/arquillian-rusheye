@@ -220,6 +220,7 @@ public class ParseFrame extends javax.swing.JFrame {
             String path = dir.getAbsolutePath();
             if (path != null) {
                 Main.mainProject.setSamplesPath(path);
+                Main.projectFrame.getSamplesPathField().setText(path);
                 samplesField.setText(path);
             }
         }
@@ -231,6 +232,7 @@ public class ParseFrame extends javax.swing.JFrame {
             String path = dir.getAbsolutePath();
             if (path != null) {
                 Main.mainProject.setPatternPath(path);
+                Main.projectFrame.getPatternsPathField().setText(path);
                 patternsField.setText(path);
             }
         }

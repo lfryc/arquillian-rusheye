@@ -336,4 +336,20 @@ public class CommandCrawl extends CommandBase {
     public void setOutput(File output) {
         this.output = output;
     }
+    
+    public void setMasksBase(File mb){
+        this.maskBase = mb;
+    }
+    
+    public void setOnePixelTreshold(Integer value){
+        onePixelTreshold = value;
+    }
+    
+    public void setGlobalDifferenceTreshold(Integer value){
+        globalDifferenceTreshold = value;
+    }
+    
+    public void setGlobalDifferenceAmount(String value){
+        globalDifferenceAmount = value;
+    }
 }
