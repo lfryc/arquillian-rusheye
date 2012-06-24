@@ -290,6 +290,10 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
         Main.mainProject.getCurrentCase().setConclusion(ResultConclusion.DIFFER);
         jLabel6.setText(Main.mainProject.getCurrentCase().getConclusion().toString());
         Main.mainProject.getCurrentCase().setChecked(true);
+        TreePath path = jTree1.getSelectionPath();
+        this.updateTreeModel();
+        jTree1.setSelectionPath(path);
+        jTree1.scrollPathToVisible(path);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed

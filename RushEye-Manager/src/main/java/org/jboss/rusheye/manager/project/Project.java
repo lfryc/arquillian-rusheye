@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.jboss.rusheye.manager.exception.ManagerException;
+import org.jboss.rusheye.parser.Parser;
 import org.jboss.rusheye.suite.ResultConclusion;
 
 /**
@@ -19,14 +20,17 @@ public class Project {
 
     private TestCase root;
     private TestCase currentCase;
+    
     private String patternPath;
     private String samplesPath;
     private String maskPath;
     
     private File suiteDescriptor;
+    private LoadType loadType;
 
     public Project() {
         root = new TestCase();
+        loadType = LoadType.EMPTY;
     }
 
     public Project(String patternPath, String samplesPath) {
@@ -34,14 +38,21 @@ public class Project {
         this.patternPath = patternPath;
         this.samplesPath = samplesPath;
         try {
-            this.parseDirs();
+            root = this.parseDirs();
         } catch (ManagerException ex) {
             ex.printStackTrace();
         }
+        
+        loadType = LoadType.DIRS;
     }
     
     public Project(File suiteDescriptor){
         this.suiteDescriptor = suiteDescriptor;
+        
+        Parser parser = new Parser();
+        root = parser.parseFileToManagerCases(this.suiteDescriptor);
+        
+        loadType = LoadType.SUITE;
     }
 
     public String getPatternPath() {
@@ -64,10 +75,10 @@ public class Project {
         return root;
     }
 
-    public void parseDirs() throws ManagerException {
-        root = new TestCase();
-        root.setAllowsChildren(true);
-        root.setName("Test Cases");
+    public TestCase parseDirs() throws ManagerException {
+        TestCase test = new TestCase();
+        test.setAllowsChildren(true);
+        test.setName("Test Cases");
         
         ArrayList<String> patternList = parseDir(patternPath);
         ArrayList<String> samplesList = parseDir(samplesPath);
@@ -86,9 +97,9 @@ public class Project {
                     
                     if (parts[0].equals(lastCase) == false) {//if we get new case :
                         if (tmp != null) {
-                            tmp.setParent(root);
+                            tmp.setParent(test);
                             tmp.setAllowsChildren(true);
-                            root.addChild(tmp);//add last case
+                            test.addChild(tmp);//add last case
                         }
 
                         tmp = new TestCase();//create new case
@@ -108,8 +119,9 @@ public class Project {
             }
         }
 
-        System.out.println(root.toString());
-
+        System.out.println(test.toString());
+        
+        return test;
     }
 
     private ArrayList<String> parseDir(String path) {
