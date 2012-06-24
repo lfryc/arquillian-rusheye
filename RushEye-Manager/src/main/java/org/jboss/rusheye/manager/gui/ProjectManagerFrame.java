@@ -12,6 +12,7 @@ import org.jboss.rusheye.manager.Main;
 import org.jboss.rusheye.manager.exception.ManagerException;
 import org.jboss.rusheye.manager.gui.view.DoubleView;
 import org.jboss.rusheye.manager.gui.view.SingleView;
+import org.jboss.rusheye.manager.project.LoadType;
 import org.jboss.rusheye.manager.project.TestCase;
 import org.jboss.rusheye.suite.ResultConclusion;
 
@@ -55,17 +56,11 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
     }
 
     public void createTree() {
-        try {
-            Main.mainProject.parseDirs();
             Main.projectFrame.setVisible(true);
             
             jTree1.setCellRenderer(new CustomTreeRenderer());
 
             updateTreeModel();
-
-        } catch (ManagerException ex) {
-            ex.printStackTrace();
-        }
     }
 
     public void updateTreeModel() {

@@ -51,7 +51,8 @@ public class Project {
         
         Parser parser = new Parser();
         root = parser.parseFileToManagerCases(this.suiteDescriptor);
-        
+        for(int i=0;i<root.getChildCount();++i)
+            System.out.println("A"+root.getChildAt(i));
         loadType = LoadType.SUITE;
     }
 
@@ -114,6 +115,9 @@ public class Project {
                     tmpTest.setParent(tmp);
                     tmp.addChild(tmpTest);
                 }
+                if(parts.length == 2){//normal filename
+                
+                }
             } else {
                 throw new ManagerException("Pattern and sample name do not match");
             }
@@ -164,4 +168,7 @@ public class Project {
         this.maskPath = maskPath;
     }
     
+    public LoadType getProjectType(){
+        return loadType;
+    }
 }

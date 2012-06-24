@@ -22,4 +22,8 @@ public class ProjectFactory {
     public static Project projectFromDescriptor(String descriptorPath){
         return new Project(new File(descriptorPath));
     }
+    
+    public static Project projectFromDescriptor(File descriptor){
+        return new Project(descriptor);
+    }
 }

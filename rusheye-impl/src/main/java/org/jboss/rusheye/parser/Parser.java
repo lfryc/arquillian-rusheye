@@ -109,6 +109,7 @@ public final class Parser {
     
     public TestCase parseFileToManagerCases(File file){
         TestCase testCase = new TestCase();
+        testCase.setName("Test Cases");
         try {
             XMLValidationSchemaFactory schemaFactory = XMLValidationSchemaFactory
                 .newInstance(XMLValidationSchema.SCHEMA_ID_W3C_SCHEMA);
@@ -151,11 +152,14 @@ public final class Parser {
                         TestCase newCase = new TestCase();
                         newCase.setName(test.getName());
                         newCase.setParent(testCase);
+                        newCase.setAllowsChildren(true);
+                        testCase.addChild(newCase);
                         for (Pattern pattern : test.getPatterns()) {
                             System.out.println(pattern.getName());
                             TestCase patternCase = new TestCase();
                             patternCase.setName(pattern.getName());
                             patternCase.setParent(newCase);
+                            newCase.addChild(patternCase);
                         }
                     }
             }
