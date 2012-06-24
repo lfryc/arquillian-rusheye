@@ -17,9 +17,13 @@ public class BottomMenu extends javax.swing.JPanel {
     
     private ImageView view;
 
-    public BottomMenu(ImageView view) {
+    public BottomMenu(ImageView view,String viewType) {
         this.view = view;
         initComponents();
+        
+        if(viewType.equals(ImagePool.PATTERN))patternRadio.setSelected(true);
+        else if(viewType.equals(ImagePool.SAMPLE))sampleRadio.setSelected(true);
+        else if(viewType.equals(ImagePool.DIFF))diffRadio.setSelected(true);
     }
 
     /**

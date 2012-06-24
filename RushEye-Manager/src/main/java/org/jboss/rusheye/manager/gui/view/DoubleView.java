@@ -15,8 +15,8 @@ public class DoubleView extends javax.swing.JPanel {
     private ImageView imageView2;
     
     public DoubleView(TestCase testCase) {
-        imageView1 = new ImageView(testCase,ImagePool.PATTERN);
-        imageView2 = new ImageView(testCase,ImagePool.SAMPLE);
+        imageView1 = new ImageView(testCase,ImagePool.SAMPLE);
+        imageView2 = new ImageView(testCase,ImagePool.DIFF);
         
         initComponents();
     }

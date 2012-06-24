@@ -7,10 +7,7 @@ package org.jboss.rusheye.manager.gui;
 import javax.swing.JPanel;
 import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreeNode;
-import javax.swing.tree.TreeSelectionModel;
+import javax.swing.tree.*;
 import org.jboss.rusheye.manager.Main;
 import org.jboss.rusheye.manager.exception.ManagerException;
 import org.jboss.rusheye.manager.gui.view.DoubleView;
@@ -283,6 +280,10 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
         Main.mainProject.getCurrentCase().setConclusion(ResultConclusion.PERCEPTUALLY_SAME);
         jLabel6.setText(Main.mainProject.getCurrentCase().getConclusion().toString());
         Main.mainProject.getCurrentCase().setChecked(true);
+        TreePath path = jTree1.getSelectionPath();
+        this.updateTreeModel();
+        jTree1.setSelectionPath(path);
+        jTree1.scrollPathToVisible(path);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

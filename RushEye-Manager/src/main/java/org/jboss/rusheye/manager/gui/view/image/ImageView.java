@@ -39,7 +39,7 @@ public class ImageView extends JPanel {
         img = testCase.getImage(key);
         ImageIcon image = new ImageIcon(img);
         
-        menu = new BottomMenu(this);
+        menu = new BottomMenu(this,key);
         initComponent(image);
     }
     
