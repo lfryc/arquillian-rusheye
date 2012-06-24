@@ -22,7 +22,7 @@ public class ImagePool {
     public static final String PATTERN = "pattern";
     public static final String SAMPLE = "sample";
     public static final String DIFF = "diff";
-    
+    public static final String FAKE = "fake";
     private Map<String, BufferedImage> pool;
 
     public ImagePool() {
@@ -32,21 +32,15 @@ public class ImagePool {
     public void put(String key, BufferedImage value) {
         pool.put(key, value);
     }
-    
-    public void put(String key,String path){
+
+    public void put(String key, String path) {
         BufferedImage img = null;
         try {
             img = ImageIO.read(new File(path));
-            
+            put(key, img);
         } catch (IOException ex) {
-            try {
-                img = ImageIO.read(new File("empty.png"));
-            } catch (IOException ex1) {
-                ex.printStackTrace();
-            }
             System.out.println(ex.toString());
         }
-        put(key,img);
     }
 
     public BufferedImage get(String key) {

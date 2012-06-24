@@ -53,14 +53,23 @@ public class TestCase extends TestNode {
     }
 
     public BufferedImage getImage(String key) {
-        BufferedImage img = pool.get(key);
-        if (img == null) {
+        if (pool.get(key) == null) {
             if (key.equals(ImagePool.PATTERN)) {
                 pool.put(key, Main.mainProject.getPatternPath() + "/" + filename);
-                return getImage(key);
+                if (pool.get(key) != null) {
+                    return pool.get(key);
+                } else {
+                    if(pool.get(ImagePool.FAKE)==null)pool.put(ImagePool.FAKE,"empty.png");
+                    return pool.get(ImagePool.FAKE);
+                }
             } else if (key.equals(ImagePool.SAMPLE)) {
                 pool.put(key, Main.mainProject.getSamplesPath() + "/" + filename);
-                return getImage(key);
+                if (pool.get(key) != null) {
+                    return pool.get(key);
+                } else {
+                    if(pool.get(ImagePool.FAKE)==null)pool.put(ImagePool.FAKE,"empty.png");
+                    return pool.get(ImagePool.FAKE);
+                }
             } else {
                 Configuration configuration = new DefaultConfiguration();
                 ComparisonResult result = new DefaultImageComparator().compare(getImage(ImagePool.PATTERN), getImage(ImagePool.SAMPLE), configuration.getPerception(),
@@ -75,7 +84,7 @@ public class TestCase extends TestNode {
                 return getImage(key);
             }
         } else {
-            return img;
+            return pool.get(key);
         }
     }
 
