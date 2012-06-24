@@ -20,7 +20,7 @@ public class ParserThread implements Runnable{
     }
 
     public void run() {
-        parser.parseFile(Main.mainProject.getSuiteDescriptor());
+        parser.parseFileToManagerCases(Main.mainProject.getSuiteDescriptor());
     }
     
 }
