@@ -21,7 +21,6 @@ public class Main
                 projectFrame = new ProjectManagerFrame();
                 projectFrame.setVisible(true);
 
-                
                 console = new TextView();
             }
         });

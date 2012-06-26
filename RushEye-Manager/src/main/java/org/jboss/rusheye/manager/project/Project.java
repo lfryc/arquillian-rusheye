@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.jboss.rusheye.manager.exception.ManagerException;
+import org.jboss.rusheye.manager.impl.ManagerParser;
 import org.jboss.rusheye.parser.Parser;
 import org.jboss.rusheye.suite.ResultConclusion;
 
@@ -49,7 +50,7 @@ public class Project {
     public Project(File suiteDescriptor){
         this.suiteDescriptor = suiteDescriptor;
         
-        Parser parser = new Parser();
+        ManagerParser parser = new ManagerParser();
         root = parser.parseFileToManagerCases(this.suiteDescriptor);
         for(int i=0;i<root.getChildCount();++i)
             System.out.println("A"+root.getChildAt(i));
