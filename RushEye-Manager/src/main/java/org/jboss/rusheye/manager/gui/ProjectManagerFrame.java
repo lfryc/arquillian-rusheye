@@ -13,7 +13,9 @@ import org.jboss.rusheye.manager.exception.ManagerException;
 import org.jboss.rusheye.manager.gui.view.DoubleView;
 import org.jboss.rusheye.manager.gui.view.SingleView;
 import org.jboss.rusheye.manager.project.LoadType;
+import org.jboss.rusheye.manager.project.NodeList;
 import org.jboss.rusheye.manager.project.TestCase;
+import org.jboss.rusheye.manager.project.TestNode;
 import org.jboss.rusheye.suite.ResultConclusion;
 
 /**
@@ -30,7 +32,7 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
     public ProjectManagerFrame() {
         initComponents();
 
-        jTree1.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
+        projectTree.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
 
             public void valueChanged(TreeSelectionEvent tse) {
                 putTestIntoView();
@@ -52,27 +54,27 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
     }
 
     public JTree getTree() {
-        return jTree1;
+        return projectTree;
     }
 
     public void createTree() {
-            Main.projectFrame.setVisible(true);
-            
-            jTree1.setCellRenderer(new CustomTreeRenderer());
+        Main.projectFrame.setVisible(true);
 
-            updateTreeModel();
+        projectTree.setCellRenderer(new CustomTreeRenderer());
+
+        updateTreeModel();
     }
 
     public void updateTreeModel() {
         DefaultTreeModel model = new DefaultTreeModel(Main.mainProject.getRoot());
-        jTree1.setModel(model);
-        jTree1.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+        projectTree.setModel(model);
+        projectTree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 
         Main.projectFrame.validate();
     }
 
     public void putTestIntoView() {
-        TestCase node = (TestCase) jTree1.getLastSelectedPathComponent();
+        TestCase node = (TestCase) projectTree.getLastSelectedPathComponent();
         if (node == null) {
             return;
         }
@@ -106,6 +108,30 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
         }
     }
 
+    private void updateIcons() {
+        jLabel6.setText(Main.mainProject.getCurrentCase().getConclusion().toString());
+        Main.mainProject.getCurrentCase().setChecked(true);
+        TreePath path = projectTree.getSelectionPath();
+        this.updateTreeModel();
+        projectTree.setSelectionPath(path);
+        projectTree.scrollPathToVisible(path);
+    }
+
+    private void findNeighbour(int offset) {
+        TestNode node = (TestNode) projectTree.getLastSelectedPathComponent();
+        TreePath parentPath = projectTree.getSelectionPath().getParentPath();
+
+        NodeList list = (NodeList) node.getParent().children();
+        for (int i = 0; i < list.size(); ++i) {
+            if (list.get(i).equals(node)) {
+                if (i < list.size() - 1) {
+                    projectTree.setSelectionPath(parentPath.pathByAddingChild(list.get(i + offset)));
+                    break;
+                }
+            }
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -121,12 +147,15 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
         samplesPathField = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTree1 = new javax.swing.JTree();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        projectTree = new javax.swing.JTree();
+        posButton = new javax.swing.JButton();
+        negButton = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        nextButton = new javax.swing.JButton();
+        prevButton = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JSeparator();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -151,20 +180,20 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
         jLabel3.setText("Test cases :");
 
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Test Cases");
-        jTree1.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
-        jScrollPane2.setViewportView(jTree1);
+        projectTree.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        jScrollPane2.setViewportView(projectTree);
 
-        jButton1.setText("Positive");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        posButton.setText("Positive");
+        posButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                posButtonActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Negative");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        negButton.setText("Negative");
+        negButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                negButtonActionPerformed(evt);
             }
         });
 
@@ -173,6 +202,20 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
         jLabel5.setText("     ");
 
         jLabel6.setText("     ");
+
+        nextButton.setText("Next");
+        nextButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nextButtonActionPerformed(evt);
+            }
+        });
+
+        prevButton.setText("Previous");
+        prevButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                prevButtonActionPerformed(evt);
+            }
+        });
 
         jMenu1.setText("Filters");
 
@@ -213,28 +256,31 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5))
+                        .addGap(252, 252, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jSeparator1)
                             .addComponent(patternsPathField)
                             .addComponent(samplesPathField)
                             .addComponent(jScrollPane2)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(prevButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(nextButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(jLabel1)
                                     .addComponent(jLabel2)
-                                    .addComponent(jLabel3))
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel6)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(posButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(negButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(0, 0, Short.MAX_VALUE)))
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(12, 12, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -257,35 +303,31 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton1))
-                .addContainerGap())
+                    .addComponent(posButton)
+                    .addComponent(negButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(nextButton)
+                    .addComponent(prevButton))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void posButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_posButtonActionPerformed
         Main.mainProject.getCurrentCase().setConclusion(ResultConclusion.PERCEPTUALLY_SAME);
-        jLabel6.setText(Main.mainProject.getCurrentCase().getConclusion().toString());
-        Main.mainProject.getCurrentCase().setChecked(true);
-        TreePath path = jTree1.getSelectionPath();
-        this.updateTreeModel();
-        jTree1.setSelectionPath(path);
-        jTree1.scrollPathToVisible(path);
-    }//GEN-LAST:event_jButton1ActionPerformed
+        updateIcons();
+    }//GEN-LAST:event_posButtonActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void negButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_negButtonActionPerformed
         Main.mainProject.getCurrentCase().setConclusion(ResultConclusion.DIFFER);
-        jLabel6.setText(Main.mainProject.getCurrentCase().getConclusion().toString());
-        Main.mainProject.getCurrentCase().setChecked(true);
-        TreePath path = jTree1.getSelectionPath();
-        this.updateTreeModel();
-        jTree1.setSelectionPath(path);
-        jTree1.scrollPathToVisible(path);
-    }//GEN-LAST:event_jButton2ActionPerformed
+        updateIcons();
+    }//GEN-LAST:event_negButtonActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         filter = ProjectManagerFrame.SHOW_ALL;
@@ -310,9 +352,15 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
         root.setVisibility(ResultConclusion.DIFFER);
         this.updateTreeModel();
     }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
+        findNeighbour(1);
+    }//GEN-LAST:event_nextButtonActionPerformed
+
+    private void prevButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prevButtonActionPerformed
+        findNeighbour(-1);
+    }//GEN-LAST:event_prevButtonActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -325,8 +373,13 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTree jTree1;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JButton negButton;
+    private javax.swing.JButton nextButton;
     private javax.swing.JTextField patternsPathField;
+    private javax.swing.JButton posButton;
+    private javax.swing.JButton prevButton;
+    private javax.swing.JTree projectTree;
     private javax.swing.JTextField samplesPathField;
     // End of variables declaration//GEN-END:variables
 }
