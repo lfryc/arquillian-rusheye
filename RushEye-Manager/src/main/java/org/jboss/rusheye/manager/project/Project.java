@@ -27,6 +27,7 @@ public class Project {
     private String maskPath;
     
     private File suiteDescriptor;
+    private File resultDescriptor;
     private LoadType loadType;
 
     public Project() {

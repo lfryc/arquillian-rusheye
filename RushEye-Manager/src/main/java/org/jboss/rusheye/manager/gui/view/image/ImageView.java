@@ -4,6 +4,8 @@
  */
 package org.jboss.rusheye.manager.gui.view.image;
 
+import org.jboss.rusheye.manager.gui.view.image.listeners.ScrollAdjustmentListener;
+import org.jboss.rusheye.manager.gui.view.image.listeners.ZoomDragMouseListener;
 import java.awt.Color;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
