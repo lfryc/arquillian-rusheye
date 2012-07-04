@@ -124,7 +124,11 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
         NodeList list = (NodeList) node.getParent().children();
         for (int i = 0; i < list.size(); ++i) {
             if (list.get(i).equals(node)) {
-                if (i < list.size() - 1) {
+                if (offset > 0 && i < list.size() - offset) {
+                    projectTree.setSelectionPath(parentPath.pathByAddingChild(list.get(i + offset)));
+                    break;
+                }
+                if (offset < 0 && i >= offset) {
                     projectTree.setSelectionPath(parentPath.pathByAddingChild(list.get(i + offset)));
                     break;
                 }

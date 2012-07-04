@@ -85,7 +85,7 @@ public class Handler {
         this.visualSuite = visualSuite;
     }
 
-    Context getContext() {
+    public Context getContext() {
         return context;
     }
 }

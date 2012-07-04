@@ -8,6 +8,7 @@ import java.io.File;
 import javax.swing.JFileChooser;
 import org.jboss.rusheye.manager.Main;
 import org.jboss.rusheye.manager.utils.FileChooserUtils;
+import org.jboss.rusheye.parser.ManagerParser;
 import org.jboss.rusheye.parser.Parser;
 import org.jboss.rusheye.suite.Properties;
 
@@ -198,7 +199,7 @@ public class ParseFrame extends javax.swing.JFrame {
         props.setProperty("file-storage-directory", storageField.getText());
         props.setProperty("result-output-file", resultField.getText());
 
-        Parser parser = new Parser();
+        ManagerParser parser = new ManagerParser();
         parser.setProperties(props);
         new Thread(new ParserThread(parser)).start();
     }//GEN-LAST:event_jButton6ActionPerformed

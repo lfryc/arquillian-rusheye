@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.jboss.rusheye.manager.exception.ManagerException;
-import org.jboss.rusheye.manager.impl.ManagerParser;
+import org.jboss.rusheye.parser.ManagerParser;
 import org.jboss.rusheye.parser.Parser;
 import org.jboss.rusheye.suite.ResultConclusion;
 
