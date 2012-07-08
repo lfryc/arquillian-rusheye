@@ -34,7 +34,7 @@ import org.jboss.rusheye.suite.ResultConclusion;
  * @version $Revision$
  */
 public class ResultEvaluator {
-    private static final BigDecimal ONE_HUNDRED = new BigDecimal(100);
+    public static final BigDecimal ONE_HUNDRED = new BigDecimal(100);
 
     /**
      * Evaluates the comparison result using perception settings to obtain conclusion of comparison process.
