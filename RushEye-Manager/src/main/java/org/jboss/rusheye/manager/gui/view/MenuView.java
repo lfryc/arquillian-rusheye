@@ -5,6 +5,7 @@
 package org.jboss.rusheye.manager.gui.view;
 
 import org.jboss.rusheye.manager.Main;
+import org.jboss.rusheye.manager.Tips;
 import org.jboss.rusheye.manager.gui.CrawlFrame;
 import org.jboss.rusheye.manager.gui.ParseFrame;
 import org.jboss.rusheye.manager.project.Project;
@@ -22,6 +23,7 @@ public class MenuView extends javax.swing.JPanel implements Observer{
      */
     public MenuView() {
         initComponents();
+        tipsArea.setText(Tips.getRandom());
     }
 
     /**
@@ -49,7 +51,7 @@ public class MenuView extends javax.swing.JPanel implements Observer{
         jButton5 = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        tipsArea = new javax.swing.JTextArea();
 
         jLabel1.setText("Paths :");
 
@@ -95,9 +97,12 @@ public class MenuView extends javax.swing.JPanel implements Observer{
 
         jLabel7.setText("Tips :");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        tipsArea.setColumns(20);
+        tipsArea.setEditable(false);
+        tipsArea.setLineWrap(true);
+        tipsArea.setRows(5);
+        tipsArea.setWrapStyleWord(true);
+        jScrollPane1.setViewportView(tipsArea);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -131,7 +136,7 @@ public class MenuView extends javax.swing.JPanel implements Observer{
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel7)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(213, Short.MAX_VALUE))
+                .addContainerGap(195, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -205,10 +210,10 @@ public class MenuView extends javax.swing.JPanel implements Observer{
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextArea tipsArea;
     // End of variables declaration//GEN-END:variables
 
     public void update(Observed o) {

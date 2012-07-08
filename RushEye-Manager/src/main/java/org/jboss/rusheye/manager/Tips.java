@@ -11,7 +11,8 @@ import java.util.Random;
  * @author hcube
  */
 public enum Tips {
-    T1("");
+    T1("Here is some useless info you will never read anyway..."),
+    T2("There are 3 types of projects.\nWhen you run Manager you open empty project[something more]");
     
     private String text;
     
@@ -23,7 +24,7 @@ public enum Tips {
         return text;
     }
     
-    public String getRandom(){
+    public static String getRandom(){
         return Tips.values()[new Random().nextInt(Tips.values().length)].getText();
     }
     
