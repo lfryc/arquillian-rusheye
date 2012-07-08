@@ -21,7 +21,6 @@ public class InterfaceFrame extends javax.swing.JFrame {
 
     public static final int SINGLE = 1;
     public static final int DOUBLE = 2;
-    public static final int CONSOLE = 3;
     private int view = InterfaceFrame.DOUBLE;
 
     /**
@@ -65,11 +64,8 @@ public class InterfaceFrame extends javax.swing.JFrame {
         fileMenu = new javax.swing.JMenu();
         newProjectMenu = new javax.swing.JMenu();
         jMenuItem7 = new javax.swing.JMenuItem();
-        jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
-        jSeparator4 = new javax.swing.JPopupMenu.Separator();
-        jMenuItem17 = new javax.swing.JMenuItem();
-        jMenuItem16 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
         jSeparator6 = new javax.swing.JPopupMenu.Separator();
         exitMenuItem = new javax.swing.JMenuItem();
         projectMenu = new javax.swing.JMenu();
@@ -81,8 +77,6 @@ public class InterfaceFrame extends javax.swing.JFrame {
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         jMenuItem14 = new javax.swing.JMenuItem();
         jMenuItem13 = new javax.swing.JMenuItem();
-        jSeparator7 = new javax.swing.JPopupMenu.Separator();
-        jMenuItem15 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
         viewsMenu = new javax.swing.JMenu();
@@ -106,14 +100,6 @@ public class InterfaceFrame extends javax.swing.JFrame {
         });
         newProjectMenu.add(jMenuItem7);
 
-        jMenuItem5.setText("Project From Directories");
-        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem5ActionPerformed(evt);
-            }
-        });
-        newProjectMenu.add(jMenuItem5);
-
         jMenuItem6.setText("Project From Descriptor");
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -122,19 +108,15 @@ public class InterfaceFrame extends javax.swing.JFrame {
         });
         newProjectMenu.add(jMenuItem6);
 
-        fileMenu.add(newProjectMenu);
-        fileMenu.add(jSeparator4);
-
-        jMenuItem17.setText("Preferences");
-        fileMenu.add(jMenuItem17);
-
-        jMenuItem16.setText("Save console output");
-        jMenuItem16.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItem5.setText("Project From Directories");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem16ActionPerformed(evt);
+                jMenuItem5ActionPerformed(evt);
             }
         });
-        fileMenu.add(jMenuItem16);
+        newProjectMenu.add(jMenuItem5);
+
+        fileMenu.add(newProjectMenu);
         fileMenu.add(jSeparator6);
 
         exitMenuItem.setText("Exit");
@@ -169,6 +151,11 @@ public class InterfaceFrame extends javax.swing.JFrame {
         jMenu5.add(jSeparator5);
 
         jMenuItem4.setText("Set result descriptor");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
         jMenu5.add(jMenuItem4);
 
         projectMenu.add(jMenu5);
@@ -189,15 +176,6 @@ public class InterfaceFrame extends javax.swing.JFrame {
             }
         });
         projectMenu.add(jMenuItem13);
-        projectMenu.add(jSeparator7);
-
-        jMenuItem15.setText("Console");
-        jMenuItem15.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem15ActionPerformed(evt);
-            }
-        });
-        projectMenu.add(jMenuItem15);
 
         jMenuBar1.add(projectMenu);
 
@@ -308,31 +286,6 @@ public class InterfaceFrame extends javax.swing.JFrame {
         Main.projectFrame.putTestIntoView();
     }//GEN-LAST:event_singleViewMenuItemActionPerformed
 
-    private void jMenuItem15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem15ActionPerformed
-        this.setView(InterfaceFrame.CONSOLE);
-        this.getMainPanel().removeAll();
-        this.getMainPanel().add(Main.console);
-        this.validate();
-    }//GEN-LAST:event_jMenuItem15ActionPerformed
-
-    private void jMenuItem16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem16ActionPerformed
-        JFileChooser fc = FileChooserUtils.saveChooser();
-
-        int returnVal = fc.showSaveDialog(this);
-
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-            File file = fc.getSelectedFile();
-            try {
-                BufferedWriter out = new BufferedWriter(new FileWriter(file));
-                out.write(Main.console.getConsoleArea().getText());
-                out.close();
-            } catch (Exception e) {
-                System.out.println("Can not save Manager Console output to file");
-                e.printStackTrace();
-            }
-        }
-    }//GEN-LAST:event_jMenuItem16ActionPerformed
-
     private void jMenuItem14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem14ActionPerformed
         CrawlFrame crawlFrame = new CrawlFrame();
         crawlFrame.setVisible(true);
@@ -346,17 +299,23 @@ public class InterfaceFrame extends javax.swing.JFrame {
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
         JFileChooser fc = FileChooserUtils.fileChooser();
         File tmp = FileChooserUtils.chooseFile(fc, this);
-
-        Main.mainProject = ProjectFactory.projectFromDescriptor(tmp);
-        Main.projectFrame.createTree();
-        
-        clean();
+        if (tmp != null) {
+            Main.mainProject = ProjectFactory.projectFromDescriptor(tmp);
+            Main.projectFrame.createTree();
+            clean();
+        }
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
         Main.mainProject = ProjectFactory.emptyProject();
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        JFileChooser fc = FileChooserUtils.fileChooser();
+        File tmp = FileChooserUtils.chooseFile(fc, this);
+        if (tmp != null)
+            Main.mainProject.setResultDescriptor(tmp);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem doubleViewMenuItem;
     private javax.swing.JMenuItem exitMenuItem;
@@ -367,9 +326,6 @@ public class InterfaceFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem13;
     private javax.swing.JMenuItem jMenuItem14;
-    private javax.swing.JMenuItem jMenuItem15;
-    private javax.swing.JMenuItem jMenuItem16;
-    private javax.swing.JMenuItem jMenuItem17;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
@@ -377,10 +333,8 @@ public class InterfaceFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JPopupMenu.Separator jSeparator2;
-    private javax.swing.JPopupMenu.Separator jSeparator4;
     private javax.swing.JPopupMenu.Separator jSeparator5;
     private javax.swing.JPopupMenu.Separator jSeparator6;
-    private javax.swing.JPopupMenu.Separator jSeparator7;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JMenu newProjectMenu;
     private javax.swing.JMenu projectMenu;

@@ -9,7 +9,6 @@ import javax.swing.JFileChooser;
 import org.jboss.rusheye.manager.Main;
 import org.jboss.rusheye.manager.utils.FileChooserUtils;
 import org.jboss.rusheye.parser.ManagerParser;
-import org.jboss.rusheye.parser.Parser;
 import org.jboss.rusheye.suite.Properties;
 
 /**
@@ -199,6 +198,7 @@ public class ParseFrame extends javax.swing.JFrame {
         props.setProperty("file-storage-directory", storageField.getText());
         props.setProperty("result-output-file", resultField.getText());
 
+        if (!masksField.getText().equals(""))props.setProperty("masks-directory", masksField.getText());
         ManagerParser parser = new ManagerParser();
         parser.setProperties(props);
         new Thread(new ParserThread(parser)).start();
@@ -243,14 +243,13 @@ public class ParseFrame extends javax.swing.JFrame {
         File dir = FileChooserUtils.openDir("Open Storage Dir", this);
         if (dir != null) {
             String path = dir.getAbsolutePath();
-            if (path != null) {
+            if (path != null)
                 storageField.setText(path);
-            }
         }
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        File dir = FileChooserUtils.openDir("Open Pattern Dir", this);
+        File dir = FileChooserUtils.openDir("Open Masks Dir", this);
         if (dir != null) {
             String path = dir.getAbsolutePath();
             if (path != null) {
@@ -259,7 +258,6 @@ public class ParseFrame extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jButton5ActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;

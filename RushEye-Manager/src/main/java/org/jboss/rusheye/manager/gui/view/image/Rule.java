@@ -7,7 +7,6 @@ package org.jboss.rusheye.manager.gui.view.image;
 import java.awt.*;
 import javax.swing.JComponent;
 
-
 public class Rule extends JComponent {
 
     private static final int dpi = Toolkit.getDefaultToolkit().getScreenResolution();
@@ -24,7 +23,7 @@ public class Rule extends JComponent {
         setIncrementAndUnits();
         scaleMod = scale;
     }
-    
+
     public Rule(RuleOrientation orientation, boolean m) {
         this.orientation = orientation;
         isMetric = m;
@@ -63,6 +62,7 @@ public class Rule extends JComponent {
         setPreferredSize(new Dimension(pw, SIZE));
     }
 
+    @Override
     protected void paintComponent(Graphics g) {
         Rectangle clip = g.getClipBounds();
 
@@ -102,18 +102,19 @@ public class Rule extends JComponent {
         }
 
         for (int i = start; i < end; i += increment) {
-            
+
             int nr = i / units;
-            if(!isMetric)nr*=100;
-            text = Integer.toString((int)(nr/scaleMod));
-            
+            if (!isMetric)
+                nr *= 100;
+            text = Integer.toString((int) (nr / scaleMod));
+
             if (i % units == 0) {
                 tickLength = 5;
             } else {
                 tickLength = 3;
-                text="";
+                text = "";
             }
-            
+
             if (orientation == RuleOrientation.HORIZONTAL) {
                 g.drawLine(i, SIZE - 1, i, SIZE - tickLength - 1);
                 g.drawString(text, i - 3, 21);
@@ -124,4 +125,3 @@ public class Rule extends JComponent {
         }
     }
 }
-

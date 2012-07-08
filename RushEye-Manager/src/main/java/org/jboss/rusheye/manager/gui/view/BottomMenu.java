@@ -4,26 +4,27 @@
  */
 package org.jboss.rusheye.manager.gui.view;
 
-import org.jboss.rusheye.manager.Main;
 import org.jboss.rusheye.manager.gui.view.image.ImagePool;
 import org.jboss.rusheye.manager.gui.view.image.ImageView;
-import org.jboss.rusheye.manager.project.TestCase;
 
 /**
  *
  * @author hcube
  */
 public class BottomMenu extends javax.swing.JPanel {
-    
+
     private ImageView view;
 
-    public BottomMenu(ImageView view,String viewType) {
+    public BottomMenu(ImageView view, String viewType) {
         this.view = view;
         initComponents();
-        
-        if(viewType.equals(ImagePool.PATTERN))patternRadio.setSelected(true);
-        else if(viewType.equals(ImagePool.SAMPLE))sampleRadio.setSelected(true);
-        else if(viewType.equals(ImagePool.DIFF))diffRadio.setSelected(true);
+
+        if (viewType.equals(ImagePool.PATTERN))
+            patternRadio.setSelected(true);
+        else if (viewType.equals(ImagePool.SAMPLE))
+            sampleRadio.setSelected(true);
+        else if (viewType.equals(ImagePool.DIFF))
+            diffRadio.setSelected(true);
     }
 
     /**
@@ -108,7 +109,6 @@ public class BottomMenu extends javax.swing.JPanel {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         view.focus();
     }//GEN-LAST:event_jButton1ActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JRadioButton diffRadio;

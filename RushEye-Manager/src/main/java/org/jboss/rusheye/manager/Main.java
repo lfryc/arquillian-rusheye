@@ -2,7 +2,6 @@ package org.jboss.rusheye.manager;
 
 import org.jboss.rusheye.manager.gui.InterfaceFrame;
 import org.jboss.rusheye.manager.gui.ProjectManagerFrame;
-import org.jboss.rusheye.manager.gui.view.TextView;
 import org.jboss.rusheye.manager.project.Project;
 import org.jboss.rusheye.manager.project.ProjectFactory;
 
@@ -20,16 +19,12 @@ public class Main
                 
                 projectFrame = new ProjectManagerFrame();
                 projectFrame.setVisible(true);
-
-                console = new TextView();
             }
         });
     }
     
     public static InterfaceFrame interfaceFrame;
     public static ProjectManagerFrame projectFrame;
-    
-    public static TextView console;
     
     public static Project mainProject = ProjectFactory.emptyProject();
     

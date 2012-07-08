@@ -7,10 +7,8 @@ package org.jboss.rusheye.manager.project;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import org.jboss.rusheye.manager.exception.ManagerException;
 import org.jboss.rusheye.parser.ManagerParser;
-import org.jboss.rusheye.parser.Parser;
 import org.jboss.rusheye.suite.ResultConclusion;
 
 /**
@@ -21,11 +19,9 @@ public class Project {
 
     private TestCase root;
     private TestCase currentCase;
-    
     private String patternPath;
     private String samplesPath;
     private String maskPath;
-    
     private File suiteDescriptor;
     private File resultDescriptor;
     private LoadType loadType;
@@ -44,17 +40,17 @@ public class Project {
         } catch (ManagerException ex) {
             ex.printStackTrace();
         }
-        
+
         loadType = LoadType.DIRS;
     }
-    
-    public Project(File suiteDescriptor){
+
+    public Project(File suiteDescriptor) {
         this.suiteDescriptor = suiteDescriptor;
-        
+
         ManagerParser parser = new ManagerParser();
         root = parser.parseFileToManagerCases(this.suiteDescriptor);
-        for(int i=0;i<root.getChildCount();++i)
-            System.out.println("A"+root.getChildAt(i));
+        for (int i = 0; i < root.getChildCount(); ++i)
+            System.out.println("A" + root.getChildAt(i));
         loadType = LoadType.SUITE;
     }
 
@@ -73,7 +69,7 @@ public class Project {
     public void setSamplesPath(String samplesPath) {
         this.samplesPath = samplesPath;
     }
-    
+
     public TestCase getRoot() {
         return root;
     }
@@ -82,7 +78,7 @@ public class Project {
         TestCase test = new TestCase();
         test.setAllowsChildren(true);
         test.setName("Test Cases");
-        
+
         ArrayList<String> patternList = parseDir(patternPath);
         ArrayList<String> samplesList = parseDir(samplesPath);
 
@@ -97,7 +93,7 @@ public class Project {
             if (patternList.get(i).equals(samplesList.get(i))) {
                 String parts[] = patternList.get(i).split("[.]");
                 if (parts.length == 3) {//[case].[test].[extension]
-                    
+
                     if (parts[0].equals(lastCase) == false) {//if we get new case :
                         if (tmp != null) {
                             tmp.setParent(test);
@@ -109,7 +105,7 @@ public class Project {
                         tmp.setName(parts[0]);
                         lastCase = parts[0];
                     }
-                    
+
                     TestCase tmpTest = new TestCase();
                     tmpTest.setName(parts[1]);
                     tmpTest.setFilename(patternList.get(i));
@@ -117,8 +113,7 @@ public class Project {
                     tmpTest.setParent(tmp);
                     tmp.addChild(tmpTest);
                 }
-                if(parts.length == 2){//normal filename
-                
+                if (parts.length == 2) {//normal filename
                 }
             } else {
                 throw new ManagerException("Pattern and sample name do not match");
@@ -126,7 +121,7 @@ public class Project {
         }
 
         System.out.println(test.toString());
-        
+
         return test;
     }
 
@@ -150,8 +145,12 @@ public class Project {
         this.currentCase = currentCase;
     }
 
-    public TestCase findTest(String name){
+    public TestCase findTest(String name) {
         return root.findTest(name);
+    }
+
+    public TestCase findTest(String testName, String patternName) {
+        return root.findTest("Test Cases." + testName + "." + patternName);
     }
 
     public File getSuiteDescriptor() {
@@ -169,8 +168,16 @@ public class Project {
     public void setMaskPath(String maskPath) {
         this.maskPath = maskPath;
     }
-    
-    public LoadType getProjectType(){
+
+    public LoadType getProjectType() {
         return loadType;
+    }
+
+    public File getResultDescriptor() {
+        return resultDescriptor;
+    }
+
+    public void setResultDescriptor(File resultDescriptor) {
+        this.resultDescriptor = resultDescriptor;
     }
 }

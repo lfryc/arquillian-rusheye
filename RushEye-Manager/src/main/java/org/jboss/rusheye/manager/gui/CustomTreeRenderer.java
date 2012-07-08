@@ -35,13 +35,12 @@ public class CustomTreeRenderer extends DefaultTreeCellRenderer {
         if (value instanceof TestCase) {
             TestCase node = (TestCase) value;
 
-            if (node.getConclusion() == ResultConclusion.PERCEPTUALLY_SAME) {
+            if (node.getConclusion() == ResultConclusion.PERCEPTUALLY_SAME)
                 setIcon(same);
-            } else if (node.getConclusion() == ResultConclusion.DIFFER) {
+            else if (node.getConclusion() == ResultConclusion.DIFFER)
                 setIcon(diff);
-            } else if (node.getConclusion() == ResultConclusion.NOT_TESTED) {
+            else if (node.getConclusion() == ResultConclusion.NOT_TESTED)
                 setIcon(notTested);
-            }
         }
         return this;
     }

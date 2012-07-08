@@ -82,8 +82,8 @@ public class ZoomDragMouseListener implements MouseListener, MouseWheelListener,
 
                 px = px2 * xMax;
                 py = py2 * yMax;
-                
-                parent.getPicture().scrollRectToVisible(new Rectangle((int)(px - mwe.getXOnScreen() + 41),(int)(py - mwe.getYOnScreen() + 107),visible.width,visible.height));
+
+                parent.getPicture().scrollRectToVisible(new Rectangle((int) (px - mwe.getXOnScreen() + 41), (int) (py - mwe.getYOnScreen() + 107), visible.width, visible.height));
             }
         }
     }

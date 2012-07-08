@@ -4,8 +4,12 @@
  */
 package org.jboss.rusheye.manager.gui;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import javax.swing.JPanel;
 import javax.swing.JTree;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.tree.*;
 import org.jboss.rusheye.manager.Main;
@@ -24,13 +28,39 @@ import org.jboss.rusheye.suite.ResultConclusion;
  */
 public class ProjectManagerFrame extends javax.swing.JFrame {
 
-    public static final int SHOW_ALL = 0;
-    public static final int NOT_TESTED = 1;
-    public static final int DIFF = 2;
-    private int filter = 0;
-
     public ProjectManagerFrame() {
         initComponents();
+
+        filterField.getDocument().addDocumentListener(new DocumentListener() {
+
+            public void insertUpdate(DocumentEvent de) {
+                String regexp = filterField.getText();
+                if (regexp.equals("")) {
+                    Main.mainProject.getRoot().setAllVisible();
+                    updateTreeModel();
+                }
+                else{
+                    Main.mainProject.getRoot().setVisibility(filterField.getText());
+                    updateTreeModel();
+                }
+            }
+
+            public void removeUpdate(DocumentEvent de) {
+                String regexp = filterField.getText();
+                if (regexp.equals("")) {
+                    Main.mainProject.getRoot().setAllVisible();
+                    updateTreeModel();
+                }
+                else{
+                    Main.mainProject.getRoot().setVisibility(filterField.getText());
+                    updateTreeModel();
+                }
+            }
+
+            public void changedUpdate(DocumentEvent de) {
+                //
+            }
+        });
 
         projectTree.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
 
@@ -97,8 +127,6 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
                 case InterfaceFrame.DOUBLE:
                     panel.add(new DoubleView(current));
                     break;
-                case InterfaceFrame.CONSOLE:
-                    panel.add(Main.console);
                 default:
                     panel.add(new JPanel());
                     break;
@@ -160,6 +188,8 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
         nextButton = new javax.swing.JButton();
         prevButton = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
+        filterField = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -181,7 +211,7 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
         samplesPathField.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         samplesPathField.setEnabled(false);
 
-        jLabel3.setText("Test cases :");
+        jLabel3.setText("Filter :");
 
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Test Cases");
         projectTree.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
@@ -201,11 +231,11 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
             }
         });
 
-        jLabel4.setText("      ");
+        jLabel4.setText("[Test name]");
 
-        jLabel5.setText("     ");
+        jLabel5.setText("[Pattern name]");
 
-        jLabel6.setText("     ");
+        jLabel6.setText("[Result]");
 
         nextButton.setText("Next");
         nextButton.addActionListener(new java.awt.event.ActionListener() {
@@ -220,6 +250,10 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
                 prevButtonActionPerformed(evt);
             }
         });
+
+        filterField.setFont(new java.awt.Font("Ubuntu", 2, 15)); // NOI18N
+
+        jLabel7.setText("Test cases :");
 
         jMenu1.setText("Filters");
 
@@ -259,31 +293,30 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5))
-                        .addGap(252, 252, Short.MAX_VALUE))
+                        .addComponent(jLabel7)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jSeparator1)
-                            .addComponent(patternsPathField)
-                            .addComponent(samplesPathField)
-                            .addComponent(jScrollPane2)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(prevButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(nextButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel6)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(posButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(negButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(0, 0, Short.MAX_VALUE)))
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(patternsPathField, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(samplesPathField, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(filterField, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                    .addComponent(prevButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(nextButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                    .addComponent(posButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(negButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.LEADING)))
                         .addContainerGap())))
         );
         layout.setVerticalGroup(
@@ -297,10 +330,14 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(samplesPathField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(9, 9, 9)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(filterField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -334,26 +371,17 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_negButtonActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        filter = ProjectManagerFrame.SHOW_ALL;
-
-        TestCase root = Main.mainProject.getRoot();
-        root.setAllVisible();
+        Main.mainProject.getRoot().setAllVisible();
         this.updateTreeModel();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        filter = ProjectManagerFrame.NOT_TESTED;
-
-        TestCase root = Main.mainProject.getRoot();
-        root.setVisibility(ResultConclusion.NOT_TESTED);
+        Main.mainProject.getRoot().setVisibility(ResultConclusion.NOT_TESTED);
         this.updateTreeModel();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        filter = ProjectManagerFrame.DIFF;
-
-        TestCase root = Main.mainProject.getRoot();
-        root.setVisibility(ResultConclusion.DIFFER);
+        Main.mainProject.getRoot().setVisibility(ResultConclusion.DIFFER);
         this.updateTreeModel();
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
@@ -365,12 +393,14 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
         findNeighbour(-1);
     }//GEN-LAST:event_prevButtonActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField filterField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;

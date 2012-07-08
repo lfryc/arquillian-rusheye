@@ -4,10 +4,12 @@
  */
 package org.jboss.rusheye.manager.gui;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import org.jboss.rusheye.CommandCrawl;
 import org.jboss.rusheye.manager.Main;
 import org.jboss.rusheye.manager.utils.FileChooserUtils;
@@ -49,6 +51,9 @@ public class CrawlFrame extends javax.swing.JFrame {
         diffAmountField = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
+        outputField = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        jButton5 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -87,6 +92,17 @@ public class CrawlFrame extends javax.swing.JFrame {
 
         jLabel8.setText("%");
 
+        outputField.setText("suite.xml");
+
+        jLabel9.setText("Output file :");
+
+        jButton5.setText("Set");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -94,9 +110,10 @@ public class CrawlFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(outputField, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
@@ -117,8 +134,12 @@ public class CrawlFrame extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(diffAmountField, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel8)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addComponent(jLabel8))
+                            .addComponent(jLabel9))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -145,17 +166,19 @@ public class CrawlFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(diffTresField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton6))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(diffAmountField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel8))
-                        .addGap(0, 45, Short.MAX_VALUE)))
+                .addComponent(jLabel7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(diffAmountField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(outputField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton6)
                 .addContainerGap())
         );
 
@@ -167,23 +190,31 @@ public class CrawlFrame extends javax.swing.JFrame {
         List<File> tmp = new ArrayList<File>();
         tmp.add(new File(Main.mainProject.getPatternPath()));
         crawl.setFiles(tmp);
-        if(maskField.getText().equals("") == false) crawl.setMasksBase(new File(maskField.getText()));
-        if(pixelTresField.getText().equals("") == false) crawl.setOnePixelTreshold(new Integer(pixelTresField.getText()));
-        if(diffTresField.getText().equals("") == false) crawl.setGlobalDifferenceTreshold(new Integer(diffTresField.getText()));
-        if(diffAmountField.getText().equals("") == false) crawl.setGlobalDifferenceAmount(diffAmountField.getText()+"%");
+        if (maskField.getText().equals("") == false)
+            crawl.setMasksBase(new File(maskField.getText()));
+        if (pixelTresField.getText().equals("") == false)
+            crawl.setOnePixelTreshold(new Integer(pixelTresField.getText()));
+        if (diffTresField.getText().equals("") == false)
+            crawl.setGlobalDifferenceTreshold(new Integer(diffTresField.getText()));
+        if (diffAmountField.getText().equals("") == false)
+            crawl.setGlobalDifferenceAmount(diffAmountField.getText() + "%");
+        
         crawl.initialize();
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         crawl.crawl(stream);
         
-        Main.console.getConsoleArea().setText(stream.toString());
-        Main.interfaceFrame.setView(InterfaceFrame.CONSOLE);
-        Main.interfaceFrame.getMainPanel().removeAll();
-        Main.interfaceFrame.getMainPanel().add(Main.console);
-        Main.interfaceFrame.validate();
+        BufferedWriter writer = null;
+        try {
+            writer = new BufferedWriter( new FileWriter(outputField.getText()));
+            writer.write(stream.toString());
+            writer.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        File dir = FileChooserUtils.openDir("Open Pattern Dir",this);
+        File dir = FileChooserUtils.openDir("Open Pattern Dir", this);
         if (dir != null) {
             String path = dir.getAbsolutePath();
             if (path != null) {
@@ -195,7 +226,7 @@ public class CrawlFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        File dir = FileChooserUtils.openDir("Open Mask Dir",this);
+        File dir = FileChooserUtils.openDir("Open Mask Dir", this);
         if (dir != null) {
             String path = dir.getAbsolutePath();
             if (path != null) {
@@ -205,11 +236,23 @@ public class CrawlFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        JFileChooser fc = FileChooserUtils.saveChooser();
+
+        int returnVal = fc.showSaveDialog(this);
+
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File file = fc.getSelectedFile();
+            outputField.setText(file.getAbsolutePath());
+        }
+    }//GEN-LAST:event_jButton5ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField diffAmountField;
     private javax.swing.JTextField diffTresField;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -217,7 +260,9 @@ public class CrawlFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JTextField maskField;
+    private javax.swing.JTextField outputField;
     private javax.swing.JTextField patternField;
     private javax.swing.JTextField pixelTresField;
     // End of variables declaration//GEN-END:variables

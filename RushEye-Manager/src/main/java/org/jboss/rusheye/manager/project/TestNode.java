@@ -14,15 +14,15 @@ import javax.swing.tree.TreeNode;
  *
  * @author hcube
  */
-public class TestNode implements TreeNode,Comparable<TestNode>{
-    
+public class TestNode implements TreeNode, Comparable<TestNode> {
+
     private String name;
     private NodeList children;
     private TestNode parent;
     private boolean allowsChildren;
     private boolean visible = true;
-    
-    public TestNode(){
+
+    public TestNode() {
         children = new NodeList();
     }
 
@@ -39,10 +39,12 @@ public class TestNode implements TreeNode,Comparable<TestNode>{
     }
 
     public int getIndex(TreeNode tn) {
-        for(int i=0; i<visibleChildren().size();++i){
-            if(tn instanceof TestNode){
+        for (int i = 0; i < visibleChildren().size(); ++i) {
+            if (tn instanceof TestNode) {
                 TestNode tn2 = (TestNode) tn;
-                if(visibleChildren().get(i).equals(tn2))return i;
+                if (visibleChildren().get(i).equals(tn2)) {
+                    return i;
+                }
             }
         }
         return -1;
@@ -53,48 +55,57 @@ public class TestNode implements TreeNode,Comparable<TestNode>{
     }
 
     public boolean isLeaf() {
-        if(visibleChildren().isEmpty()) return true;
-        else return false;
+        if (visibleChildren().isEmpty()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public Enumeration children() {
         return visibleChildren();
     }
-    
-    public void addChild(TestNode node){
+
+    public void addChild(TestNode node) {
         children.add(node);
         Collections.sort(children);
     }
-    
-        
-    public String getPath(){
-        String result=name;
-        if(this.getParent()!=null){
-            result = parent.getPath()+"."+result;
+
+    public String getPath() {
+        String result = name;
+        if (this.getParent() != null) {
+            result = parent.getPath() + "." + result;
         }
-        
+
         return result;
     }
-    
-    public NodeList getAllChildren(){
+
+    public NodeList getAllChildren() {
         return children;
     }
-    
-    private NodeList visibleChildren(){
+
+    private NodeList visibleChildren() {
         NodeList result = new NodeList();
-        
-        for(TestNode node : children){
-            if(node.isVisible()) result.add(node);
+
+        for (TestNode node : children) {
+            if (node.isVisible()) {
+                result.add(node);
+            }
         }
-        
+
         return result;
-    } 
-    
+    }
+
     @Override
-    public boolean equals(Object o){
-        TestNode node = (TestNode) o;
-        if(this.getName().equals(node.getName()))return true;
-        else return false;
+    public boolean equals(Object o) {
+        if (o instanceof TestNode) {
+            TestNode node = (TestNode) o;
+            if (this.getName().equals(node.getName()))
+                return true;
+            else
+                return false;
+        } else
+            return false;
     }
 
     @Override
@@ -105,9 +116,8 @@ public class TestNode implements TreeNode,Comparable<TestNode>{
         return hash;
     }
 
-    
     @Override
-    public String toString(){
+    public String toString() {
         return getName();
     }
 

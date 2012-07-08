@@ -9,8 +9,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 
 /**
@@ -39,7 +37,7 @@ public class ImagePool {
             img = ImageIO.read(new File(path));
             put(key, img);
         } catch (IOException ex) {
-            System.out.println(ex.toString());
+            ex.printStackTrace();
         }
     }
 

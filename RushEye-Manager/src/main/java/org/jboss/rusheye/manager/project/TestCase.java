@@ -5,8 +5,6 @@
 package org.jboss.rusheye.manager.project;
 
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.Collections;
 import org.jboss.rusheye.core.DefaultImageComparator;
 import org.jboss.rusheye.manager.Main;
 import org.jboss.rusheye.manager.gui.view.image.ImagePool;
@@ -63,12 +61,12 @@ public class TestCase extends TestNode {
 
         pool.put(ImagePool.DIFF, diff);
     }
-    
-    public void removeDiffRecursive(){
-        if(this.isLeaf())pool.remove(ImagePool.DIFF);
-        for(int i=0;i<this.getChildCount();++i){
-            ((TestCase)this.getChildAt(i)).removeDiffRecursive();
-        }
+
+    public void removeDiffRecursive() {
+        if (this.isLeaf())
+            pool.remove(ImagePool.DIFF);
+        for (int i = 0; i < this.getChildCount(); ++i) 
+            ((TestCase) this.getChildAt(i)).removeDiffRecursive();
     }
 
     public BufferedImage getImage(String key) {
@@ -93,11 +91,11 @@ public class TestCase extends TestNode {
                     }
                     return pool.get(ImagePool.FAKE);
                 }
-            } else if(key.equals(ImagePool.DIFF)) {
+            } else if (key.equals(ImagePool.DIFF)) {
                 loadDiff();
                 return pool.get(key);
-            }
-            else return null;
+            } else
+                return null;
         } else {
             return pool.get(key);
         }
@@ -132,33 +130,41 @@ public class TestCase extends TestNode {
     }
 
     public void setVisibility(ResultConclusion con) {
-        if (conclusion == null || conclusion == con) {
+        if (conclusion == null || conclusion == con)
             this.setVisible(true);
-        } else {
+        else
             this.setVisible(false);
-        }
 
-        for (int i = 0; i < this.getAllChildren().size(); ++i) {
+        for (int i = 0; i < this.getAllChildren().size(); ++i)
             ((TestCase) this.getAllChildren().get(i)).setVisibility(con);
-        }
+
+        collapseInvalidLeafs();
+    }
+
+    public void setVisibility(String regexp) {
+        if (conclusion == null || this.getName().toLowerCase().contains(regexp.toLowerCase()))
+            this.setVisible(true);
+        else
+            this.setVisible(false);
+
+        for (int i = 0; i < this.getAllChildren().size(); ++i)
+            ((TestCase) this.getAllChildren().get(i)).setVisibility(regexp);
 
         collapseInvalidLeafs();
     }
 
     private void collapseInvalidLeafs() {
-        if (conclusion == null && this.getChildCount() == 0) {
+        if (conclusion == null && this.getChildCount() == 0)
             this.setVisible(false);
-        }
-        for (int i = 0; i < this.getAllChildren().size(); ++i) {
+
+        for (int i = 0; i < this.getAllChildren().size(); ++i)
             ((TestCase) this.getAllChildren().get(i)).collapseInvalidLeafs();
-        }
     }
 
     public void setAllVisible() {
         this.setVisible(true);
 
-        for (int i = 0; i < this.getAllChildren().size(); ++i) {
+        for (int i = 0; i < this.getAllChildren().size(); ++i)
             ((TestCase) this.getAllChildren().get(i)).setAllVisible();
-        }
     }
 }
