@@ -23,6 +23,7 @@ public class InterfaceFrame extends javax.swing.JFrame {
     public static final int SINGLE = 1;
     public static final int DOUBLE = 2;
     private int view = InterfaceFrame.DOUBLE;
+    private MenuView menuView;
 
     /**
      * Creates new form InterfaceFrame
@@ -30,10 +31,14 @@ public class InterfaceFrame extends javax.swing.JFrame {
     public InterfaceFrame() {
         initComponents();
 
-        mainPanel.removeAll();
-        mainPanel.add(new MenuView());
-
         this.validate();
+    }
+    
+    public void setMenu(){
+        menuView = new MenuView();
+        Main.mainProject.addObserver(menuView);
+        mainPanel.removeAll();
+        mainPanel.add(menuView);
     }
 
     public JPanel getMainPanel() {
@@ -56,24 +61,18 @@ public class InterfaceFrame extends javax.swing.JFrame {
 
     public void setPatternsAction() {
         File dir = FileChooserUtils.openDir("Open Pattern Dir", this);
-        if (dir != null) {
-            String path = dir.getAbsolutePath();
-            if (path != null) {
-                Main.mainProject.setPatternPath(path);
-            }
-        }
+        if (dir != null)
+            Main.mainProject.setPatternPath(dir.getAbsolutePath());
+        
         Main.mainProject.getRoot().removeDiffRecursive();
         Main.projectFrame.putTestIntoView();
     }
 
     public void setSamplesAction() {
         File dir = FileChooserUtils.openDir("Open Samples Dir", this);
-        if (dir != null) {
-            String path = dir.getAbsolutePath();
-            if (path != null) {
-                Main.mainProject.setSamplesPath(path);
-            }
-        }
+        if (dir != null)
+            Main.mainProject.setSamplesPath(dir.getAbsolutePath());
+        
         Main.mainProject.getRoot().removeDiffRecursive();
         Main.projectFrame.putTestIntoView();
     }

@@ -22,6 +22,8 @@ public class Main
                 projectFrame.setVisible(true);
                 
                 mainProject = ProjectFactory.emptyProject();
+                
+                interfaceFrame.setMenu();
             }
         });
         

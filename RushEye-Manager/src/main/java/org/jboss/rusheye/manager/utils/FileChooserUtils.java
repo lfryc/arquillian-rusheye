@@ -57,8 +57,7 @@ public class FileChooserUtils {
         if (fc != null) {
             fc.setDialogTitle(msg);
             return FileChooserUtils.chooseFile(fc, parent);
-        } else {
+        } else 
             return null;
-        }
     }
 }

@@ -4,11 +4,12 @@
  */
 package org.jboss.rusheye.manager.gui.view;
 
-import java.util.Observable;
-import java.util.Observer;
 import org.jboss.rusheye.manager.Main;
 import org.jboss.rusheye.manager.gui.CrawlFrame;
 import org.jboss.rusheye.manager.gui.ParseFrame;
+import org.jboss.rusheye.manager.project.Project;
+import org.jboss.rusheye.manager.project.observable.Observed;
+import org.jboss.rusheye.manager.project.observable.Observer;
 
 /**
  *
@@ -210,7 +211,12 @@ public class MenuView extends javax.swing.JPanel implements Observer{
     private javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
 
-    public void update(Observable o, Object o1) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void update(Observed o) {
+        if(o instanceof Project){
+            Project p = (Project) o;
+            jTextField1.setText(p.getPatternPath());
+            jTextField2.setText(p.getSamplesPath());
+        }
     }
+
 }
