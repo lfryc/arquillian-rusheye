@@ -4,10 +4,14 @@
  */
 package org.jboss.rusheye.manager.project;
 
+import org.jboss.rusheye.manager.project.testcase.TestCase;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import org.jboss.rusheye.manager.exception.ManagerException;
+import org.jboss.rusheye.manager.project.observable.Observed;
+import org.jboss.rusheye.manager.project.observable.Observer;
 import org.jboss.rusheye.parser.ManagerParser;
 import org.jboss.rusheye.suite.ResultConclusion;
 
@@ -15,7 +19,7 @@ import org.jboss.rusheye.suite.ResultConclusion;
  *
  * @author hcube
  */
-public class Project {
+public class Project implements Observed {
 
     private TestCase root;
     private TestCase currentCase;
@@ -25,10 +29,12 @@ public class Project {
     private File suiteDescriptor;
     private File resultDescriptor;
     private LoadType loadType;
+    private List<Observer> observers;
 
     public Project() {
         root = new TestCase();
         loadType = LoadType.EMPTY;
+        observers = new ArrayList<Observer>();
     }
 
     public Project(String patternPath, String samplesPath) {
@@ -45,6 +51,8 @@ public class Project {
     }
 
     public Project(File suiteDescriptor) {
+        this();
+
         this.suiteDescriptor = suiteDescriptor;
 
         ManagerParser parser = new ManagerParser();
@@ -60,6 +68,7 @@ public class Project {
 
     public void setPatternPath(String patternPath) {
         this.patternPath = patternPath;
+        notifyObservers();
     }
 
     public String getSamplesPath() {
@@ -68,6 +77,7 @@ public class Project {
 
     public void setSamplesPath(String samplesPath) {
         this.samplesPath = samplesPath;
+        notifyObservers();
     }
 
     public TestCase getRoot() {
@@ -179,5 +189,18 @@ public class Project {
 
     public void setResultDescriptor(File resultDescriptor) {
         this.resultDescriptor = resultDescriptor;
+    }
+
+    public void addObserver(Observer o) {
+        observers.add(o);
+    }
+
+    public void removeObserver(Observer o) {
+        observers.remove(o);
+    }
+
+    private void notifyObservers() {
+        for (Observer o : observers)
+            o.update(this);
     }
 }

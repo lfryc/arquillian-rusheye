@@ -5,6 +5,7 @@
 package org.jboss.rusheye.manager.project;
 
 import java.io.File;
+import org.jboss.rusheye.manager.Main;
 
 /**
  *
@@ -12,7 +13,9 @@ import java.io.File;
  */
 public class ProjectFactory {
     public static Project emptyProject(){
-        return new Project();
+        Project tmp = new Project();
+        tmp.addObserver(Main.projectFrame);
+        return tmp;
     }
     
     public static Project projectFromDirs(String patternPath,String samplesPath){

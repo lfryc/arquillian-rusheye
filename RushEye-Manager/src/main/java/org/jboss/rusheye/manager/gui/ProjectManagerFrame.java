@@ -4,29 +4,31 @@
  */
 package org.jboss.rusheye.manager.gui;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import javax.swing.JPanel;
 import javax.swing.JTree;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.TreeSelectionEvent;
-import javax.swing.tree.*;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
+import javax.swing.tree.TreeSelectionModel;
 import org.jboss.rusheye.manager.Main;
-import org.jboss.rusheye.manager.exception.ManagerException;
 import org.jboss.rusheye.manager.gui.view.DoubleView;
+import org.jboss.rusheye.manager.gui.view.MenuView;
 import org.jboss.rusheye.manager.gui.view.SingleView;
-import org.jboss.rusheye.manager.project.LoadType;
-import org.jboss.rusheye.manager.project.NodeList;
-import org.jboss.rusheye.manager.project.TestCase;
-import org.jboss.rusheye.manager.project.TestNode;
+import org.jboss.rusheye.manager.project.testcase.NodeList;
+import org.jboss.rusheye.manager.project.Project;
+import org.jboss.rusheye.manager.project.testcase.TestCase;
+import org.jboss.rusheye.manager.project.testcase.TestNode;
+import org.jboss.rusheye.manager.project.observable.Observed;
+import org.jboss.rusheye.manager.project.observable.Observer;
 import org.jboss.rusheye.suite.ResultConclusion;
 
 /**
  *
  * @author hcube
  */
-public class ProjectManagerFrame extends javax.swing.JFrame {
+public class ProjectManagerFrame extends javax.swing.JFrame implements Observer {
 
     public ProjectManagerFrame() {
         initComponents();
@@ -38,8 +40,7 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
                 if (regexp.equals("")) {
                     Main.mainProject.getRoot().setAllVisible();
                     updateTreeModel();
-                }
-                else{
+                } else {
                     Main.mainProject.getRoot().setVisibility(filterField.getText());
                     updateTreeModel();
                 }
@@ -50,8 +51,7 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
                 if (regexp.equals("")) {
                     Main.mainProject.getRoot().setAllVisible();
                     updateTreeModel();
-                }
-                else{
+                } else {
                     Main.mainProject.getRoot().setVisibility(filterField.getText());
                     updateTreeModel();
                 }
@@ -128,7 +128,7 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
                     panel.add(new DoubleView(current));
                     break;
                 default:
-                    panel.add(new JPanel());
+                    panel.add(new MenuView());
                     break;
             }
 
@@ -192,9 +192,9 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
+        filterAllMenuItem = new javax.swing.JMenuItem();
+        filterNotTestedMenuItem = new javax.swing.JMenuItem();
+        filterDiffMenuItem = new javax.swing.JMenuItem();
 
         setTitle("ProjectManager");
 
@@ -257,29 +257,29 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
 
         jMenu1.setText("Filters");
 
-        jMenuItem1.setText("Show all");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        filterAllMenuItem.setText("Show all");
+        filterAllMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                filterAllMenuItemActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem1);
+        jMenu1.add(filterAllMenuItem);
 
-        jMenuItem2.setText("Show not tested");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        filterNotTestedMenuItem.setText("Show not tested");
+        filterNotTestedMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
+                filterNotTestedMenuItemActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem2);
+        jMenu1.add(filterNotTestedMenuItem);
 
-        jMenuItem3.setText("Show diff");
-        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+        filterDiffMenuItem.setText("Show diff");
+        filterDiffMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem3ActionPerformed(evt);
+                filterDiffMenuItemActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem3);
+        jMenu1.add(filterDiffMenuItem);
 
         jMenuBar1.add(jMenu1);
 
@@ -370,20 +370,20 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
         updateIcons();
     }//GEN-LAST:event_negButtonActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void filterAllMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filterAllMenuItemActionPerformed
         Main.mainProject.getRoot().setAllVisible();
         this.updateTreeModel();
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_filterAllMenuItemActionPerformed
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+    private void filterNotTestedMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filterNotTestedMenuItemActionPerformed
         Main.mainProject.getRoot().setVisibility(ResultConclusion.NOT_TESTED);
         this.updateTreeModel();
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+    }//GEN-LAST:event_filterNotTestedMenuItemActionPerformed
 
-    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+    private void filterDiffMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filterDiffMenuItemActionPerformed
         Main.mainProject.getRoot().setVisibility(ResultConclusion.DIFFER);
         this.updateTreeModel();
-    }//GEN-LAST:event_jMenuItem3ActionPerformed
+    }//GEN-LAST:event_filterDiffMenuItemActionPerformed
 
     private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
         findNeighbour(1);
@@ -393,7 +393,10 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
         findNeighbour(-1);
     }//GEN-LAST:event_prevButtonActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem filterAllMenuItem;
+    private javax.swing.JMenuItem filterDiffMenuItem;
     private javax.swing.JTextField filterField;
+    private javax.swing.JMenuItem filterNotTestedMenuItem;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -403,9 +406,6 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JButton negButton;
@@ -416,4 +416,12 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
     private javax.swing.JTree projectTree;
     private javax.swing.JTextField samplesPathField;
     // End of variables declaration//GEN-END:variables
+
+    public void update(Observed o) {
+        if(o instanceof Project){
+            Project p = (Project) o;
+            this.patternsPathField.setText(p.getPatternPath());
+            this.samplesPathField.setText(p.getSamplesPath());
+        }
+    }
 }

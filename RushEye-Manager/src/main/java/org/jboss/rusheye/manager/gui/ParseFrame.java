@@ -5,6 +5,8 @@
 package org.jboss.rusheye.manager.gui;
 
 import java.io.File;
+import java.util.Observable;
+import java.util.Observer;
 import javax.swing.JFileChooser;
 import org.jboss.rusheye.manager.Main;
 import org.jboss.rusheye.manager.utils.FileChooserUtils;
@@ -15,7 +17,7 @@ import org.jboss.rusheye.suite.Properties;
  *
  * @author hcube
  */
-public class ParseFrame extends javax.swing.JFrame {
+public class ParseFrame extends javax.swing.JFrame implements Observer{
 
     /**
      * Creates new form ParseFrame
@@ -24,6 +26,10 @@ public class ParseFrame extends javax.swing.JFrame {
         initComponents();
         samplesField.setText(Main.mainProject.getSamplesPath());
         patternsField.setText(Main.mainProject.getPatternPath());
+    }
+    
+        public void update(Observable o, Object o1) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     /**
@@ -216,27 +222,11 @@ public class ParseFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        File dir = FileChooserUtils.openDir("Open Samples Dir", this);
-        if (dir != null) {
-            String path = dir.getAbsolutePath();
-            if (path != null) {
-                Main.mainProject.setSamplesPath(path);
-                Main.projectFrame.getSamplesPathField().setText(path);
-                samplesField.setText(path);
-            }
-        }
+        Main.interfaceFrame.setSamplesAction();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        File dir = FileChooserUtils.openDir("Open Pattern Dir", this);
-        if (dir != null) {
-            String path = dir.getAbsolutePath();
-            if (path != null) {
-                Main.mainProject.setPatternPath(path);
-                Main.projectFrame.getPatternsPathField().setText(path);
-                patternsField.setText(path);
-            }
-        }
+        Main.interfaceFrame.setPatternsAction();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed

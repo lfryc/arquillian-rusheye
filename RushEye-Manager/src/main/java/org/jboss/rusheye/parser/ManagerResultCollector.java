@@ -6,7 +6,7 @@ package org.jboss.rusheye.parser;
 
 import org.jboss.rusheye.internal.Instantiator;
 import org.jboss.rusheye.manager.Main;
-import org.jboss.rusheye.manager.project.TestCase;
+import org.jboss.rusheye.manager.project.testcase.TestCase;
 import org.jboss.rusheye.result.ResultCollectorAdapter;
 import org.jboss.rusheye.result.ResultEvaluator;
 import org.jboss.rusheye.result.ResultStatistics;

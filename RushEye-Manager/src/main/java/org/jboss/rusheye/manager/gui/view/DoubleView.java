@@ -7,7 +7,7 @@ package org.jboss.rusheye.manager.gui.view;
 import java.awt.image.BufferedImage;
 import org.jboss.rusheye.manager.gui.view.image.ImagePool;
 import org.jboss.rusheye.manager.gui.view.image.ImageView;
-import org.jboss.rusheye.manager.project.TestCase;
+import org.jboss.rusheye.manager.project.testcase.TestCase;
 
 public class DoubleView extends javax.swing.JPanel {
 

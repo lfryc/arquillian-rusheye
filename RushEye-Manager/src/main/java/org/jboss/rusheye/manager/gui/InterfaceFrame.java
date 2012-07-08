@@ -10,6 +10,7 @@ import java.io.FileWriter;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import org.jboss.rusheye.manager.Main;
+import org.jboss.rusheye.manager.gui.view.MenuView;
 import org.jboss.rusheye.manager.project.ProjectFactory;
 import org.jboss.rusheye.manager.utils.FileChooserUtils;
 
@@ -28,6 +29,9 @@ public class InterfaceFrame extends javax.swing.JFrame {
      */
     public InterfaceFrame() {
         initComponents();
+
+        mainPanel.removeAll();
+        mainPanel.add(new MenuView());
 
         this.validate();
     }
@@ -50,6 +54,30 @@ public class InterfaceFrame extends javax.swing.JFrame {
         mainPanel.removeAll();
     }
 
+    public void setPatternsAction() {
+        File dir = FileChooserUtils.openDir("Open Pattern Dir", this);
+        if (dir != null) {
+            String path = dir.getAbsolutePath();
+            if (path != null) {
+                Main.mainProject.setPatternPath(path);
+            }
+        }
+        Main.mainProject.getRoot().removeDiffRecursive();
+        Main.projectFrame.putTestIntoView();
+    }
+
+    public void setSamplesAction() {
+        File dir = FileChooserUtils.openDir("Open Samples Dir", this);
+        if (dir != null) {
+            String path = dir.getAbsolutePath();
+            if (path != null) {
+                Main.mainProject.setSamplesPath(path);
+            }
+        }
+        Main.mainProject.getRoot().removeDiffRecursive();
+        Main.projectFrame.putTestIntoView();
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -69,19 +97,17 @@ public class InterfaceFrame extends javax.swing.JFrame {
         jSeparator6 = new javax.swing.JPopupMenu.Separator();
         exitMenuItem = new javax.swing.JMenuItem();
         projectMenu = new javax.swing.JMenu();
-        jMenu5 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jSeparator5 = new javax.swing.JPopupMenu.Separator();
-        jMenuItem4 = new javax.swing.JMenuItem();
-        jSeparator2 = new javax.swing.JPopupMenu.Separator();
         jMenuItem14 = new javax.swing.JMenuItem();
         jMenuItem13 = new javax.swing.JMenuItem();
-        jMenu3 = new javax.swing.JMenu();
-        jMenuItem3 = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
         viewsMenu = new javax.swing.JMenu();
         doubleViewMenuItem = new javax.swing.JMenuItem();
         singleViewMenuItem = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem3 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("RushEye  - Manager");
@@ -131,36 +157,6 @@ public class InterfaceFrame extends javax.swing.JFrame {
 
         projectMenu.setText("Project");
 
-        jMenu5.setText("Sources");
-
-        jMenuItem1.setText("Set patterns path");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
-            }
-        });
-        jMenu5.add(jMenuItem1);
-
-        jMenuItem2.setText("Set samples path");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
-            }
-        });
-        jMenu5.add(jMenuItem2);
-        jMenu5.add(jSeparator5);
-
-        jMenuItem4.setText("Set result descriptor");
-        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem4ActionPerformed(evt);
-            }
-        });
-        jMenu5.add(jMenuItem4);
-
-        projectMenu.add(jMenu5);
-        projectMenu.add(jSeparator2);
-
         jMenuItem14.setText("Generate Suite Descriptor");
         jMenuItem14.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -176,20 +172,33 @@ public class InterfaceFrame extends javax.swing.JFrame {
             }
         });
         projectMenu.add(jMenuItem13);
+        projectMenu.add(jSeparator2);
 
-        jMenuBar1.add(projectMenu);
-
-        jMenu3.setText("Menu");
-
-        jMenuItem3.setText("Project Manager");
-        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItem1.setText("Set patterns path");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem3ActionPerformed(evt);
+                jMenuItem1ActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItem3);
+        projectMenu.add(jMenuItem1);
 
-        jMenuBar1.add(jMenu3);
+        jMenuItem2.setText("Set samples path");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        projectMenu.add(jMenuItem2);
+
+        jMenuItem4.setText("Set result descriptor");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        projectMenu.add(jMenuItem4);
+
+        jMenuBar1.add(projectMenu);
 
         viewsMenu.setText("Views");
 
@@ -208,6 +217,15 @@ public class InterfaceFrame extends javax.swing.JFrame {
             }
         });
         viewsMenu.add(singleViewMenuItem);
+        viewsMenu.add(jSeparator1);
+
+        jMenuItem3.setText("Project Manager");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        viewsMenu.add(jMenuItem3);
 
         jMenuBar1.add(viewsMenu);
 
@@ -228,29 +246,11 @@ public class InterfaceFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        File dir = FileChooserUtils.openDir("Open Samples Dir", this);
-        if (dir != null) {
-            String path = dir.getAbsolutePath();
-            if (path != null) {
-                Main.mainProject.setSamplesPath(path);
-                Main.projectFrame.getSamplesPathField().setText(path);
-            }
-        }
-        Main.mainProject.getRoot().removeDiffRecursive();
-        Main.projectFrame.putTestIntoView();
+        setSamplesAction();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        File dir = FileChooserUtils.openDir("Open Pattern Dir", this);
-        if (dir != null) {
-            String path = dir.getAbsolutePath();
-            if (path != null) {
-                Main.mainProject.setPatternPath(path);
-                Main.projectFrame.getPatternsPathField().setText(path);
-            }
-        }
-        Main.mainProject.getRoot().removeDiffRecursive();
-        Main.projectFrame.putTestIntoView();
+        setPatternsAction();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
@@ -320,8 +320,6 @@ public class InterfaceFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem doubleViewMenuItem;
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JMenu fileMenu;
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem13;
@@ -332,8 +330,8 @@ public class InterfaceFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
-    private javax.swing.JPopupMenu.Separator jSeparator5;
     private javax.swing.JPopupMenu.Separator jSeparator6;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JMenu newProjectMenu;

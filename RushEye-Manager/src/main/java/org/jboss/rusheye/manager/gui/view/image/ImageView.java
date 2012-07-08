@@ -14,7 +14,7 @@ import javax.swing.JScrollPane;
 import org.jboss.rusheye.manager.gui.view.BottomMenu;
 import org.jboss.rusheye.manager.gui.view.image.listeners.ScrollAdjustmentListener;
 import org.jboss.rusheye.manager.gui.view.image.listeners.ZoomDragMouseListener;
-import org.jboss.rusheye.manager.project.TestCase;
+import org.jboss.rusheye.manager.project.testcase.TestCase;
 import org.jboss.rusheye.manager.utils.ImageUtils;
 
 /**

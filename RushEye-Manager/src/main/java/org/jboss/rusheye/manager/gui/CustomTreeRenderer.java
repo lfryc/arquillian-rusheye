@@ -9,7 +9,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
-import org.jboss.rusheye.manager.project.TestCase;
+import org.jboss.rusheye.manager.project.testcase.TestCase;
 import org.jboss.rusheye.suite.ResultConclusion;
 
 /**
