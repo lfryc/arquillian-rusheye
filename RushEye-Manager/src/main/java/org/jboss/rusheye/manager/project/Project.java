@@ -68,6 +68,7 @@ public class Project implements Observed {
 
     public void setPatternPath(String patternPath) {
         this.patternPath = patternPath;
+        System.out.println(observers.size());
         notifyObservers();
     }
 

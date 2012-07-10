@@ -29,6 +29,7 @@ public class CrawlFrame extends javax.swing.JFrame {
         initComponents();
         this.setTitle("Crawl menu");
         patternField.setText(Main.mainProject.getPatternPath());
+        maskField.setText(Main.mainProject.getMaskPath());
     }
 
     /**
@@ -207,7 +208,9 @@ public class CrawlFrame extends javax.swing.JFrame {
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         CommandCrawl crawl = new CommandCrawl();
         List<File> tmp = new ArrayList<File>();
+        
         String path = Main.mainProject.getPatternPath();
+        String masks = null;
         if (path != null)
             tmp.add(new File(path));
         else{
@@ -215,8 +218,10 @@ public class CrawlFrame extends javax.swing.JFrame {
             return;
         }
         crawl.setFiles(tmp);
-        if (maskField.getText().equals("") == false)
+        if (maskField.getText().equals("") == false){
             crawl.setMasksBase(new File(maskField.getText()));
+            masks = maskField.getText();
+        }
         if (pixelTresField.getText().equals("") == false)
             crawl.setOnePixelTreshold(new Integer(pixelTresField.getText()));
         if (diffTresField.getText().equals("") == false)
@@ -235,14 +240,15 @@ public class CrawlFrame extends javax.swing.JFrame {
             writer = new BufferedWriter(new FileWriter(outputField.getText()));
             writer.write(stream.toString());
             writer.close();
-            JOptionPane.showMessageDialog(this, "File saved", "Crawl", JOptionPane.INFORMATION_MESSAGE);
             
             Main.mainProject = ProjectFactory.projectFromDescriptor(outputField.getText());
+            
+            Main.mainProject.setPatternPath(path);
+            Main.mainProject.setMaskPath(masks);
             
             this.dispose();
             
             Main.projectFrame.createTree();
-            Main.interfaceFrame.clean();
             
             
         } catch (IOException ex) {

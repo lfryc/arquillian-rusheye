@@ -418,7 +418,7 @@ public class ProjectManagerFrame extends javax.swing.JFrame implements Observer 
     // End of variables declaration//GEN-END:variables
 
     public void update(Observed o) {
-        if(o instanceof Project){
+        if (o instanceof Project) {
             Project p = (Project) o;
             this.patternsPathField.setText(p.getPatternPath());
             this.samplesPathField.setText(p.getSamplesPath());

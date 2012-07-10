@@ -206,7 +206,9 @@ public class ParseFrame extends javax.swing.JFrame implements Observer{
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         Properties props = new Properties();
         
-        props.setProperty("samples-directory", samplesField.getText());
+        if(!samplesField.getText().equals(""))
+            props.setProperty("samples-directory", samplesField.getText());
+        else 
         props.setProperty("patterns-directory", patternsField.getText());
         props.setProperty("file-storage-directory", storageField.getText());
         props.setProperty("result-output-file", resultField.getText());
