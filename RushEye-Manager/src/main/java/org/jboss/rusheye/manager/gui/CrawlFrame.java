@@ -13,6 +13,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import org.jboss.rusheye.CommandCrawl;
 import org.jboss.rusheye.manager.Main;
+import org.jboss.rusheye.manager.project.ProjectFactory;
 import org.jboss.rusheye.manager.utils.FileChooserUtils;
 
 /**
@@ -26,6 +27,7 @@ public class CrawlFrame extends javax.swing.JFrame {
      */
     public CrawlFrame() {
         initComponents();
+        this.setTitle("Crawl menu");
         patternField.setText(Main.mainProject.getPatternPath());
     }
 
@@ -234,6 +236,15 @@ public class CrawlFrame extends javax.swing.JFrame {
             writer.write(stream.toString());
             writer.close();
             JOptionPane.showMessageDialog(this, "File saved", "Crawl", JOptionPane.INFORMATION_MESSAGE);
+            
+            Main.mainProject = ProjectFactory.projectFromDescriptor(outputField.getText());
+            
+            this.dispose();
+            
+            Main.projectFrame.createTree();
+            Main.interfaceFrame.clean();
+            
+            
         } catch (IOException ex) {
             ex.printStackTrace();
         }

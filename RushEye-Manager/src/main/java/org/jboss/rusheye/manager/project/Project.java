@@ -58,7 +58,7 @@ public class Project implements Observed {
         ManagerParser parser = new ManagerParser();
         root = parser.parseFileToManagerCases(this.suiteDescriptor);
         for (int i = 0; i < root.getChildCount(); ++i)
-            System.out.println("A" + root.getChildAt(i));
+            System.out.println(root.getChildAt(i));
         loadType = LoadType.SUITE;
     }
 

@@ -91,7 +91,6 @@ public class InterfaceFrame extends javax.swing.JFrame {
         mainPanel = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
-        newProjectMenu = new javax.swing.JMenu();
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
@@ -105,10 +104,11 @@ public class InterfaceFrame extends javax.swing.JFrame {
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
         viewsMenu = new javax.swing.JMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem8 = new javax.swing.JMenuItem();
+        jSeparator3 = new javax.swing.JPopupMenu.Separator();
         doubleViewMenuItem = new javax.swing.JMenuItem();
         singleViewMenuItem = new javax.swing.JMenuItem();
-        jSeparator1 = new javax.swing.JPopupMenu.Separator();
-        jMenuItem3 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("RushEye  - Manager");
@@ -117,33 +117,29 @@ public class InterfaceFrame extends javax.swing.JFrame {
 
         fileMenu.setText("File");
 
-        newProjectMenu.setText("New Project");
-
-        jMenuItem7.setText("Empty project");
+        jMenuItem7.setText("New empty project");
         jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem7ActionPerformed(evt);
             }
         });
-        newProjectMenu.add(jMenuItem7);
+        fileMenu.add(jMenuItem7);
 
-        jMenuItem6.setText("Project From Descriptor");
+        jMenuItem6.setText("New project from descriptor");
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem6ActionPerformed(evt);
             }
         });
-        newProjectMenu.add(jMenuItem6);
+        fileMenu.add(jMenuItem6);
 
-        jMenuItem5.setText("Project From Directories");
+        jMenuItem5.setText("New project from directories");
         jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem5ActionPerformed(evt);
             }
         });
-        newProjectMenu.add(jMenuItem5);
-
-        fileMenu.add(newProjectMenu);
+        fileMenu.add(jMenuItem5);
         fileMenu.add(jSeparator6);
 
         exitMenuItem.setText("Exit");
@@ -203,6 +199,18 @@ public class InterfaceFrame extends javax.swing.JFrame {
 
         viewsMenu.setText("Views");
 
+        jMenuItem3.setText("Project Manager");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        viewsMenu.add(jMenuItem3);
+
+        jMenuItem8.setText("Main Menu");
+        viewsMenu.add(jMenuItem8);
+        viewsMenu.add(jSeparator3);
+
         doubleViewMenuItem.setText("Double View");
         doubleViewMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -218,15 +226,6 @@ public class InterfaceFrame extends javax.swing.JFrame {
             }
         });
         viewsMenu.add(singleViewMenuItem);
-        viewsMenu.add(jSeparator1);
-
-        jMenuItem3.setText("Project Manager");
-        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem3ActionPerformed(evt);
-            }
-        });
-        viewsMenu.add(jMenuItem3);
 
         jMenuBar1.add(viewsMenu);
 
@@ -331,11 +330,11 @@ public class InterfaceFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
-    private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JPopupMenu.Separator jSeparator2;
+    private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JPopupMenu.Separator jSeparator6;
     private javax.swing.JPanel mainPanel;
-    private javax.swing.JMenu newProjectMenu;
     private javax.swing.JMenu projectMenu;
     private javax.swing.JMenuItem singleViewMenuItem;
     private javax.swing.JMenu viewsMenu;
