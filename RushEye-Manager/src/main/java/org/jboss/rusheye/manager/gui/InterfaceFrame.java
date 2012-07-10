@@ -33,8 +33,8 @@ public class InterfaceFrame extends javax.swing.JFrame {
 
         this.validate();
     }
-    
-    public void setMenu(){
+
+    public void setMenu() {
         menuView = new MenuView();
         Main.mainProject.addObserver(menuView);
         mainPanel.removeAll();
@@ -59,24 +59,28 @@ public class InterfaceFrame extends javax.swing.JFrame {
         mainPanel.removeAll();
     }
 
-    public void setPatternsAction() {
+    public File setPatternsAction() {
         File dir = FileChooserUtils.openDir("Open Pattern Dir", this);
-        if (dir != null)
+        if (dir != null) {
             Main.mainProject.setPatternPath(dir.getAbsolutePath());
-        Main.projectFrame.getPatternsPathField().setText(dir.getAbsolutePath());
-        
-        Main.mainProject.getRoot().removeDiffRecursive();
-        Main.projectFrame.putTestIntoView();
+            Main.projectFrame.getPatternsPathField().setText(dir.getAbsolutePath());
+
+            Main.mainProject.getRoot().removeDiffRecursive();
+            Main.projectFrame.putTestIntoView();
+        }
+        return dir;
     }
 
-    public void setSamplesAction() {
+    public File setSamplesAction() {
         File dir = FileChooserUtils.openDir("Open Samples Dir", this);
-        if (dir != null)
+        if (dir != null) {
             Main.mainProject.setSamplesPath(dir.getAbsolutePath());
-        Main.projectFrame.getSamplesPathField().setText(dir.getAbsolutePath());
-        
-        Main.mainProject.getRoot().removeDiffRecursive();
-        Main.projectFrame.putTestIntoView();
+            Main.projectFrame.getSamplesPathField().setText(dir.getAbsolutePath());
+
+            Main.mainProject.getRoot().removeDiffRecursive();
+            Main.projectFrame.putTestIntoView();
+        }
+        return dir;
     }
 
     /**

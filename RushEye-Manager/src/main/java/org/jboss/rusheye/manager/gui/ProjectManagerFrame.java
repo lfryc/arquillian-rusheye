@@ -136,7 +136,7 @@ public class ProjectManagerFrame extends javax.swing.JFrame implements Observer 
         }
     }
 
-    private void updateIcons() {
+    public void updateIcons() {
         jLabel6.setText(Main.mainProject.getCurrentCase().getConclusion().toString());
         Main.mainProject.getCurrentCase().setChecked(true);
         TreePath path = projectTree.getSelectionPath();

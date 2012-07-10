@@ -22,6 +22,7 @@ import org.codehaus.stax2.XMLStreamReader2;
 import org.codehaus.stax2.ri.Stax2FilteredStreamReader;
 import org.codehaus.stax2.validation.XMLValidationSchema;
 import org.codehaus.stax2.validation.XMLValidationSchemaFactory;
+import org.jboss.rusheye.manager.Main;
 import org.jboss.rusheye.manager.project.testcase.TestCase;
 import org.jboss.rusheye.suite.*;
 
@@ -33,6 +34,7 @@ public class ManagerParser extends Parser {
 
     private List<Test> parsedTests = new ArrayList<Test>();
 
+    @Override
     protected void parseFile(File file, boolean tmpfile) {
         VisualSuite visualSuite = null;
         try {
@@ -97,7 +99,14 @@ public class ManagerParser extends Parser {
                         }
                         Test testWrapped = ConfigurationCompiler.wrap(test, visualSuite.getGlobalConfiguration());
                         handler.getContext().invokeListeners().onTestReady(testWrapped);
-
+                        
+                        for(Pattern pattern : testWrapped.getPatterns()){
+                            TestCase managerTest = Main.mainProject.findTest(testWrapped.getName(), pattern.getName());
+                            managerTest.setConclusion(pattern.getConclusion());
+                            Main.mainProject.setCurrentCase(managerTest);
+                            Main.projectFrame.updateIcons();
+                        }
+                        
                         parsedTests.add(testWrapped);
                     }
                 } catch (WstxParsingException e) {

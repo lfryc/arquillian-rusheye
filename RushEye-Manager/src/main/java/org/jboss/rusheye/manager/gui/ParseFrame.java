@@ -8,6 +8,7 @@ import java.io.File;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import org.jboss.rusheye.manager.Main;
 import org.jboss.rusheye.manager.utils.FileChooserUtils;
 import org.jboss.rusheye.parser.ManagerParser;
@@ -26,6 +27,7 @@ public class ParseFrame extends javax.swing.JFrame implements Observer{
         initComponents();
         samplesField.setText(Main.mainProject.getSamplesPath());
         patternsField.setText(Main.mainProject.getPatternPath());
+        masksField.setText(Main.mainProject.getMaskPath());
     }
     
         public void update(Observable o, Object o1) {
@@ -206,17 +208,27 @@ public class ParseFrame extends javax.swing.JFrame implements Observer{
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         Properties props = new Properties();
         
-        if(!samplesField.getText().equals(""))
+        if( !samplesField.getText().equals("") )
             props.setProperty("samples-directory", samplesField.getText());
-        else 
-        props.setProperty("patterns-directory", patternsField.getText());
+        else{ 
+            JOptionPane.showMessageDialog(this, "No samples path selected", "Parse", JOptionPane.WARNING_MESSAGE);
+        }
+        if( !patternsField.getText().equals("") ){
+            props.setProperty("patterns-directory", patternsField.getText());
+        }
+        else{ 
+            JOptionPane.showMessageDialog(this, "No patterns path selected", "Parse", JOptionPane.WARNING_MESSAGE);
+        }
         props.setProperty("file-storage-directory", storageField.getText());
         props.setProperty("result-output-file", resultField.getText());
 
-        if (!masksField.getText().equals(""))props.setProperty("masks-directory", masksField.getText());
+        if (!masksField.getText().equals(""))
+            props.setProperty("masks-directory", masksField.getText());
+        
         ManagerParser parser = new ManagerParser();
         parser.setProperties(props);
         new Thread(new ParserThread(parser)).start();
+        
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -232,10 +244,14 @@ public class ParseFrame extends javax.swing.JFrame implements Observer{
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         Main.interfaceFrame.setSamplesAction();
+        samplesField.setText(Main.mainProject.getSamplesPath());
+        this.show();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         Main.interfaceFrame.setPatternsAction();
+        patternsField.setText(Main.mainProject.getPatternPath());
+        this.show();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
