@@ -11,8 +11,8 @@ import java.util.Random;
  * @author hcube
  */
 public enum Tips {
-    T1("Here is some useless info you will never read anyway..."),
-    T2("There are 3 types of projects.\nWhen you run Manager you open empty project[something more]");
+    T1(""),
+    T2("There are 3 types of projects.\nWhen you run Manager you open empty project[...]");
     
     private String text;
     
