@@ -84,6 +84,8 @@ public class CommandCrawl extends CommandBase {
 
     private Document document;
     private Namespace ns;
+    
+    private String collectorName = null;
 
     
     @Override
@@ -165,7 +167,14 @@ public class CommandCrawl extends CommandBase {
     private void addSuiteListener(Element globalConfiguration) {
         Element suiteListener = globalConfiguration.addElement(QName.get("listener", ns));
         suiteListener.addAttribute("type", CompareListener.class.getName());
-        suiteListener.addElement(QName.get("result-collector", ns)).addText(ResultCollectorImpl.class.getName());
+        String collector = null;
+        if(collectorName == null){
+            collector = ResultCollectorImpl.class.getName();
+        } else{
+            collector = collectorName;
+        }
+        suiteListener.addElement(QName.get("result-collector", ns)).addText(collector);
+        
         suiteListener.addElement(QName.get("result-storage", ns)).addText(FileStorage.class.getName());
         suiteListener.addElement(QName.get("result-writer", ns)).addText(FileResultWriter.class.getName());
         suiteListener.addElement(QName.get("result-statistics", ns)).addText(OverallStatistics.class.getName());
@@ -351,5 +360,9 @@ public class CommandCrawl extends CommandBase {
     
     public void setGlobalDifferenceAmount(String value){
         globalDifferenceAmount = value;
+    }
+    
+    public void setCollectorName(String name){
+        collectorName = name;
     }
 }

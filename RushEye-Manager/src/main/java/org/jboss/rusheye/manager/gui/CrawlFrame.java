@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import org.jboss.rusheye.CommandCrawl;
 import org.jboss.rusheye.manager.Main;
 import org.jboss.rusheye.manager.utils.FileChooserUtils;
@@ -54,6 +55,9 @@ public class CrawlFrame extends javax.swing.JFrame {
         outputField = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         jButton5 = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JSeparator();
+        jSeparator2 = new javax.swing.JSeparator();
+        useManagerCollector = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -94,6 +98,7 @@ public class CrawlFrame extends javax.swing.JFrame {
 
         outputField.setText("suite.xml");
 
+        jLabel9.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
         jLabel9.setText("Output file :");
 
         jButton5.setText("Set");
@@ -103,6 +108,9 @@ public class CrawlFrame extends javax.swing.JFrame {
             }
         });
 
+        useManagerCollector.setSelected(true);
+        useManagerCollector.setText("Use manager result collector");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -110,10 +118,15 @@ public class CrawlFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSeparator1)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(outputField, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jSeparator2)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
@@ -135,17 +148,23 @@ public class CrawlFrame extends javax.swing.JFrame {
                                 .addComponent(diffAmountField, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel8))
-                            .addComponent(jLabel9))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabel9)
+                            .addComponent(useManagerCollector))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jLabel9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(outputField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -172,14 +191,12 @@ public class CrawlFrame extends javax.swing.JFrame {
                     .addComponent(diffAmountField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel9)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(outputField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(useManagerCollector)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton6)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -188,7 +205,13 @@ public class CrawlFrame extends javax.swing.JFrame {
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         CommandCrawl crawl = new CommandCrawl();
         List<File> tmp = new ArrayList<File>();
-        tmp.add(new File(Main.mainProject.getPatternPath()));
+        String path = Main.mainProject.getPatternPath();
+        if (path != null)
+            tmp.add(new File(path));
+        else{
+            JOptionPane.showMessageDialog(this, "No pattern path selected", "Crawl", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
         crawl.setFiles(tmp);
         if (maskField.getText().equals("") == false)
             crawl.setMasksBase(new File(maskField.getText()));
@@ -198,16 +221,19 @@ public class CrawlFrame extends javax.swing.JFrame {
             crawl.setGlobalDifferenceTreshold(new Integer(diffTresField.getText()));
         if (diffAmountField.getText().equals("") == false)
             crawl.setGlobalDifferenceAmount(diffAmountField.getText() + "%");
-        
+        if(useManagerCollector.isSelected())
+            crawl.setCollectorName("org.jboss.rusheye.parser.ManagerResultCollector");
+
         crawl.initialize();
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         crawl.crawl(stream);
-        
+
         BufferedWriter writer = null;
         try {
-            writer = new BufferedWriter( new FileWriter(outputField.getText()));
+            writer = new BufferedWriter(new FileWriter(outputField.getText()));
             writer.write(stream.toString());
             writer.close();
+            JOptionPane.showMessageDialog(this, "File saved", "Crawl", JOptionPane.INFORMATION_MESSAGE);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -246,7 +272,6 @@ public class CrawlFrame extends javax.swing.JFrame {
             outputField.setText(file.getAbsolutePath());
         }
     }//GEN-LAST:event_jButton5ActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField diffAmountField;
     private javax.swing.JTextField diffTresField;
@@ -261,9 +286,12 @@ public class CrawlFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTextField maskField;
     private javax.swing.JTextField outputField;
     private javax.swing.JTextField patternField;
     private javax.swing.JTextField pixelTresField;
+    private javax.swing.JCheckBox useManagerCollector;
     // End of variables declaration//GEN-END:variables
 }

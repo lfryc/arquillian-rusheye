@@ -152,7 +152,7 @@ public class Parser {
             handler.getContext().invokeListeners().onSuiteStarted(visualSuite);
 
             listener.registerListener(new UniqueIdentityChecker(handler.getContext()));
-
+            
             while (filteredReader.hasNext()) {
                 try {
                     // go on the start of the next tag
