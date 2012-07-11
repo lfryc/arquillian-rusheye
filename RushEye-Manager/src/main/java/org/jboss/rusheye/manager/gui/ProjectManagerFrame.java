@@ -110,10 +110,7 @@ public class ProjectManagerFrame extends javax.swing.JFrame implements Observer 
         }
 
         if (node.isLeaf()) {
-            System.out.println(node.getPath());
-            System.out.println(Main.mainProject.findTest(node.getPath()));
             Main.mainProject.setCurrentCase(Main.mainProject.findTest(node.getPath()));
-            System.out.println(Main.mainProject.getCurrentCase().getName());
 
             JPanel panel = Main.interfaceFrame.getMainPanel();
             panel.removeAll();

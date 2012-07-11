@@ -55,7 +55,8 @@ public class TestCase extends TestNode {
         ComparisonResult result = new DefaultImageComparator().compare(getImage(ImagePool.PATTERN), getImage(ImagePool.SAMPLE), configuration.getPerception(),
                 configuration.getMasks());
 
-        conclusion = new ResultEvaluator().evaluate(configuration.getPerception(), result);
+        if(conclusion == null)
+            conclusion = new ResultEvaluator().evaluate(configuration.getPerception(), result);
 
         BufferedImage diff = result.getDiffImage();
 

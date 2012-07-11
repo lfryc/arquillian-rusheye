@@ -18,12 +18,13 @@ import org.jboss.rusheye.suite.ResultConclusion;
  */
 public class CustomTreeRenderer extends DefaultTreeCellRenderer {
 
-    ImageIcon same, notTested, diff;
+    ImageIcon same, notTested, diff, pSame;
 
     public CustomTreeRenderer() {
         same = new ImageIcon("same.png");
         notTested = new ImageIcon("not_tested.png");
         diff = new ImageIcon("diff.png");
+        pSame = new ImageIcon("pSame.png");
     }
 
     @Override
@@ -34,13 +35,16 @@ public class CustomTreeRenderer extends DefaultTreeCellRenderer {
 
         if (value instanceof TestCase) {
             TestCase node = (TestCase) value;
-
-            if (node.getConclusion() == ResultConclusion.PERCEPTUALLY_SAME)
-                setIcon(same);
-            else if (node.getConclusion() == ResultConclusion.DIFFER)
-                setIcon(diff);
-            else if (node.getConclusion() == ResultConclusion.NOT_TESTED)
-                setIcon(notTested);
+            if (node.isLeaf()) {
+                if (node.getConclusion() == ResultConclusion.SAME)
+                    setIcon(same);
+                else if (node.getConclusion() == ResultConclusion.PERCEPTUALLY_SAME)
+                    setIcon(pSame);
+                else if (node.getConclusion() == ResultConclusion.DIFFER)
+                    setIcon(diff);
+                else if (node.getConclusion() == ResultConclusion.NOT_TESTED || node.getConclusion() == null)
+                    setIcon(notTested);
+            }
         }
         return this;
     }
