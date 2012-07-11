@@ -4,6 +4,11 @@
  */
 package org.jboss.rusheye.manager.gui;
 
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import javax.swing.JOptionPane;
 import org.jboss.rusheye.manager.Main;
 import org.jboss.rusheye.parser.Parser;
 
@@ -11,16 +16,19 @@ import org.jboss.rusheye.parser.Parser;
  *
  * @author hcube
  */
-public class ParserThread implements Runnable{
-    
+public class ParserThread implements Runnable {
+
     private Parser parser;
-    
-    public ParserThread(Parser p){
+
+    public ParserThread(Parser p) {
         this.parser = p;
     }
 
     public void run() {
         parser.parseFile(Main.mainProject.getSuiteDescriptor());
+        JOptionPane.showMessageDialog(Main.interfaceFrame, "Parsing done", "Parse", JOptionPane.INFORMATION_MESSAGE);
+        
+        Main.mainProject.loadResultAsString();
     }
     
 }

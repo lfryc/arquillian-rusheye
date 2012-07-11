@@ -4,11 +4,12 @@
  */
 package org.jboss.rusheye.manager.project;
 
+import java.io.*;
 import org.jboss.rusheye.manager.project.testcase.TestCase;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import org.jboss.rusheye.manager.Main;
 import org.jboss.rusheye.manager.exception.ManagerException;
 import org.jboss.rusheye.manager.project.observable.Observed;
 import org.jboss.rusheye.manager.project.observable.Observer;
@@ -23,13 +24,18 @@ public class Project implements Observed {
 
     private TestCase root;
     private TestCase currentCase;
+    
     private String patternPath;
     private String samplesPath;
     private String maskPath;
+    
     private File suiteDescriptor;
     private File resultDescriptor;
+    
     private LoadType loadType;
     private List<Observer> observers;
+    
+    String result = null;
 
     public Project() {
         root = new TestCase();
@@ -202,5 +208,25 @@ public class Project implements Observed {
     private void notifyObservers() {
         for (Observer o : observers)
             o.update(this);
+    }
+
+    public void loadResultAsString() {
+        result = "";
+        try {
+            FileInputStream fstream = new FileInputStream(Main.mainProject.getResultDescriptor());
+            DataInputStream in = new DataInputStream(fstream);
+            BufferedReader br = new BufferedReader(new InputStreamReader(in));
+            String strLine;
+            while ((strLine = br.readLine()) != null) {
+                result += strLine + "\n";
+            }
+            in.close();
+        } catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+    }
+    
+    public String getResult(){
+        return result;
     }
 }

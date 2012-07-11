@@ -229,6 +229,9 @@ public class ParseFrame extends javax.swing.JFrame implements Observer{
         parser.setProperties(props);
         new Thread(new ParserThread(parser)).start();
         
+        Main.mainProject.setResultDescriptor(new File(resultField.getText()));
+        
+        this.dispose();
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

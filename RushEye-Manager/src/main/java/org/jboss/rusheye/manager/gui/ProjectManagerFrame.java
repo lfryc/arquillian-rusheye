@@ -4,6 +4,10 @@
  */
 package org.jboss.rusheye.manager.gui;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JPanel;
 import javax.swing.JTree;
 import javax.swing.event.DocumentEvent;
@@ -58,7 +62,6 @@ public class ProjectManagerFrame extends javax.swing.JFrame implements Observer 
             }
 
             public void changedUpdate(DocumentEvent de) {
-                //
             }
         });
 
@@ -358,7 +361,24 @@ public class ProjectManagerFrame extends javax.swing.JFrame implements Observer 
     }// </editor-fold>//GEN-END:initComponents
 
     private void posButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_posButtonActionPerformed
+        ResultConclusion last = Main.mainProject.getCurrentCase().getConclusion();
+        
         Main.mainProject.getCurrentCase().setConclusion(ResultConclusion.PERCEPTUALLY_SAME);
+        String result = Main.mainProject.getResult();
+        
+        if (result != null) {
+            String regexp = Main.mainProject.getCurrentCase().getFilename() + "\" result=\"" + last;
+            String newString = Main.mainProject.getCurrentCase().getFilename() + "\" result=\"" + Main.mainProject.getCurrentCase().getConclusion();
+
+            result = result.replace(regexp, newString);
+            try {
+                PrintWriter out = new PrintWriter(Main.mainProject.getResultDescriptor());
+                out.println(result);
+                out.close();
+            } catch (FileNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        }
         updateIcons();
     }//GEN-LAST:event_posButtonActionPerformed
 

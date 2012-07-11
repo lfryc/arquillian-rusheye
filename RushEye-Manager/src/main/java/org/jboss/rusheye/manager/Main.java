@@ -23,7 +23,7 @@ public class Main
                 
                 mainProject = ProjectFactory.emptyProject();
                 
-                interfaceFrame.setMenu();
+                //interfaceFrame.setMenu();
             }
         });
         
