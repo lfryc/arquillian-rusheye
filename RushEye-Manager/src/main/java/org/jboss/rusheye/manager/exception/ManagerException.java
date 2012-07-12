@@ -5,8 +5,9 @@
 package org.jboss.rusheye.manager.exception;
 
 /**
+ * Custom exception for manager.
  *
- * @author hcube
+ * @author Jakub D.
  */
 public class ManagerException extends Exception {
 
@@ -25,5 +26,4 @@ public class ManagerException extends Exception {
     public ManagerException(Throwable cause) {
         super(cause);
     }
-
 }

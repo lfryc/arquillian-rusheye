@@ -8,11 +8,13 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 
 /**
+ * Collection forced by TreeNode interface. Iterator replaced Enumeration, but
+ * here it is still necessary.
  *
- * @author hcube
+ * @author Jakub D.
  */
-public class NodeList extends ArrayList<TestNode> implements Enumeration<TestNode>{
-   
+public class NodeList extends ArrayList<TestNode> implements Enumeration<TestNode> {
+
     public boolean hasMoreElements() {
         return this.iterator().hasNext();
     }
@@ -20,5 +22,4 @@ public class NodeList extends ArrayList<TestNode> implements Enumeration<TestNod
     public TestNode nextElement() {
         return this.iterator().next();
     }
-    
 }

@@ -15,8 +15,10 @@ import org.jboss.rusheye.suite.Configuration;
 import org.jboss.rusheye.suite.ResultConclusion;
 
 /**
+ * Extension of TestNode. It contains data regarding tests, like result
+ * conclusion, pattern filename, and images.
  *
- * @author hcube
+ * @author Jakub D.
  */
 public class TestCase extends TestNode {
 
@@ -50,12 +52,16 @@ public class TestCase extends TestNode {
         return pool;
     }
 
+    /**
+     * Performs comparison of pattern and sample. Sets diff image and
+     * conclusion.
+     */
     public void loadDiff() {
         Configuration configuration = new DefaultConfiguration();
         ComparisonResult result = new DefaultImageComparator().compare(getImage(ImagePool.PATTERN), getImage(ImagePool.SAMPLE), configuration.getPerception(),
                 configuration.getMasks());
 
-        if(conclusion == null)
+        if (conclusion == null)
             conclusion = new ResultEvaluator().evaluate(configuration.getPerception(), result);
 
         BufferedImage diff = result.getDiffImage();
@@ -63,10 +69,14 @@ public class TestCase extends TestNode {
         pool.put(ImagePool.DIFF, diff);
     }
 
+    /**
+     * Removes all diff images from TestCases. used when we change path to
+     * patterns/samples and diff images become invalid.
+     */
     public void removeDiffRecursive() {
         if (this.isLeaf())
             pool.remove(ImagePool.DIFF);
-        for (int i = 0; i < this.getChildCount(); ++i) 
+        for (int i = 0; i < this.getChildCount(); ++i)
             ((TestCase) this.getChildAt(i)).removeDiffRecursive();
     }
 
@@ -102,10 +112,14 @@ public class TestCase extends TestNode {
         }
     }
 
+    @Override
     public String toString() {
         return this.getName();
     }
 
+    /**
+     * Finds test recursively in node and its children.
+     */
     public TestCase findTest(String path) {
         if (this.getPath().equals(path)) {
             return this;
@@ -130,6 +144,9 @@ public class TestCase extends TestNode {
         this.filename = filename;
     }
 
+    /**
+     * Sets visibility of nodes,based on ResultConclusion of the test.
+     */
     public void setVisibility(ResultConclusion con) {
         if (conclusion == null || conclusion == con)
             this.setVisible(true);
@@ -142,6 +159,9 @@ public class TestCase extends TestNode {
         collapseInvalidLeafs();
     }
 
+    /**
+     * Sets visibility of nodes,based on String pattern matching.
+     */
     public void setVisibility(String regexp) {
         if (conclusion == null || this.getName().toLowerCase().contains(regexp.toLowerCase()))
             this.setVisible(true);
@@ -154,6 +174,9 @@ public class TestCase extends TestNode {
         collapseInvalidLeafs();
     }
 
+    /**
+     * Hides test nodes, where all patterns have been filtered out.
+     */
     private void collapseInvalidLeafs() {
         if (conclusion == null && this.getChildCount() == 0)
             this.setVisible(false);
@@ -162,6 +185,9 @@ public class TestCase extends TestNode {
             ((TestCase) this.getAllChildren().get(i)).collapseInvalidLeafs();
     }
 
+    /**
+     * Recursively changes visibility of node and children to true.
+     */
     public void setAllVisible() {
         this.setVisible(true);
 

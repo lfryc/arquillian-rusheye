@@ -4,16 +4,15 @@
  */
 package org.jboss.rusheye.manager.project.testcase;
 
-import org.jboss.rusheye.manager.project.testcase.NodeList;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
-import java.util.List;
 import javax.swing.tree.TreeNode;
 
 /**
+ * Implementation of javax.swing.tree.TreeNode. Object implementing such
+ * interface can be use in JTree
  *
- * @author hcube
+ * @author Jakub D.
  */
 public class TestNode implements TreeNode, Comparable<TestNode> {
 
@@ -67,11 +66,14 @@ public class TestNode implements TreeNode, Comparable<TestNode> {
         return visibleChildren();
     }
 
-    public void addChild(TestNode node) {
-        children.add(node);
-        Collections.sort(children);
+    public int compareTo(TestNode t) {
+        return name.compareTo(t.getName());
     }
 
+    /**
+     * Path to this node in tree.
+     * @return path directing to this test node
+     */
     public String getPath() {
         String result = name;
         if (this.getParent() != null) {
@@ -79,6 +81,11 @@ public class TestNode implements TreeNode, Comparable<TestNode> {
         }
 
         return result;
+    }
+
+    public void addChild(TestNode node) {
+        children.add(node);
+        Collections.sort(children);
     }
 
     public NodeList getAllChildren() {
@@ -128,10 +135,6 @@ public class TestNode implements TreeNode, Comparable<TestNode> {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int compareTo(TestNode t) {
-        return name.compareTo(t.getName());
     }
 
     public void setAllowsChildren(boolean allowsChildren) {

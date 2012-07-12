@@ -8,8 +8,9 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 /**
+ * Static methods for scale and getting single color from RGB int.
  *
- * @author hcube
+ * @author Jakub D.
  */
 public class ImageUtils {
 
@@ -40,5 +41,4 @@ public class ImageUtils {
     public static int toRgb(int r, int g, int b) {
         return r << 16 | g << 8 | b;
     }
-    
 }

@@ -5,20 +5,21 @@
 package org.jboss.rusheye.manager.gui;
 
 import java.io.File;
-import java.util.Observable;
-import java.util.Observer;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import org.jboss.rusheye.manager.Main;
+import org.jboss.rusheye.manager.project.observable.Observed;
+import org.jboss.rusheye.manager.project.observable.Observer;
 import org.jboss.rusheye.manager.utils.FileChooserUtils;
 import org.jboss.rusheye.parser.ManagerParser;
 import org.jboss.rusheye.suite.Properties;
 
 /**
- *
- * @author hcube
+ * Frame where we can set parser parameters and run parsing.
+ * 
+ * @author Jakub D.
  */
-public class ParseFrame extends javax.swing.JFrame implements Observer{
+public class ParseFrame extends javax.swing.JFrame implements Observer {
 
     /**
      * Creates new form ParseFrame
@@ -29,10 +30,7 @@ public class ParseFrame extends javax.swing.JFrame implements Observer{
         patternsField.setText(Main.mainProject.getPatternPath());
         masksField.setText(Main.mainProject.getMaskPath());
     }
-    
-        public void update(Observable o, Object o1) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -45,20 +43,20 @@ public class ParseFrame extends javax.swing.JFrame implements Observer{
 
         jLabel1 = new javax.swing.JLabel();
         resultField = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        outputButton = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         samplesField = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        samplesButton = new javax.swing.JButton();
+        patternsButton = new javax.swing.JButton();
         patternsField = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jButton4 = new javax.swing.JButton();
+        storageButton = new javax.swing.JButton();
         storageField = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jButton5 = new javax.swing.JButton();
+        masksButton = new javax.swing.JButton();
         masksField = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        jButton6 = new javax.swing.JButton();
+        parseButton = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
 
@@ -69,35 +67,35 @@ public class ParseFrame extends javax.swing.JFrame implements Observer{
 
         resultField.setText("result.xml");
 
-        jButton1.setText("Set");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        outputButton.setText("Set");
+        outputButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                outputButtonActionPerformed(evt);
             }
         });
 
         jLabel2.setText("Samples directory :");
 
-        jButton2.setText("Set");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        samplesButton.setText("Set");
+        samplesButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                samplesButtonActionPerformed(evt);
             }
         });
 
-        jButton3.setText("Set");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        patternsButton.setText("Set");
+        patternsButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                patternsButtonActionPerformed(evt);
             }
         });
 
         jLabel3.setText("Patterns directory :");
 
-        jButton4.setText("Set");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        storageButton.setText("Set");
+        storageButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                storageButtonActionPerformed(evt);
             }
         });
 
@@ -105,19 +103,19 @@ public class ParseFrame extends javax.swing.JFrame implements Observer{
 
         jLabel4.setText("File storage directory :");
 
-        jButton5.setText("Set");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        masksButton.setText("Set");
+        masksButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                masksButtonActionPerformed(evt);
             }
         });
 
         jLabel5.setText("Masks directory :");
 
-        jButton6.setText("Parse");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        parseButton.setText("Parse");
+        parseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                parseButtonActionPerformed(evt);
             }
         });
 
@@ -131,33 +129,33 @@ public class ParseFrame extends javax.swing.JFrame implements Observer{
                     .addComponent(jSeparator2)
                     .addComponent(jSeparator1)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(parseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(resultField, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(outputButton, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel2)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(samplesField, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(samplesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel3)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(patternsField, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(patternsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel4)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(storageField, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(storageButton, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel5)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(masksField, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(masksButton, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -168,7 +166,7 @@ public class ParseFrame extends javax.swing.JFrame implements Observer{
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(resultField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(outputButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -176,47 +174,50 @@ public class ParseFrame extends javax.swing.JFrame implements Observer{
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(patternsField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3))
+                    .addComponent(patternsButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(samplesField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2))
+                    .addComponent(samplesButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(storageField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4))
+                    .addComponent(storageButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(masksField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton5))
+                    .addComponent(masksButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton6)
+                .addComponent(parseButton)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+    /**
+     * Method run after parse button is pressed. Performs parse operation.
+     *
+     * @param evt event triggering method
+     */
+    private void parseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_parseButtonActionPerformed
         Properties props = new Properties();
-        
-        if( !samplesField.getText().equals("") )
+
+        if (!samplesField.getText().equals(""))
             props.setProperty("samples-directory", samplesField.getText());
-        else{ 
+        else {
             JOptionPane.showMessageDialog(this, "No samples path selected", "Parse", JOptionPane.WARNING_MESSAGE);
         }
-        if( !patternsField.getText().equals("") ){
+        if (!patternsField.getText().equals("")) {
             props.setProperty("patterns-directory", patternsField.getText());
-        }
-        else{ 
+        } else {
             JOptionPane.showMessageDialog(this, "No patterns path selected", "Parse", JOptionPane.WARNING_MESSAGE);
         }
         props.setProperty("file-storage-directory", storageField.getText());
@@ -224,17 +225,21 @@ public class ParseFrame extends javax.swing.JFrame implements Observer{
 
         if (!masksField.getText().equals(""))
             props.setProperty("masks-directory", masksField.getText());
-        
+
         ManagerParser parser = new ManagerParser();
         parser.setProperties(props);
         new Thread(new ParserThread(parser)).start();
-        
-        Main.mainProject.setResultDescriptor(new File(resultField.getText()));
-        
-        this.dispose();
-    }//GEN-LAST:event_jButton6ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        Main.mainProject.setResultDescriptor(new File(resultField.getText()));
+
+        this.dispose();
+    }//GEN-LAST:event_parseButtonActionPerformed
+    /**
+     * Method run after set button for loading output path is pressed.
+     *
+     * @param evt event triggering method
+     */
+    private void outputButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_outputButtonActionPerformed
         JFileChooser fc = FileChooserUtils.saveChooser();
 
         int returnVal = fc.showSaveDialog(this);
@@ -243,30 +248,46 @@ public class ParseFrame extends javax.swing.JFrame implements Observer{
             File file = fc.getSelectedFile();
             resultField.setText(file.getAbsolutePath());
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_outputButtonActionPerformed
+    /**
+     * Method run after set button for loading samples path is pressed.
+     *
+     * @param evt event triggering method
+     */
+    private void samplesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_samplesButtonActionPerformed
         Main.interfaceFrame.setSamplesAction();
         samplesField.setText(Main.mainProject.getSamplesPath());
         this.show();
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_samplesButtonActionPerformed
+    /**
+     * Method run after set button for loading patterns path is pressed.
+     *
+     * @param evt event triggering method
+     */
+    private void patternsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_patternsButtonActionPerformed
         Main.interfaceFrame.setPatternsAction();
         patternsField.setText(Main.mainProject.getPatternPath());
         this.show();
-    }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_patternsButtonActionPerformed
+    /**
+     * Method run after set button for loading storage path is pressed.
+     *
+     * @param evt event triggering method
+     */
+    private void storageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_storageButtonActionPerformed
         File dir = FileChooserUtils.openDir("Open Storage Dir", this);
         if (dir != null) {
             String path = dir.getAbsolutePath();
             if (path != null)
                 storageField.setText(path);
         }
-    }//GEN-LAST:event_jButton4ActionPerformed
-
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    }//GEN-LAST:event_storageButtonActionPerformed
+    /**
+     * Method run after set button for loading mask path is pressed.
+     *
+     * @param evt event triggering method
+     */
+    private void masksButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_masksButtonActionPerformed
         File dir = FileChooserUtils.openDir("Open Masks Dir", this);
         if (dir != null) {
             String path = dir.getAbsolutePath();
@@ -275,14 +296,8 @@ public class ParseFrame extends javax.swing.JFrame implements Observer{
                 masksField.setText(path);
             }
         }
-    }//GEN-LAST:event_jButton5ActionPerformed
+    }//GEN-LAST:event_masksButtonActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -290,10 +305,20 @@ public class ParseFrame extends javax.swing.JFrame implements Observer{
     private javax.swing.JLabel jLabel5;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JButton masksButton;
     private javax.swing.JTextField masksField;
+    private javax.swing.JButton outputButton;
+    private javax.swing.JButton parseButton;
+    private javax.swing.JButton patternsButton;
     private javax.swing.JTextField patternsField;
     private javax.swing.JTextField resultField;
+    private javax.swing.JButton samplesButton;
     private javax.swing.JTextField samplesField;
+    private javax.swing.JButton storageButton;
     private javax.swing.JTextField storageField;
     // End of variables declaration//GEN-END:variables
+
+    public void update(Observed o) {
+        // TODO
+    }
 }

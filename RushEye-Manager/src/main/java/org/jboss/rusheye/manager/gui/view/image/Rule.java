@@ -7,24 +7,31 @@ package org.jboss.rusheye.manager.gui.view.image;
 import java.awt.*;
 import javax.swing.JComponent;
 
+/**
+ * Rule displayed above and on the left of every image.
+ *
+ * @author Jakub D.
+ */
 public class Rule extends JComponent {
 
+    public static final int HORIZONTAL = 0;
+    public static final int VERTICAL = 1;
     private static final int dpi = Toolkit.getDefaultToolkit().getScreenResolution();
     private int SIZE = 30;
-    private RuleOrientation orientation;
+    private int orientation;
     private boolean isMetric;
     private int increment;
     private int units;
     private double scaleMod = 1;
 
-    public Rule(RuleOrientation orientation, boolean m, double scale) {
+    public Rule(int orientation, boolean m, double scale) {
         this.orientation = orientation;
         isMetric = m;
         setIncrementAndUnits();
         scaleMod = scale;
     }
 
-    public Rule(RuleOrientation orientation, boolean m) {
+    public Rule(int orientation, boolean m) {
         this.orientation = orientation;
         isMetric = m;
         setIncrementAndUnits();
@@ -77,7 +84,7 @@ public class Rule extends JComponent {
         int tickLength = 0;
         String text = null;
 
-        if (orientation == RuleOrientation.HORIZONTAL) {
+        if (orientation == Rule.HORIZONTAL) {
             start = (clip.x / increment) * increment;
             end = (((clip.x + clip.width) / increment) + 1)
                     * increment;
@@ -90,7 +97,7 @@ public class Rule extends JComponent {
         if (start == 0) {
             text = Integer.toString(0) + (isMetric ? " cm" : " px");
             tickLength = 5;
-            if (orientation == RuleOrientation.HORIZONTAL) {
+            if (orientation == Rule.HORIZONTAL) {
                 g.drawLine(0, SIZE - 1, 0, SIZE - tickLength - 1);
                 g.drawString(text, 2, 21);
             } else {
@@ -115,7 +122,7 @@ public class Rule extends JComponent {
                 text = "";
             }
 
-            if (orientation == RuleOrientation.HORIZONTAL) {
+            if (orientation == Rule.HORIZONTAL) {
                 g.drawLine(i, SIZE - 1, i, SIZE - tickLength - 1);
                 g.drawString(text, i - 3, 21);
             } else {

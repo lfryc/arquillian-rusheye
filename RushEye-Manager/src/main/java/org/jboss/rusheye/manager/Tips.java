@@ -7,12 +7,12 @@ package org.jboss.rusheye.manager;
 import java.util.Random;
 
 /**
- *
- * @author hcube
+ * Hints for users.
+ * 
+ * @author Jakub D.
  */
 public enum Tips {
-    T1(""),
-    T2("There are 3 types of projects.\nWhen you run Manager you open empty project[...]");
+    T1("Hint for user...");
     
     private String text;
     

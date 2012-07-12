@@ -9,17 +9,15 @@ import java.awt.event.AdjustmentListener;
 import org.jboss.rusheye.manager.gui.view.image.ImageView;
 
 /**
+ * Scroll adjustment listener. Responsible for synchronized scrolling of images
+ * in double view.
  *
- * @author hcube
+ * @author Jakub D.
  */
 public class ScrollAdjustmentListener implements AdjustmentListener {
-    
+
     ImageView parentView;
     ImageView otherView;
-
-    public ScrollAdjustmentListener(ImageView view) {
-        parentView = view;
-    }
 
     public ScrollAdjustmentListener(ImageView view, ImageView other) {
         parentView = view;
@@ -29,6 +27,4 @@ public class ScrollAdjustmentListener implements AdjustmentListener {
     public void adjustmentValueChanged(AdjustmentEvent ae) {
         otherView.getPicture().scrollRectToVisible(parentView.getPicture().getVisibleRect());
     }
-
-    
 }

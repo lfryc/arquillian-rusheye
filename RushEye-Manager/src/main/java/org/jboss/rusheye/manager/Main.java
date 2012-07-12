@@ -3,11 +3,11 @@ package org.jboss.rusheye.manager;
 import org.jboss.rusheye.manager.gui.InterfaceFrame;
 import org.jboss.rusheye.manager.gui.ProjectManagerFrame;
 import org.jboss.rusheye.manager.project.Project;
-import org.jboss.rusheye.manager.project.ProjectFactory;
 
 /**
- * Hello world!
+ * Main class. Loading and storing main frames and project.
  *
+ * @author Jakub D.
  */
 public class Main 
 {
@@ -21,12 +21,11 @@ public class Main
                 projectFrame = new ProjectManagerFrame();
                 projectFrame.setVisible(true);
                 
-                mainProject = ProjectFactory.emptyProject();
+                mainProject = Project.emptyProject();
                 
                 //interfaceFrame.setMenu();
             }
         });
-        
         
     }
     

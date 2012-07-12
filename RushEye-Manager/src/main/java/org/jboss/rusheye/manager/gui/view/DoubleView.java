@@ -4,11 +4,15 @@
  */
 package org.jboss.rusheye.manager.gui.view;
 
-import java.awt.image.BufferedImage;
 import org.jboss.rusheye.manager.gui.view.image.ImagePool;
 import org.jboss.rusheye.manager.gui.view.image.ImageView;
 import org.jboss.rusheye.manager.project.testcase.TestCase;
 
+/**
+ * Double view. It consist of 2 image views.
+ * 
+ * @author Jakub D.
+ */
 public class DoubleView extends javax.swing.JPanel {
 
     private ImageView imageView1;
@@ -21,7 +25,7 @@ public class DoubleView extends javax.swing.JPanel {
         initComponents();
     }
 
-    public void initComponents() {
+    private void initComponents() {
         imageView1.setAllowScale(false);
         imageView2.setAllowScale(false);
 

@@ -7,19 +7,22 @@ package org.jboss.rusheye.manager.gui;
 import java.awt.Component;
 import javax.swing.ImageIcon;
 import javax.swing.JTree;
-import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import org.jboss.rusheye.manager.project.testcase.TestCase;
 import org.jboss.rusheye.suite.ResultConclusion;
 
 /**
- *
- * @author hcube
+ * Custom renderer for JTree. Manages icons.
+ * 
+ * @author Jakub D.
  */
 public class CustomTreeRenderer extends DefaultTreeCellRenderer {
 
     ImageIcon same, notTested, diff, pSame;
 
+    /**
+     * COstructor where we initialize icons.
+     */
     public CustomTreeRenderer() {
         same = new ImageIcon("same.png");
         notTested = new ImageIcon("not_tested.png");

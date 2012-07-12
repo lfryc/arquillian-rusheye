@@ -8,13 +8,19 @@ import org.jboss.rusheye.manager.gui.view.image.ImagePool;
 import org.jboss.rusheye.manager.gui.view.image.ImageView;
 
 /**
- *
- * @author hcube
+ * Bottom menu under every image view.
+ * 
+ * @author Jakub D.
  */
 public class BottomMenu extends javax.swing.JPanel {
 
     private ImageView view;
 
+    /**
+     * 
+     * @param view parent view
+     * @param viewType type of viewed image
+     */
     public BottomMenu(ImageView view, String viewType) {
         this.view = view;
         initComponents();
@@ -36,16 +42,16 @@ public class BottomMenu extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        buttonGroup1 = new javax.swing.ButtonGroup();
+        radioGroup = new javax.swing.ButtonGroup();
         patternRadio = new javax.swing.JRadioButton();
         sampleRadio = new javax.swing.JRadioButton();
         diffRadio = new javax.swing.JRadioButton();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jButton1 = new javax.swing.JButton();
+        maskCheck = new javax.swing.JCheckBox();
+        focusButton = new javax.swing.JButton();
 
         setLayout(new java.awt.GridLayout(1, 0));
 
-        buttonGroup1.add(patternRadio);
+        radioGroup.add(patternRadio);
         patternRadio.setText("Pattern");
         patternRadio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -54,7 +60,7 @@ public class BottomMenu extends javax.swing.JPanel {
         });
         add(patternRadio);
 
-        buttonGroup1.add(sampleRadio);
+        radioGroup.add(sampleRadio);
         sampleRadio.setText("Sample");
         sampleRadio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -63,7 +69,7 @@ public class BottomMenu extends javax.swing.JPanel {
         });
         add(sampleRadio);
 
-        buttonGroup1.add(diffRadio);
+        radioGroup.add(diffRadio);
         diffRadio.setText("Diff");
         diffRadio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -72,49 +78,65 @@ public class BottomMenu extends javax.swing.JPanel {
         });
         add(diffRadio);
 
-        jCheckBox1.setText("Mask");
-        jCheckBox1.setEnabled(false);
-        add(jCheckBox1);
+        maskCheck.setText("Mask");
+        maskCheck.setEnabled(false);
+        add(maskCheck);
 
-        jButton1.setText("Focus");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        focusButton.setText("Focus");
+        focusButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                focusButtonActionPerformed(evt);
             }
         });
-        add(jButton1);
+        add(focusButton);
     }// </editor-fold>//GEN-END:initComponents
-
+    /**
+     * Changes image in ImageView to sample image.
+     *
+     * @param evt event triggering method
+     */
     private void sampleRadioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sampleRadioActionPerformed
         if (sampleRadio.isSelected()) {
             view.changeImage(ImagePool.SAMPLE);
-            jButton1.setEnabled(false);
+            focusButton.setEnabled(false);
         }
     }//GEN-LAST:event_sampleRadioActionPerformed
-
+    /**
+     * Changes image in ImageView to pattern image.
+     *
+     * @param evt event triggering method
+     */
     private void patternRadioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_patternRadioActionPerformed
         if (patternRadio.isSelected()) {
             view.changeImage(ImagePool.PATTERN);
-            jButton1.setEnabled(false);
+            focusButton.setEnabled(false);
         }
     }//GEN-LAST:event_patternRadioActionPerformed
-
+    /**
+     * Changes image in ImageView to diff image.
+     *
+     * @param evt event triggering method
+     */
     private void diffRadioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_diffRadioActionPerformed
         if (diffRadio.isSelected()) {
             view.changeImage(ImagePool.DIFF);
-            jButton1.setEnabled(true);
+            focusButton.setEnabled(true);
         }
     }//GEN-LAST:event_diffRadioActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    /**
+     * Focuses on changed part of image in diff.
+     *
+     * @param evt event triggering method
+     */
+    private void focusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_focusButtonActionPerformed
         view.focus();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_focusButtonActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JRadioButton diffRadio;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JButton focusButton;
+    private javax.swing.JCheckBox maskCheck;
     private javax.swing.JRadioButton patternRadio;
+    private javax.swing.ButtonGroup radioGroup;
     private javax.swing.JRadioButton sampleRadio;
     // End of variables declaration//GEN-END:variables
 }

@@ -6,8 +6,6 @@ package org.jboss.rusheye.manager.gui;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JPanel;
 import javax.swing.JTree;
 import javax.swing.event.DocumentEvent;
@@ -20,23 +18,27 @@ import org.jboss.rusheye.manager.Main;
 import org.jboss.rusheye.manager.gui.view.DoubleView;
 import org.jboss.rusheye.manager.gui.view.MenuView;
 import org.jboss.rusheye.manager.gui.view.SingleView;
-import org.jboss.rusheye.manager.project.testcase.NodeList;
 import org.jboss.rusheye.manager.project.Project;
-import org.jboss.rusheye.manager.project.testcase.TestCase;
-import org.jboss.rusheye.manager.project.testcase.TestNode;
 import org.jboss.rusheye.manager.project.observable.Observed;
 import org.jboss.rusheye.manager.project.observable.Observer;
+import org.jboss.rusheye.manager.project.testcase.NodeList;
+import org.jboss.rusheye.manager.project.testcase.TestCase;
+import org.jboss.rusheye.manager.project.testcase.TestNode;
 import org.jboss.rusheye.suite.ResultConclusion;
 
 /**
+ * Project Manager Frame. One of 2 main frames for manager. Here we display tree
+ * of test cases and do manual changing. Also allows filtering and other useful
+ * stuff.
  *
- * @author hcube
+ * @author Jakub D.
  */
 public class ProjectManagerFrame extends javax.swing.JFrame implements Observer {
 
     public ProjectManagerFrame() {
         initComponents();
 
+        //Custom document listener for filtering purposes
         filterField.getDocument().addDocumentListener(new DocumentListener() {
 
             public void insertUpdate(DocumentEvent de) {
@@ -70,9 +72,9 @@ public class ProjectManagerFrame extends javax.swing.JFrame implements Observer 
             public void valueChanged(TreeSelectionEvent tse) {
                 putTestIntoView();
                 if (Main.mainProject.getCurrentCase() != null && Main.mainProject.getCurrentCase().isLeaf()) {
-                    jLabel4.setText(((TestCase) Main.mainProject.getCurrentCase().getParent()).getName());
-                    jLabel5.setText(Main.mainProject.getCurrentCase().getName());
-                    jLabel6.setText(Main.mainProject.getCurrentCase().getConclusion().toString());
+                    testNameLabel.setText(((TestCase) Main.mainProject.getCurrentCase().getParent()).getName());
+                    patternNameLabel.setText(Main.mainProject.getCurrentCase().getName());
+                    resultLabel.setText(Main.mainProject.getCurrentCase().getConclusion().toString());
                 }
             }
         });
@@ -92,9 +94,7 @@ public class ProjectManagerFrame extends javax.swing.JFrame implements Observer 
 
     public void createTree() {
         Main.projectFrame.setVisible(true);
-
         projectTree.setCellRenderer(new CustomTreeRenderer());
-
         updateTreeModel();
     }
 
@@ -102,10 +102,13 @@ public class ProjectManagerFrame extends javax.swing.JFrame implements Observer 
         DefaultTreeModel model = new DefaultTreeModel(Main.mainProject.getRoot());
         projectTree.setModel(model);
         projectTree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
-
         Main.projectFrame.validate();
     }
-
+    
+    /**
+     * Generate Double/Single view based on current test. Fired mainly when we click on test in tree.
+     *
+     */
     public void putTestIntoView() {
         TestCase node = (TestCase) projectTree.getLastSelectedPathComponent();
         if (node == null) {
@@ -136,8 +139,11 @@ public class ProjectManagerFrame extends javax.swing.JFrame implements Observer 
         }
     }
 
+    /**
+     * Updates icons for JTree. 
+     */
     public void updateIcons() {
-        jLabel6.setText(Main.mainProject.getCurrentCase().getConclusion().toString());
+        resultLabel.setText(Main.mainProject.getCurrentCase().getConclusion().toString());
         Main.mainProject.getCurrentCase().setChecked(true);
         TreePath path = projectTree.getSelectionPath();
         this.updateTreeModel();
@@ -145,6 +151,11 @@ public class ProjectManagerFrame extends javax.swing.JFrame implements Observer 
         projectTree.scrollPathToVisible(path);
     }
 
+    /**
+     * Allows us to travel between cases in tree.
+     *
+     * @param offset how far we search next case.
+     */
     private void findNeighbour(int offset) {
         TestNode node = (TestNode) projectTree.getLastSelectedPathComponent();
         TreePath parentPath = projectTree.getSelectionPath().getParentPath();
@@ -161,6 +172,19 @@ public class ProjectManagerFrame extends javax.swing.JFrame implements Observer 
                     break;
                 }
             }
+        }
+    }
+
+    /**
+     * Observer pattern implementation.
+     *
+     * @param o project where paths have changed
+     */
+    public void update(Observed o) {
+        if (o instanceof Project) {
+            Project p = (Project) o;
+            this.patternsPathField.setText(p.getPatternPath());
+            this.samplesPathField.setText(p.getSamplesPath());
         }
     }
 
@@ -182,16 +206,16 @@ public class ProjectManagerFrame extends javax.swing.JFrame implements Observer 
         projectTree = new javax.swing.JTree();
         posButton = new javax.swing.JButton();
         negButton = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
+        testNameLabel = new javax.swing.JLabel();
+        patternNameLabel = new javax.swing.JLabel();
+        resultLabel = new javax.swing.JLabel();
         nextButton = new javax.swing.JButton();
         prevButton = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         filterField = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
+        menuBar = new javax.swing.JMenuBar();
+        filtersMenu = new javax.swing.JMenu();
         filterAllMenuItem = new javax.swing.JMenuItem();
         filterNotTestedMenuItem = new javax.swing.JMenuItem();
         filterDiffMenuItem = new javax.swing.JMenuItem();
@@ -231,11 +255,11 @@ public class ProjectManagerFrame extends javax.swing.JFrame implements Observer 
             }
         });
 
-        jLabel4.setText("[Test name]");
+        testNameLabel.setText("[Test name]");
 
-        jLabel5.setText("[Pattern name]");
+        patternNameLabel.setText("[Pattern name]");
 
-        jLabel6.setText("[Result]");
+        resultLabel.setText("[Result]");
 
         nextButton.setText("Next");
         nextButton.addActionListener(new java.awt.event.ActionListener() {
@@ -255,7 +279,7 @@ public class ProjectManagerFrame extends javax.swing.JFrame implements Observer 
 
         jLabel7.setText("Test cases :");
 
-        jMenu1.setText("Filters");
+        filtersMenu.setText("Filters");
 
         filterAllMenuItem.setText("Show all");
         filterAllMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -263,7 +287,7 @@ public class ProjectManagerFrame extends javax.swing.JFrame implements Observer 
                 filterAllMenuItemActionPerformed(evt);
             }
         });
-        jMenu1.add(filterAllMenuItem);
+        filtersMenu.add(filterAllMenuItem);
 
         filterNotTestedMenuItem.setText("Show not tested");
         filterNotTestedMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -271,7 +295,7 @@ public class ProjectManagerFrame extends javax.swing.JFrame implements Observer 
                 filterNotTestedMenuItemActionPerformed(evt);
             }
         });
-        jMenu1.add(filterNotTestedMenuItem);
+        filtersMenu.add(filterNotTestedMenuItem);
 
         filterDiffMenuItem.setText("Show diff");
         filterDiffMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -279,11 +303,11 @@ public class ProjectManagerFrame extends javax.swing.JFrame implements Observer 
                 filterDiffMenuItemActionPerformed(evt);
             }
         });
-        jMenu1.add(filterDiffMenuItem);
+        filtersMenu.add(filterDiffMenuItem);
 
-        jMenuBar1.add(jMenu1);
+        menuBar.add(filtersMenu);
 
-        setJMenuBar(jMenuBar1);
+        setJMenuBar(menuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -297,8 +321,8 @@ public class ProjectManagerFrame extends javax.swing.JFrame implements Observer 
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5)
+                            .addComponent(testNameLabel)
+                            .addComponent(patternNameLabel)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(patternsPathField, javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(samplesPathField, javax.swing.GroupLayout.Alignment.LEADING)
@@ -310,7 +334,7 @@ public class ProjectManagerFrame extends javax.swing.JFrame implements Observer 
                                 .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(resultLabel, javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                     .addComponent(posButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -339,11 +363,11 @@ public class ProjectManagerFrame extends javax.swing.JFrame implements Observer 
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel4)
+                .addComponent(testNameLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel5)
+                .addComponent(patternNameLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel6)
+                .addComponent(resultLabel)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(posButton)
@@ -359,13 +383,17 @@ public class ProjectManagerFrame extends javax.swing.JFrame implements Observer 
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    /**
+     * Sets current pattern result as PERCEPTUALLY_SAME. Also changes result xml file if available
+     *
+     * @param evt event triggering method
+     */
     private void posButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_posButtonActionPerformed
         ResultConclusion last = Main.mainProject.getCurrentCase().getConclusion();
-        
+
         Main.mainProject.getCurrentCase().setConclusion(ResultConclusion.PERCEPTUALLY_SAME);
         String result = Main.mainProject.getResult();
-        
+        // TODO It's a hack
         if (result != null) {
             String regexp = Main.mainProject.getCurrentCase().getFilename() + "\" result=\"" + last;
             String newString = Main.mainProject.getCurrentCase().getFilename() + "\" result=\"" + Main.mainProject.getCurrentCase().getConclusion();
@@ -381,31 +409,55 @@ public class ProjectManagerFrame extends javax.swing.JFrame implements Observer 
         }
         updateIcons();
     }//GEN-LAST:event_posButtonActionPerformed
-
+    /**
+     * Sets current pattern result as DIFFER.
+     *
+     * @param evt event triggering method
+     */
     private void negButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_negButtonActionPerformed
         Main.mainProject.getCurrentCase().setConclusion(ResultConclusion.DIFFER);
         updateIcons();
     }//GEN-LAST:event_negButtonActionPerformed
-
+    /**
+     * Shows all images in tree.
+     *
+     * @param evt event triggering method
+     */
     private void filterAllMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filterAllMenuItemActionPerformed
         Main.mainProject.getRoot().setAllVisible();
         this.updateTreeModel();
     }//GEN-LAST:event_filterAllMenuItemActionPerformed
-
+    /**
+     * Shows only NOT_TESTED images in tree.
+     *
+     * @param evt event triggering method
+     */
     private void filterNotTestedMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filterNotTestedMenuItemActionPerformed
         Main.mainProject.getRoot().setVisibility(ResultConclusion.NOT_TESTED);
         this.updateTreeModel();
     }//GEN-LAST:event_filterNotTestedMenuItemActionPerformed
-
+    /**
+     * Shows only DIFFER images in tree.
+     *
+     * @param evt event triggering method
+     */
     private void filterDiffMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filterDiffMenuItemActionPerformed
         Main.mainProject.getRoot().setVisibility(ResultConclusion.DIFFER);
         this.updateTreeModel();
     }//GEN-LAST:event_filterDiffMenuItemActionPerformed
-
+    /**
+     * Sets next test/pattern as main.
+     *
+     * @param evt event triggering method
+     */
     private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
         findNeighbour(1);
     }//GEN-LAST:event_nextButtonActionPerformed
-
+    /**
+     * Sets previous test/pattern as main.
+     *
+     * @param evt event triggering method
+     */
     private void prevButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prevButtonActionPerformed
         findNeighbour(-1);
     }//GEN-LAST:event_prevButtonActionPerformed
@@ -414,31 +466,23 @@ public class ProjectManagerFrame extends javax.swing.JFrame implements Observer 
     private javax.swing.JMenuItem filterDiffMenuItem;
     private javax.swing.JTextField filterField;
     private javax.swing.JMenuItem filterNotTestedMenuItem;
+    private javax.swing.JMenu filtersMenu;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JMenuBar menuBar;
     private javax.swing.JButton negButton;
     private javax.swing.JButton nextButton;
+    private javax.swing.JLabel patternNameLabel;
     private javax.swing.JTextField patternsPathField;
     private javax.swing.JButton posButton;
     private javax.swing.JButton prevButton;
     private javax.swing.JTree projectTree;
+    private javax.swing.JLabel resultLabel;
     private javax.swing.JTextField samplesPathField;
+    private javax.swing.JLabel testNameLabel;
     // End of variables declaration//GEN-END:variables
-
-    public void update(Observed o) {
-        if (o instanceof Project) {
-            Project p = (Project) o;
-            this.patternsPathField.setText(p.getPatternPath());
-            this.samplesPathField.setText(p.getSamplesPath());
-        }
-    }
 }

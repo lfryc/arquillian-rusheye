@@ -13,8 +13,10 @@ import org.jboss.rusheye.manager.Main;
 import org.jboss.rusheye.parser.Parser;
 
 /**
+ * Thread where we run parser instance. Parsing is slow, so we don't want to
+ * lock all gui while doing it.
  *
- * @author hcube
+ * @author Jakub D.
  */
 public class ParserThread implements Runnable {
 
@@ -27,8 +29,7 @@ public class ParserThread implements Runnable {
     public void run() {
         parser.parseFile(Main.mainProject.getSuiteDescriptor());
         JOptionPane.showMessageDialog(Main.interfaceFrame, "Parsing done", "Parse", JOptionPane.INFORMATION_MESSAGE);
-        
+
         Main.mainProject.loadResultAsString();
     }
-    
 }

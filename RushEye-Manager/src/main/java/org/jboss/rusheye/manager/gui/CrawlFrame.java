@@ -7,18 +7,17 @@ package org.jboss.rusheye.manager.gui;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import org.jboss.rusheye.CommandCrawl;
 import org.jboss.rusheye.manager.Main;
-import org.jboss.rusheye.manager.project.ProjectFactory;
+import org.jboss.rusheye.manager.project.Project;
 import org.jboss.rusheye.manager.utils.FileChooserUtils;
 
 /**
- *
- * @author hcube
+ * Frame for performing Crawl operation.
+ * 
+ * @author Jakub D.
  */
 public class CrawlFrame extends javax.swing.JFrame {
 
@@ -43,11 +42,11 @@ public class CrawlFrame extends javax.swing.JFrame {
 
         jLabel3 = new javax.swing.JLabel();
         patternField = new javax.swing.JTextField();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        patternsButton = new javax.swing.JButton();
+        maskButton = new javax.swing.JButton();
         maskField = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jButton6 = new javax.swing.JButton();
+        crawlButton = new javax.swing.JButton();
         pixelTresField = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -57,10 +56,10 @@ public class CrawlFrame extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         outputField = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
-        jButton5 = new javax.swing.JButton();
+        outputButton = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
-        useManagerCollector = new javax.swing.JCheckBox();
+        useManagerCollectorCheck = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -68,26 +67,26 @@ public class CrawlFrame extends javax.swing.JFrame {
 
         patternField.setText("jTextField1");
 
-        jButton3.setText("Set");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        patternsButton.setText("Set");
+        patternsButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                patternsButtonActionPerformed(evt);
             }
         });
 
-        jButton4.setText("Set");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        maskButton.setText("Set");
+        maskButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                maskButtonActionPerformed(evt);
             }
         });
 
         jLabel4.setText("Masks directory :");
 
-        jButton6.setText("Crawl");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        crawlButton.setText("Crawl");
+        crawlButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                crawlButtonActionPerformed(evt);
             }
         });
 
@@ -104,15 +103,15 @@ public class CrawlFrame extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
         jLabel9.setText("Output file :");
 
-        jButton5.setText("Set");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        outputButton.setText("Set");
+        outputButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                outputButtonActionPerformed(evt);
             }
         });
 
-        useManagerCollector.setSelected(true);
-        useManagerCollector.setText("Use manager result collector");
+        useManagerCollectorCheck.setSelected(true);
+        useManagerCollectorCheck.setText("Use manager result collector");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -124,11 +123,11 @@ public class CrawlFrame extends javax.swing.JFrame {
                     .addComponent(jSeparator1)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(crawlButton, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(outputField, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(outputButton, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jSeparator2)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -136,12 +135,12 @@ public class CrawlFrame extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(patternField, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(patternsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel4)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(maskField, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(maskButton, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel5)
                             .addComponent(jLabel6)
                             .addComponent(pixelTresField, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -152,7 +151,7 @@ public class CrawlFrame extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel8))
                             .addComponent(jLabel9)
-                            .addComponent(useManagerCollector))
+                            .addComponent(useManagerCollectorCheck))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -164,7 +163,7 @@ public class CrawlFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(outputField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton5))
+                    .addComponent(outputButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -172,13 +171,13 @@ public class CrawlFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(patternField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3))
+                    .addComponent(patternsButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(maskField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4))
+                    .addComponent(maskButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -194,31 +193,35 @@ public class CrawlFrame extends javax.swing.JFrame {
                     .addComponent(diffAmountField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(useManagerCollector)
+                .addComponent(useManagerCollectorCheck)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton6)
+                .addComponent(crawlButton)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+    /**
+     * Method run after crawl button is pressed. Performs crawl operation.
+     *
+     * @param evt event triggering method
+     */
+    private void crawlButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crawlButtonActionPerformed
         CommandCrawl crawl = new CommandCrawl();
         List<File> tmp = new ArrayList<File>();
-        
+
         String path = Main.mainProject.getPatternPath();
         String masks = null;
         if (path != null)
             tmp.add(new File(path));
-        else{
+        else {
             JOptionPane.showMessageDialog(this, "No pattern path selected", "Crawl", JOptionPane.WARNING_MESSAGE);
             return;
         }
         crawl.setFiles(tmp);
-        if (maskField.getText().equals("") == false){
+        if (maskField.getText().equals("") == false) {
             crawl.setMasksBase(new File(maskField.getText()));
             masks = maskField.getText();
         }
@@ -228,35 +231,34 @@ public class CrawlFrame extends javax.swing.JFrame {
             crawl.setGlobalDifferenceTreshold(new Integer(diffTresField.getText()));
         if (diffAmountField.getText().equals("") == false)
             crawl.setGlobalDifferenceAmount(diffAmountField.getText() + "%");
-        if(useManagerCollector.isSelected())
+        if (useManagerCollectorCheck.isSelected())
             crawl.setCollectorName("org.jboss.rusheye.parser.ManagerResultCollector");
 
         crawl.initialize();
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         crawl.crawl(stream);
 
-        BufferedWriter writer = null;
         try {
-            writer = new BufferedWriter(new FileWriter(outputField.getText()));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(outputField.getText()));
             writer.write(stream.toString());
             writer.close();
-            
-            Main.mainProject = ProjectFactory.projectFromDescriptor(outputField.getText());
-            
+
+            Main.mainProject = Project.projectFromDescriptor(outputField.getText());
             Main.mainProject.setPatternPath(path);
             Main.mainProject.setMaskPath(masks);
-            
             this.dispose();
-            
+
             Main.projectFrame.createTree();
-            
-            
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-    }//GEN-LAST:event_jButton6ActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_crawlButtonActionPerformed
+    /**
+     * Method run after set button for loading patterns path is pressed.
+     *
+     * @param evt event triggering method
+     */
+    private void patternsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_patternsButtonActionPerformed
         File dir = FileChooserUtils.openDir("Open Pattern Dir", this);
         if (dir != null) {
             String path = dir.getAbsolutePath();
@@ -266,9 +268,13 @@ public class CrawlFrame extends javax.swing.JFrame {
                 patternField.setText(path);
             }
         }
-    }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_patternsButtonActionPerformed
+    /**
+     * Method run after set button for loading mask path is pressed.
+     *
+     * @param evt event triggering method
+     */
+    private void maskButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_maskButtonActionPerformed
         File dir = FileChooserUtils.openDir("Open Mask Dir", this);
         if (dir != null) {
             String path = dir.getAbsolutePath();
@@ -277,9 +283,13 @@ public class CrawlFrame extends javax.swing.JFrame {
                 maskField.setText(path);
             }
         }
-    }//GEN-LAST:event_jButton4ActionPerformed
-
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    }//GEN-LAST:event_maskButtonActionPerformed
+    /**
+     * Method run after set button for loading output path is pressed.
+     *
+     * @param evt event triggering method
+     */
+    private void outputButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_outputButtonActionPerformed
         JFileChooser fc = FileChooserUtils.saveChooser();
 
         int returnVal = fc.showSaveDialog(this);
@@ -288,14 +298,11 @@ public class CrawlFrame extends javax.swing.JFrame {
             File file = fc.getSelectedFile();
             outputField.setText(file.getAbsolutePath());
         }
-    }//GEN-LAST:event_jButton5ActionPerformed
+    }//GEN-LAST:event_outputButtonActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton crawlButton;
     private javax.swing.JTextField diffAmountField;
     private javax.swing.JTextField diffTresField;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -305,10 +312,13 @@ public class CrawlFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JButton maskButton;
     private javax.swing.JTextField maskField;
+    private javax.swing.JButton outputButton;
     private javax.swing.JTextField outputField;
     private javax.swing.JTextField patternField;
+    private javax.swing.JButton patternsButton;
     private javax.swing.JTextField pixelTresField;
-    private javax.swing.JCheckBox useManagerCollector;
+    private javax.swing.JCheckBox useManagerCollectorCheck;
     // End of variables declaration//GEN-END:variables
 }

@@ -5,8 +5,9 @@
 package org.jboss.rusheye.manager.project.observable;
 
 /**
+ * Observer design pattern interface.
  *
- * @author hcube
+ * @author Jakub D.
  */
 public interface Observed {
 

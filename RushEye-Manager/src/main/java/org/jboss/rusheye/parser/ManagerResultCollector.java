@@ -15,8 +15,11 @@ import org.jboss.rusheye.result.writer.ResultWriter;
 import org.jboss.rusheye.suite.*;
 
 /**
+ * Custom result collector used by Manager. It is not really different from
+ * ResultCollectorImpl, but it takes into consideration changes from manager
+ * project tree.
  *
- * @author hcube
+ * @author Jakub D.
  */
 public class ManagerResultCollector extends ResultCollectorAdapter {
 
@@ -61,7 +64,7 @@ public class ManagerResultCollector extends ResultCollectorAdapter {
         if (comparisonResult.getDiffImage() != null) {
             comparisonResult.getDiffImage().flush();
         }
-        
+
         pattern.setComparisonResult(comparisonResult);
 
         TestCase managerTest = Main.mainProject.findTest(test.getName(), pattern.getName());

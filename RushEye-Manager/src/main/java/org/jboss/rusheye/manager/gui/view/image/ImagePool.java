@@ -12,8 +12,9 @@ import java.util.Map;
 import javax.imageio.ImageIO;
 
 /**
+ * Map of images. Here we store pattern/sample/diff for every TestCse in Project.
  *
- * @author hcube
+ * @author Jakub D.
  */
 public class ImagePool {
 
@@ -30,7 +31,11 @@ public class ImagePool {
     public void put(String key, BufferedImage value) {
         pool.put(key, value);
     }
-
+    /**
+     * 
+     * @param key key for map
+     * @param path path to image file
+     */
     public void put(String key, String path) {
         BufferedImage img = null;
         try {

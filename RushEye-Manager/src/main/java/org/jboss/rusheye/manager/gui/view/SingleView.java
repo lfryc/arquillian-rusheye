@@ -10,8 +10,9 @@ import org.jboss.rusheye.manager.gui.view.image.ImageView;
 import org.jboss.rusheye.manager.project.testcase.TestCase;
 
 /**
- *
- * @author hcube
+ * Single view. It consist of 1 image view.
+ * 
+ * @author Jakub D.
  */
 public class SingleView extends JPanel {
 

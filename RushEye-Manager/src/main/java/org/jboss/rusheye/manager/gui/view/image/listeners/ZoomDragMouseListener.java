@@ -9,45 +9,45 @@ import java.awt.event.*;
 import org.jboss.rusheye.manager.gui.view.image.ImageView;
 
 /**
+ * Manager Mouse Listener. MouseWheelListener is responsible for scaling.
+ * MouseListener for checking whether we are over image or not.
+ * MouseMotionListener for dragging image
  *
- * @author hcube
+ * @author Jakub D.
  */
 public class ZoomDragMouseListener implements MouseListener, MouseWheelListener, MouseMotionListener {
 
     private ImageView parent;
     private boolean inside;
-    private boolean drag;
     private int x = -1;
     private int y = -1;
     private final double scaleMod = 0.5;
-
+    
+    /**
+     * Constructor of listener. 
+     * @param parent ImageView where listener is set
+     */
     public ZoomDragMouseListener(ImageView parent) {
         this.parent = parent;
     }
 
     public void mouseClicked(MouseEvent me) {
-        //not important
     }
 
     public void mousePressed(MouseEvent me) {
-        System.out.println("drag on");
-
     }
 
     public void mouseReleased(MouseEvent me) {
-        System.out.println("drag off");
         x = -1;
         y = -1;
     }
 
     public void mouseEntered(MouseEvent me) {
         inside = true;
-        System.out.println("on");
     }
 
     public void mouseExited(MouseEvent me) {
         inside = false;
-        System.out.println("off");
     }
 
     public void mouseWheelMoved(MouseWheelEvent mwe) {
@@ -86,18 +86,6 @@ public class ZoomDragMouseListener implements MouseListener, MouseWheelListener,
                 parent.getPicture().scrollRectToVisible(new Rectangle((int) (px - mwe.getXOnScreen() + 41), (int) (py - mwe.getYOnScreen() + 107), visible.width, visible.height));
             }
         }
-    }
-
-    public boolean getDrag() {
-        return drag;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
     }
 
     public void mouseDragged(MouseEvent me) {

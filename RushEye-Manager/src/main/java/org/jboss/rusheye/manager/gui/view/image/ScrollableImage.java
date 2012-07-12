@@ -11,12 +11,22 @@ import javax.swing.JLabel;
 import javax.swing.Scrollable;
 import javax.swing.SwingConstants;
 
+/**
+ * Graphical component for displaying image. Allows scrolling.
+ * 
+ * @author Jakub D.
+ */
 public class ScrollableImage extends JLabel implements Scrollable {
 
     private int maxUnitIncrement = 1;
 
-    public ScrollableImage(ImageIcon i, int m) {
-        super(i);
+    /**
+     * 
+     * @param icon Image displayed on this component
+     * @param m 
+     */
+    public ScrollableImage(ImageIcon icon, int m) {
+        super(icon);
         maxUnitIncrement = m;
         setAutoscrolls(true);
     }

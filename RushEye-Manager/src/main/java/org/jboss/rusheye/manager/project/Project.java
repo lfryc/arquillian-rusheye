@@ -5,7 +5,6 @@
 package org.jboss.rusheye.manager.project;
 
 import java.io.*;
-import org.jboss.rusheye.manager.project.testcase.TestCase;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -13,47 +12,52 @@ import org.jboss.rusheye.manager.Main;
 import org.jboss.rusheye.manager.exception.ManagerException;
 import org.jboss.rusheye.manager.project.observable.Observed;
 import org.jboss.rusheye.manager.project.observable.Observer;
+import org.jboss.rusheye.manager.project.testcase.TestCase;
 import org.jboss.rusheye.parser.ManagerParser;
 import org.jboss.rusheye.suite.ResultConclusion;
 
 /**
+ * Class where we store all data about RushEye Manager project.
  *
- * @author hcube
+ * @author Jakub D.
  */
 public class Project implements Observed {
 
     private TestCase root;
     private TestCase currentCase;
-    
     private String patternPath;
     private String samplesPath;
     private String maskPath;
-    
     private File suiteDescriptor;
     private File resultDescriptor;
-    
-    private LoadType loadType;
+    String resultDescriptorString = null;
     private List<Observer> observers;
-    
-    String result = null;
+
+    public static Project emptyProject() {
+        Project tmp = new Project();
+        tmp.addObserver(Main.projectFrame);
+        return tmp;
+    }
+    @Deprecated
+    public static Project projectFromDirs(String patternPath, String samplesPath) {
+        return new Project(patternPath, samplesPath);
+    }
+
+    public static Project projectFromDescriptor(String descriptorPath) {
+        Project tmp = new Project(new File(descriptorPath));
+        tmp.addObserver(Main.projectFrame);
+        return tmp;
+    }
+
+    public static Project projectFromDescriptor(File descriptor) {
+        Project tmp = new Project(descriptor);
+        tmp.addObserver(Main.projectFrame);
+        return tmp;
+    }
 
     public Project() {
         root = new TestCase();
-        loadType = LoadType.EMPTY;
         observers = new ArrayList<Observer>();
-    }
-
-    public Project(String patternPath, String samplesPath) {
-        this();
-        this.patternPath = patternPath;
-        this.samplesPath = samplesPath;
-        try {
-            root = this.parseDirs();
-        } catch (ManagerException ex) {
-            ex.printStackTrace();
-        }
-
-        loadType = LoadType.DIRS;
     }
 
     public Project(File suiteDescriptor) {
@@ -63,33 +67,21 @@ public class Project implements Observed {
 
         ManagerParser parser = new ManagerParser();
         root = parser.parseFileToManagerCases(this.suiteDescriptor);
-        for (int i = 0; i < root.getChildCount(); ++i)
-            System.out.println(root.getChildAt(i));
-        loadType = LoadType.SUITE;
     }
-
-    public String getPatternPath() {
-        return patternPath;
-    }
-
-    public void setPatternPath(String patternPath) {
+    
+    @Deprecated
+    public Project(String patternPath, String samplesPath) {
+        this();
         this.patternPath = patternPath;
-        notifyObservers();
-    }
-
-    public String getSamplesPath() {
-        return samplesPath;
-    }
-
-    public void setSamplesPath(String samplesPath) {
         this.samplesPath = samplesPath;
-        notifyObservers();
+        try {
+            root = this.parseDirs();
+        } catch (ManagerException ex) {
+            ex.printStackTrace();
+        }
     }
 
-    public TestCase getRoot() {
-        return root;
-    }
-
+    @Deprecated
     public TestCase parseDirs() throws ManagerException {
         TestCase test = new TestCase();
         test.setAllowsChildren(true);
@@ -140,7 +132,8 @@ public class Project implements Observed {
 
         return test;
     }
-
+    
+    @Deprecated
     private ArrayList<String> parseDir(String path) {
         File folder = new File(path);
         File[] files = folder.listFiles();
@@ -153,6 +146,62 @@ public class Project implements Observed {
         return names;
     }
 
+    /**
+     * Method that search recursively through tests tree.
+     *
+     * @param name path representation of test.
+     * @return matching test case.
+     */
+    public TestCase findTest(String name) {
+        return root.findTest(name);
+    }
+
+    /**
+     * Method that search recursively through tests tree.
+     *
+     * @param testName name of test
+     * @param patternName name of pattern
+     * @return matching test case.
+     */
+    public TestCase findTest(String testName, String patternName) {
+        return root.findTest("Test Cases." + testName + "." + patternName);
+    }
+
+    /**
+     * Part of observer pattern implementation.
+     */
+    private void notifyObservers() {
+        for (Observer o : observers)
+            o.update(this);
+    }
+
+    /**
+     * Loads result xml as string.
+     */
+    public void loadResultAsString() {
+        resultDescriptorString = "";
+        try {
+            FileInputStream fstream = new FileInputStream(Main.mainProject.getResultDescriptor());
+            DataInputStream in = new DataInputStream(fstream);
+            BufferedReader br = new BufferedReader(new InputStreamReader(in));
+            String strLine;
+            while ((strLine = br.readLine()) != null) {
+                resultDescriptorString += strLine + "\n";
+            }
+            in.close();
+        } catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+    }
+
+    public void addObserver(Observer o) {
+        observers.add(o);
+    }
+
+    public void removeObserver(Observer o) {
+        observers.remove(o);
+    }
+
     public TestCase getCurrentCase() {
         return currentCase;
     }
@@ -161,12 +210,8 @@ public class Project implements Observed {
         this.currentCase = currentCase;
     }
 
-    public TestCase findTest(String name) {
-        return root.findTest(name);
-    }
-
-    public TestCase findTest(String testName, String patternName) {
-        return root.findTest("Test Cases." + testName + "." + patternName);
+    public String getResult() {
+        return resultDescriptorString;
     }
 
     public File getSuiteDescriptor() {
@@ -185,10 +230,6 @@ public class Project implements Observed {
         this.maskPath = maskPath;
     }
 
-    public LoadType getProjectType() {
-        return loadType;
-    }
-
     public File getResultDescriptor() {
         return resultDescriptor;
     }
@@ -197,36 +238,25 @@ public class Project implements Observed {
         this.resultDescriptor = resultDescriptor;
     }
 
-    public void addObserver(Observer o) {
-        observers.add(o);
+    public String getPatternPath() {
+        return patternPath;
     }
 
-    public void removeObserver(Observer o) {
-        observers.remove(o);
+    public void setPatternPath(String patternPath) {
+        this.patternPath = patternPath;
+        notifyObservers();
     }
 
-    private void notifyObservers() {
-        for (Observer o : observers)
-            o.update(this);
+    public String getSamplesPath() {
+        return samplesPath;
     }
 
-    public void loadResultAsString() {
-        result = "";
-        try {
-            FileInputStream fstream = new FileInputStream(Main.mainProject.getResultDescriptor());
-            DataInputStream in = new DataInputStream(fstream);
-            BufferedReader br = new BufferedReader(new InputStreamReader(in));
-            String strLine;
-            while ((strLine = br.readLine()) != null) {
-                result += strLine + "\n";
-            }
-            in.close();
-        } catch (Exception e) {
-            System.err.println("Error: " + e.getMessage());
-        }
+    public void setSamplesPath(String samplesPath) {
+        this.samplesPath = samplesPath;
+        notifyObservers();
     }
-    
-    public String getResult(){
-        return result;
+
+    public TestCase getRoot() {
+        return root;
     }
 }

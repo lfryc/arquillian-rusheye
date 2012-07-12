@@ -18,8 +18,11 @@ import org.jboss.rusheye.manager.project.testcase.TestCase;
 import org.jboss.rusheye.manager.utils.ImageUtils;
 
 /**
+ * Image view. Every image displayed in manager is displayed using this view. It
+ * consist of rules, bottom menu, image and information like current scale, test
+ * case this view displays etc.
  *
- * @author hcube
+ * @author Jakub D.
  */
 public class ImageView extends JPanel {
 
@@ -37,28 +40,29 @@ public class ImageView extends JPanel {
         this.testCase = testCase;
         img = testCase.getImage(key);
         ImageIcon image = new ImageIcon(img);
-        
-        menu = new BottomMenu(this,key);
+
+        menu = new BottomMenu(this, key);
         initComponent(image);
     }
-    
-    public void changeImage(String key){
+
+    /**
+     * Allows us to change displayed image. 
+     * @param key key to use in ImagePool
+     */
+    public void changeImage(String key) {
         this.removeAll();
-        
+
         img = testCase.getImage(key);
-        ImageIcon image = new ImageIcon(img);
-        initComponent(image);
-        
-        addScrollListener();
-        
+        initComponent(new ImageIcon(img));
+
         this.validate();
     }
 
     private void initComponent(ImageIcon image) {
         setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.Y_AXIS));
 
-        columnView = new Rule(RuleOrientation.HORIZONTAL, false, scale);
-        rowView = new Rule(RuleOrientation.VERTICAL, false, scale);
+        columnView = new Rule(Rule.HORIZONTAL, false, scale);
+        rowView = new Rule(Rule.VERTICAL, false, scale);
 
         columnView.setPreferredWidth(image.getIconWidth());
         rowView.setPreferredHeight(image.getIconHeight());
@@ -76,16 +80,21 @@ public class ImageView extends JPanel {
         pictureScrollPane.setCorner(JScrollPane.UPPER_RIGHT_CORNER, new JPanel());
 
         add(pictureScrollPane);
-        
+
         setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
         addZoomListener();
-        
+        addScrollListener();
+
         add(menu);
     }
-    
-        public void focus() {
-        
+
+    /**
+     * Focuses on upper left corner of blue border surrounding changes in diff
+     * image.
+     */
+    public void focus() {
+
         int w = img.getWidth();
         int h = img.getHeight();
 
@@ -107,16 +116,16 @@ public class ImageView extends JPanel {
                 }
             }
         }
-        this.getPicture().scrollRectToVisible(new Rectangle(x, y,(int)this.getPicture().getVisibleRect().getWidth(), (int)this.getPicture().getVisibleRect().getHeight()));
+        this.getPicture().scrollRectToVisible(new Rectangle(x, y, (int) this.getPicture().getVisibleRect().getWidth(), (int) this.getPicture().getVisibleRect().getHeight()));
         System.out.println(this.getPicture().getVisibleRect());
-        
+
     }
 
     public void initScrollListener(ImageView other) {
         scrollListener = new ScrollAdjustmentListener(this, other);
     }
-    
-    public void addScrollListener(){
+
+    public void addScrollListener() {
         pictureScrollPane.getHorizontalScrollBar().addAdjustmentListener(scrollListener);
         pictureScrollPane.getVerticalScrollBar().addAdjustmentListener(scrollListener);
     }
@@ -128,21 +137,8 @@ public class ImageView extends JPanel {
         picture.addMouseMotionListener(zoomListener);
     }
 
-    public ScrollableImage getPicture() {
-        return picture;
-    }
-    
-    public BufferedImage getImg(){
-        return img;
-    }
-
     public double getScale() {
         return scale;
-    }
-
-    public void setScale(double scale) {
-        this.scale = scale;
-        rescale();
     }
 
     public void changeScale(double val) {
@@ -159,12 +155,15 @@ public class ImageView extends JPanel {
         }
     }
 
-    public boolean isAllowScale() {
-        return allowScale;
-    }
-
     public void setAllowScale(boolean allowScale) {
         this.allowScale = allowScale;
     }
 
+    public ScrollableImage getPicture() {
+        return picture;
+    }
+
+    public BufferedImage getImg() {
+        return img;
+    }
 }

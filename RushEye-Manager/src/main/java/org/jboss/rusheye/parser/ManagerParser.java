@@ -27,8 +27,10 @@ import org.jboss.rusheye.manager.project.testcase.TestCase;
 import org.jboss.rusheye.suite.*;
 
 /**
+ * Custom parser used by Manager. Besides normal parsing it creates tree of
+ * tests for manager project and updates them during parsing.
  *
- * @author hcube
+ * @author Jakub D.
  */
 public class ManagerParser extends Parser {
 
@@ -99,14 +101,14 @@ public class ManagerParser extends Parser {
                         }
                         Test testWrapped = ConfigurationCompiler.wrap(test, visualSuite.getGlobalConfiguration());
                         handler.getContext().invokeListeners().onTestReady(testWrapped);
-                        
-                        for(Pattern pattern : testWrapped.getPatterns()){
+
+                        for (Pattern pattern : testWrapped.getPatterns()) {
                             TestCase managerTest = Main.mainProject.findTest(testWrapped.getName(), pattern.getName());
                             managerTest.setConclusion(pattern.getConclusion());
                             Main.mainProject.setCurrentCase(managerTest);
                             Main.projectFrame.updateIcons();
                         }
-                        
+
                         parsedTests.add(testWrapped);
                     }
                 } catch (WstxParsingException e) {
@@ -193,8 +195,8 @@ public class ManagerParser extends Parser {
 
         return testCase;
     }
-    
-    public List<Test> getParsedTests(){
+
+    public List<Test> getParsedTests() {
         return parsedTests;
     }
 }

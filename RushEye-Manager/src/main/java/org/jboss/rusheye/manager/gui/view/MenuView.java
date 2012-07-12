@@ -14,8 +14,9 @@ import org.jboss.rusheye.manager.project.observable.Observer;
 
 /**
  *
- * @author hcube
+ * @author Jakub D.
  */
+@Deprecated
 public class MenuView extends javax.swing.JPanel implements Observer{
 
     /**
