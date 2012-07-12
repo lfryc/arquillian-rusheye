@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<visual-suite xmlns="http://www.jboss.org/rusheye/visual-suite" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.jboss.org/rusheye/visual-suite http://fryc.eu/rusheye/visual-suite.xsd">
+  <global-configuration>
+    <listener type="org.jboss.rusheye.parser.listener.CompareListener">
+      <result-collector>org.jboss.rusheye.parser.ManagerResultCollector</result-collector>
+      <result-storage>org.jboss.rusheye.result.storage.FileStorage</result-storage>
+      <result-writer>org.jboss.rusheye.result.writer.FileResultWriter</result-writer>
+      <result-statistics>org.jboss.rusheye.result.statistics.OverallStatistics</result-statistics>
+    </listener>
+    <pattern-retriever type="org.jboss.rusheye.retriever.pattern.PatternFileRetriever"/>
+    <mask-retriever type="org.jboss.rusheye.retriever.mask.MaskFileRetriever"/>
+    <sample-retriever type="org.jboss.rusheye.retriever.sample.FileSampleRetriever"/>
+    <perception>
+      <global-difference-treshold>1</global-difference-treshold>
+    </perception>
+    <mask id="new-features--top-left" type="selective-alpha" source="masks-selective-alpha/new-features--top-left.png" vertical-align="top" horizontal-align="left"/>
+    <mask id="combo-box-dot--optional-top-left" type="selective-alpha" source="masks-selective-alpha/combo-box-dot--optional-top-left.png" horizontal-align="left" vertical-align="top"/>
+    <mask id="version-mask--bottom-right" type="selective-alpha" source="masks-selective-alpha/version-mask--bottom-right.png" vertical-align="bottom" horizontal-align="right"/>
+  </global-configuration>
+  <test name="AdvancedEditorTestCase.testFormat">
+    <pattern name="AdvancedEditorTestCase.testFormat" source="AdvancedEditorTestCase.testFormat.png"/>
+  </test>
+  <test name="AdvancedEditorTestCase.testAlignParagraph">
+    <pattern name="AdvancedEditorTestCase.testAlignParagraph" source="AdvancedEditorTestCase.testAlignParagraph.png"/>
+  </test>
+  <test name="ActionParameterTestCase.testSelectingNames">
+    <pattern name="ActionParameterTestCase.testSelectingNames" source="ActionParameterTestCase.testSelectingNames.png"/>
+  </test>
+  <test name="ActionParameterTestCase.testSelectingSkin">
+    <pattern name="ActionParameterTestCase.testSelectingSkin" source="ActionParameterTestCase.testSelectingSkin.png"/>
+  </test>
+  <test name="AdvancedEditorTestCase.testBoldButton">
+    <pattern name="AdvancedEditorTestCase.testBoldButton" source="AdvancedEditorTestCase.testBoldButton.png"/>
+  </test>
+  <test name="ActionParameterTestCase.testShowScreenSize">
+    <pattern name="ActionParameterTestCase.testShowScreenSize" source="ActionParameterTestCase.testShowScreenSize.png"/>
+  </test>
+</visual-suite>
