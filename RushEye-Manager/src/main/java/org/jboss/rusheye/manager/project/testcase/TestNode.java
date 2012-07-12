@@ -85,6 +85,7 @@ public class TestNode implements TreeNode, Comparable<TestNode> {
 
     public void addChild(TestNode node) {
         children.add(node);
+        node.setParent(this);
         Collections.sort(children);
     }
 
