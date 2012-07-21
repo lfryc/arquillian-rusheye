@@ -15,77 +15,23 @@ import org.jboss.rusheye.manager.gui.view.image.ImageView;
  *
  * @author Jakub D.
  */
-public class ZoomDragMouseListener implements MouseListener, MouseWheelListener, MouseMotionListener {
+public class ZoomDragMouseListener extends ZoomListener implements MouseMotionListener {
 
-    private ImageView parent;
-    private boolean inside;
     private int x = -1;
     private int y = -1;
-    private final double scaleMod = 0.5;
     
     /**
      * Constructor of listener. 
      * @param parent ImageView where listener is set
      */
     public ZoomDragMouseListener(ImageView parent) {
-        this.parent = parent;
+        super(parent);
     }
 
-    public void mouseClicked(MouseEvent me) {
-    }
-
-    public void mousePressed(MouseEvent me) {
-    }
-
+    @Override
     public void mouseReleased(MouseEvent me) {
         x = -1;
         y = -1;
-    }
-
-    public void mouseEntered(MouseEvent me) {
-        inside = true;
-    }
-
-    public void mouseExited(MouseEvent me) {
-        inside = false;
-    }
-
-    public void mouseWheelMoved(MouseWheelEvent mwe) {
-        if (inside) {
-
-            Rectangle visible = parent.getPicture().getVisibleRect();
-            double px = visible.getX() + mwe.getXOnScreen() - 41;
-            double py = visible.getY() + mwe.getYOnScreen() - 107;
-
-            double xMax = parent.getImg().getWidth() * parent.getScale();
-            double yMax = parent.getImg().getHeight() * parent.getScale();
-            double px2 = px / xMax;
-            double py2 = py / yMax;
-
-            //System.out.println(mwe.getXOnScreen() + " " + mwe.getYOnScreen());
-            //System.out.println(px + " " + py);
-            //System.out.println(parent.getImg().getWidth() + " " + parent.getImg().getHeight() + " " + parent.getScale());
-            //System.out.println(px2 + " " + py2);
-
-            int notches = mwe.getWheelRotation();
-            if (parent != null) {
-                if (notches < 0) {
-                    parent.changeScale(scaleMod);
-                } else {
-                    if (parent.getScale() - scaleMod > 0) {
-                        parent.changeScale(-scaleMod);
-                    }
-                }
-
-                xMax = parent.getImg().getWidth() * parent.getScale();
-                yMax = parent.getImg().getHeight() * parent.getScale();
-
-                px = px2 * xMax;
-                py = py2 * yMax;
-
-                parent.getPicture().scrollRectToVisible(new Rectangle((int) (px - mwe.getXOnScreen() + 41), (int) (py - mwe.getYOnScreen() + 107), visible.width, visible.height));
-            }
-        }
     }
 
     public void mouseDragged(MouseEvent me) {

@@ -26,15 +26,15 @@ import org.jboss.rusheye.manager.utils.ImageUtils;
  */
 public class ImageView extends JPanel {
 
-    private Rule columnView, rowView;
-    private ScrollableImage picture;
-    private double scale = 1;
-    private JScrollPane pictureScrollPane;
-    private BufferedImage img;
-    private boolean allowScale = true;
-    private BottomMenu menu;
-    private TestCase testCase;
-    private ScrollAdjustmentListener scrollListener;
+    protected Rule columnView, rowView;
+    protected ScrollableImage picture;
+    protected double scale = 1;
+    protected JScrollPane pictureScrollPane;
+    protected BufferedImage img;
+    protected boolean allowScale = true;
+    protected BottomMenu menu;
+    protected TestCase testCase;
+    protected ScrollAdjustmentListener scrollListener;
 
     public ImageView(TestCase testCase, String key) {
         this.testCase = testCase;
@@ -83,10 +83,14 @@ public class ImageView extends JPanel {
 
         setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
+        setListeners();
+        
+        add(menu);
+    }
+    
+    public void setListeners(){
         addZoomListener();
         addScrollListener();
-
-        add(menu);
     }
 
     /**
@@ -125,12 +129,12 @@ public class ImageView extends JPanel {
         scrollListener = new ScrollAdjustmentListener(this, other);
     }
 
-    public void addScrollListener() {
+    private void addScrollListener() {
         pictureScrollPane.getHorizontalScrollBar().addAdjustmentListener(scrollListener);
         pictureScrollPane.getVerticalScrollBar().addAdjustmentListener(scrollListener);
     }
 
-    public void addZoomListener() {
+    private void addZoomListener() {
         ZoomDragMouseListener zoomListener = new ZoomDragMouseListener(this);
         picture.addMouseListener(zoomListener);
         picture.addMouseWheelListener(zoomListener);
