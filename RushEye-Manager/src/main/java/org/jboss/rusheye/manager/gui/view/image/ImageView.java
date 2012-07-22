@@ -12,8 +12,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import org.jboss.rusheye.manager.gui.view.BottomMenu;
+import org.jboss.rusheye.manager.gui.view.image.listeners.ManagerMouseListener;
 import org.jboss.rusheye.manager.gui.view.image.listeners.ScrollAdjustmentListener;
-import org.jboss.rusheye.manager.gui.view.image.listeners.ZoomDragMouseListener;
+import org.jboss.rusheye.manager.gui.view.image.listeners.DragZoomMouseListener;
 import org.jboss.rusheye.manager.project.testcase.TestCase;
 import org.jboss.rusheye.manager.utils.ImageUtils;
 
@@ -35,6 +36,8 @@ public class ImageView extends JPanel {
     protected BottomMenu menu;
     protected TestCase testCase;
     protected ScrollAdjustmentListener scrollListener;
+    
+    public ImageView(){}
 
     public ImageView(TestCase testCase, String key) {
         this.testCase = testCase;
@@ -135,7 +138,7 @@ public class ImageView extends JPanel {
     }
 
     private void addZoomListener() {
-        ZoomDragMouseListener zoomListener = new ZoomDragMouseListener(this);
+        DragZoomMouseListener zoomListener = new DragZoomMouseListener(this);
         picture.addMouseListener(zoomListener);
         picture.addMouseWheelListener(zoomListener);
         picture.addMouseMotionListener(zoomListener);

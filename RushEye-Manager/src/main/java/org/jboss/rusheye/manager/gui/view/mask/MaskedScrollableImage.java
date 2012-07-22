@@ -45,5 +45,9 @@ public class MaskedScrollableImage extends ScrollableImage {
         this.masks = masks;
     }
     
+    public void addMask(ManagerMask mask){
+        masks.add(mask);
+    }
+    
     
 }

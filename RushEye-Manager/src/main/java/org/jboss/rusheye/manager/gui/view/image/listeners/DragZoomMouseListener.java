@@ -15,7 +15,7 @@ import org.jboss.rusheye.manager.gui.view.image.ImageView;
  *
  * @author Jakub D.
  */
-public class ZoomDragMouseListener extends ZoomListener implements MouseMotionListener {
+public class DragZoomMouseListener extends ZoomListener implements MouseMotionListener {
 
     private int x = -1;
     private int y = -1;
@@ -24,7 +24,7 @@ public class ZoomDragMouseListener extends ZoomListener implements MouseMotionLi
      * Constructor of listener. 
      * @param parent ImageView where listener is set
      */
-    public ZoomDragMouseListener(ImageView parent) {
+    public DragZoomMouseListener(ImageView parent) {
         super(parent);
     }
 

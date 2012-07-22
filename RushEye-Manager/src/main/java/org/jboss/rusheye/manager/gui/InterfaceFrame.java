@@ -22,6 +22,8 @@ public class InterfaceFrame extends javax.swing.JFrame {
 
     public static final int SINGLE = 1;
     public static final int DOUBLE = 2;
+    public static final int MASK = 3;
+    
     private int view = InterfaceFrame.DOUBLE;
     private MenuView menuView;
 
@@ -122,10 +124,10 @@ public class InterfaceFrame extends javax.swing.JFrame {
         resultMenuItem = new javax.swing.JMenuItem();
         viewsMenu = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem8 = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
         doubleViewMenuItem = new javax.swing.JMenuItem();
         singleViewMenuItem = new javax.swing.JMenuItem();
+        maskViewMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("RushEye  - Manager");
@@ -214,9 +216,6 @@ public class InterfaceFrame extends javax.swing.JFrame {
             }
         });
         viewsMenu.add(jMenuItem3);
-
-        jMenuItem8.setText("Main Menu");
-        viewsMenu.add(jMenuItem8);
         viewsMenu.add(jSeparator3);
 
         doubleViewMenuItem.setText("Double View");
@@ -234,6 +233,14 @@ public class InterfaceFrame extends javax.swing.JFrame {
             }
         });
         viewsMenu.add(singleViewMenuItem);
+
+        maskViewMenuItem.setText("Masks View");
+        maskViewMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                maskViewMenuItemActionPerformed(evt);
+            }
+        });
+        viewsMenu.add(maskViewMenuItem);
 
         menuBar.add(viewsMenu);
 
@@ -354,6 +361,12 @@ public class InterfaceFrame extends javax.swing.JFrame {
             Main.mainProject.loadResultAsString();
         }
     }//GEN-LAST:event_resultMenuItemActionPerformed
+
+    private void maskViewMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_maskViewMenuItemActionPerformed
+        view = InterfaceFrame.MASK;
+        Main.projectFrame.putTestIntoView();
+    }//GEN-LAST:event_maskViewMenuItemActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem descriptorProjectMenuItem;
     private javax.swing.JMenuItem dirProjectMenuItem;
@@ -361,10 +374,10 @@ public class InterfaceFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem emptyProjectMenuItem;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JPanel mainPanel;
+    private javax.swing.JMenuItem maskViewMenuItem;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem patternsPathMenuItem;
     private javax.swing.JMenu projectMenu;

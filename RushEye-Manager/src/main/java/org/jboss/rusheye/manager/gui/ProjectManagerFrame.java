@@ -16,6 +16,7 @@ import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 import org.jboss.rusheye.manager.Main;
 import org.jboss.rusheye.manager.gui.view.DoubleView;
+import org.jboss.rusheye.manager.gui.view.MaskView;
 import org.jboss.rusheye.manager.gui.view.MenuView;
 import org.jboss.rusheye.manager.gui.view.SingleView;
 import org.jboss.rusheye.manager.project.Project;
@@ -129,6 +130,9 @@ public class ProjectManagerFrame extends javax.swing.JFrame implements Observer 
                     break;
                 case InterfaceFrame.DOUBLE:
                     panel.add(new DoubleView(current));
+                    break;
+                case InterfaceFrame.MASK:
+                    panel.add(new MaskView(current));
                     break;
                 default:
                     panel.add(new MenuView());

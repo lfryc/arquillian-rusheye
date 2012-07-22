@@ -6,7 +6,6 @@ package org.jboss.rusheye.manager.gui.view;
 
 import javax.swing.JPanel;
 import org.jboss.rusheye.manager.gui.view.image.ImagePool;
-import org.jboss.rusheye.manager.gui.view.image.ImageView;
 import org.jboss.rusheye.manager.gui.view.mask.DrawableImageView;
 import org.jboss.rusheye.manager.project.testcase.TestCase;
 

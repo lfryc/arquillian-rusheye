@@ -11,20 +11,17 @@ import java.awt.event.MouseListener;
  *
  * @author cube
  */
-public class InOutListener implements MouseListener {
+public abstract class ManagerMouseListener implements MouseListener {
 
     protected boolean inside;
     
-    public void mouseClicked(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void mouseClicked(MouseEvent e) {  
     }
 
     public void mousePressed(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public void mouseReleased(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public void mouseEntered(MouseEvent e) {
