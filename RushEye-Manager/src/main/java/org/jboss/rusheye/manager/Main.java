@@ -1,7 +1,7 @@
 package org.jboss.rusheye.manager;
 
-import org.jboss.rusheye.manager.gui.InterfaceFrame;
-import org.jboss.rusheye.manager.gui.ProjectManagerFrame;
+import org.jboss.rusheye.manager.gui.frames.InterfaceFrame;
+import org.jboss.rusheye.manager.gui.frames.ProjectManagerFrame;
 import org.jboss.rusheye.manager.project.Project;
 
 /**

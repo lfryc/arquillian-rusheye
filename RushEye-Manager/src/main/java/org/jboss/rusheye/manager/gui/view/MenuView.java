@@ -6,8 +6,8 @@ package org.jboss.rusheye.manager.gui.view;
 
 import org.jboss.rusheye.manager.Main;
 import org.jboss.rusheye.manager.Tips;
-import org.jboss.rusheye.manager.gui.CrawlFrame;
-import org.jboss.rusheye.manager.gui.ParseFrame;
+import org.jboss.rusheye.manager.gui.frames.CrawlFrame;
+import org.jboss.rusheye.manager.gui.frames.ParseFrame;
 import org.jboss.rusheye.manager.project.Project;
 import org.jboss.rusheye.manager.project.observable.Observed;
 import org.jboss.rusheye.manager.project.observable.Observer;

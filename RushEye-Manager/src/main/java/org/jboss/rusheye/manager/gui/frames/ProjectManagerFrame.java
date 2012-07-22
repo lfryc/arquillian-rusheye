@@ -2,8 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.jboss.rusheye.manager.gui;
+package org.jboss.rusheye.manager.gui.frames;
 
+import org.jboss.rusheye.manager.gui.frames.InterfaceFrame;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import javax.swing.JPanel;
@@ -15,6 +16,7 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 import org.jboss.rusheye.manager.Main;
+import org.jboss.rusheye.manager.gui.CustomTreeRenderer;
 import org.jboss.rusheye.manager.gui.view.DoubleView;
 import org.jboss.rusheye.manager.gui.view.MaskView;
 import org.jboss.rusheye.manager.gui.view.MenuView;
