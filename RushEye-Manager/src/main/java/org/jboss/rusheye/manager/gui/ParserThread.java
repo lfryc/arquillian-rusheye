@@ -4,10 +4,6 @@
  */
 package org.jboss.rusheye.manager.gui;
 
-import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
 import javax.swing.JOptionPane;
 import org.jboss.rusheye.manager.Main;
 import org.jboss.rusheye.parser.Parser;

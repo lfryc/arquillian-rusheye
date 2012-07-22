@@ -2,13 +2,17 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.jboss.rusheye.manager.gui.view.mask;
+package org.jboss.rusheye.manager.project.testcase;
+
+import org.jboss.rusheye.manager.gui.view.mask.Shape;
+import org.jboss.rusheye.manager.project.tree.TreeNodeImpl;
 
 /**
  *
- * @author cube
+ * @author hcube
  */
-public class ManagerMask {
+public class MaskCase extends TreeNodeImpl {
+
     private Shape shape;
     //private MaskType type;
 
@@ -25,4 +29,6 @@ public class ManagerMask {
     public void setShape(Shape shape) {
         this.shape = shape;
     }
+    
+    
 }

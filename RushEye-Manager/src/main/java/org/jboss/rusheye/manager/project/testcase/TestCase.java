@@ -4,6 +4,7 @@
  */
 package org.jboss.rusheye.manager.project.testcase;
 
+import org.jboss.rusheye.manager.project.tree.TreeNodeImpl;
 import java.awt.image.BufferedImage;
 import org.jboss.rusheye.core.DefaultImageComparator;
 import org.jboss.rusheye.manager.Main;
@@ -15,12 +16,12 @@ import org.jboss.rusheye.suite.Configuration;
 import org.jboss.rusheye.suite.ResultConclusion;
 
 /**
- * Extension of TestNode. It contains data regarding tests, like result
+ * Extension of TreeNodeImpl. It contains data regarding tests, like result
  * conclusion, pattern filename, and images.
  *
  * @author Jakub D.
  */
-public class TestCase extends TestNode {
+public class TestCase extends TreeNodeImpl {
 
     private ResultConclusion conclusion;
     private boolean checked;

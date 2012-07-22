@@ -6,7 +6,7 @@ package org.jboss.rusheye.manager.project;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.jboss.rusheye.manager.gui.view.mask.ManagerMask;
+import org.jboss.rusheye.manager.project.testcase.MaskCase;
 
 /**
  *
@@ -14,17 +14,27 @@ import org.jboss.rusheye.manager.gui.view.mask.ManagerMask;
  */
 public class MaskManager {
 
-    private List<ManagerMask> masks;
+    private MaskCase root;
+    private MaskCase currentMask;
     
     public MaskManager(){
-        masks = new ArrayList<ManagerMask>();
+        root = new MaskCase();
+        root.setName("Masks root");
     }
 
-    public List<ManagerMask> getMasks() {
-        return masks;
+    public MaskCase getRoot() {
+        return root;
     }
 
-    public void setMasks(List<ManagerMask> masks) {
-        this.masks = masks;
+    public void setRoot(MaskCase root) {
+        this.root = root;
+    }
+
+    public MaskCase getCurrentMask() {
+        return currentMask;
+    }
+
+    public void setCurrentMask(MaskCase currentMask) {
+        this.currentMask = currentMask;
     }
 }

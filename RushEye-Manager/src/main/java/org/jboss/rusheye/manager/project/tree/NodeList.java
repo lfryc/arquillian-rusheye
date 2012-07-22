@@ -2,8 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.jboss.rusheye.manager.project.testcase;
+package org.jboss.rusheye.manager.project.tree;
 
+import org.jboss.rusheye.manager.project.tree.TreeNodeImpl;
 import java.util.ArrayList;
 import java.util.Enumeration;
 
@@ -13,13 +14,13 @@ import java.util.Enumeration;
  *
  * @author Jakub D.
  */
-public class NodeList extends ArrayList<TestNode> implements Enumeration<TestNode> {
+public class NodeList extends ArrayList<TreeNodeImpl> implements Enumeration<TreeNodeImpl> {
 
     public boolean hasMoreElements() {
         return this.iterator().hasNext();
     }
 
-    public TestNode nextElement() {
+    public TreeNodeImpl nextElement() {
         return this.iterator().next();
     }
 }

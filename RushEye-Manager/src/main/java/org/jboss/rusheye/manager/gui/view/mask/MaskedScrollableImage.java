@@ -8,7 +8,9 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.ImageIcon;
+import org.jboss.rusheye.manager.Main;
 import org.jboss.rusheye.manager.gui.view.image.ScrollableImage;
+import org.jboss.rusheye.manager.project.testcase.MaskCase;
 
 /**
  *
@@ -16,38 +18,25 @@ import org.jboss.rusheye.manager.gui.view.image.ScrollableImage;
  */
 public class MaskedScrollableImage extends ScrollableImage {
 
-    private List<ManagerMask> masks;
-    
+    private MaskCase mask;
+
     public MaskedScrollableImage(ImageIcon icon, int m) {
         super(icon, m);
-        masks = new ArrayList<ManagerMask>();
+        //TODO hack
+        mask = Main.mainProject.getMaskManager().getRoot();
     }
-    
+
     @Override
-    public void paint(Graphics g){
+    public void paint(Graphics g) {
         super.paint(g);
-        for(ManagerMask mask : getMasks()){
-            mask.getShape().draw(g);
+        if (mask != null) {
+            for (int i = 0; i < mask.getChildCount(); ++i) {
+                ((MaskCase) mask.getChildAt(i)).getShape().draw(g);
+            }
         }
     }
 
-    /**
-     * @return the masks
-     */
-    public List<ManagerMask> getMasks() {
-        return masks;
+    public void setMask(MaskCase mask) {
+        this.mask = mask;
     }
-
-    /**
-     * @param masks the masks to set
-     */
-    public void setMasks(List<ManagerMask> masks) {
-        this.masks = masks;
-    }
-    
-    public void addMask(ManagerMask mask){
-        masks.add(mask);
-    }
-    
-    
 }

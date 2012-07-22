@@ -8,10 +8,11 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import org.jboss.rusheye.manager.Main;
 import org.jboss.rusheye.manager.gui.view.image.ImageView;
-import org.jboss.rusheye.manager.gui.view.mask.ManagerMask;
 import org.jboss.rusheye.manager.gui.view.mask.MaskedScrollableImage;
 import org.jboss.rusheye.manager.gui.view.mask.Rect;
+import org.jboss.rusheye.manager.project.testcase.MaskCase;
 
 /**
  *
@@ -23,7 +24,7 @@ public class MaskZoomListener extends ZoomListener implements MouseMotionListene
     private MaskedScrollableImage pic;
     private Point start;
     private Point stop;
-    private ManagerMask currentMask;
+    private MaskCase currentMask;
 
     public MaskZoomListener(ImageView imgView) {
         super(imgView);
@@ -42,9 +43,10 @@ public class MaskZoomListener extends ZoomListener implements MouseMotionListene
             start = new Point(e.getXOnScreen() - (int)(41*parent.getScale()), e.getYOnScreen() - (int)(107*parent.getScale()));
             System.out.println(start);
 
-            currentMask = new ManagerMask();
+            currentMask = new MaskCase();
             currentMask.setShape(new Rect(start, start));
-            pic.addMask(currentMask);
+            //TODO hack
+            Main.mainProject.getMaskManager().getRoot().addChild(currentMask);
         }
     }
 

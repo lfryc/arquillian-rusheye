@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.jboss.rusheye.manager.project.testcase;
+package org.jboss.rusheye.manager.project.tree;
 
 import java.util.Collections;
 import java.util.Enumeration;
@@ -14,15 +14,15 @@ import javax.swing.tree.TreeNode;
  *
  * @author Jakub D.
  */
-public class TestNode implements TreeNode, Comparable<TestNode> {
+public class TreeNodeImpl implements TreeNode, Comparable<TreeNodeImpl> {
 
     private String name;
     private NodeList children;
-    private TestNode parent;
+    private TreeNodeImpl parent;
     private boolean allowsChildren;
     private boolean visible = true;
 
-    public TestNode() {
+    public TreeNodeImpl() {
         children = new NodeList();
     }
 
@@ -40,8 +40,8 @@ public class TestNode implements TreeNode, Comparable<TestNode> {
 
     public int getIndex(TreeNode tn) {
         for (int i = 0; i < visibleChildren().size(); ++i) {
-            if (tn instanceof TestNode) {
-                TestNode tn2 = (TestNode) tn;
+            if (tn instanceof TreeNodeImpl) {
+                TreeNodeImpl tn2 = (TreeNodeImpl) tn;
                 if (visibleChildren().get(i).equals(tn2)) {
                     return i;
                 }
@@ -66,7 +66,7 @@ public class TestNode implements TreeNode, Comparable<TestNode> {
         return visibleChildren();
     }
 
-    public int compareTo(TestNode t) {
+    public int compareTo(TreeNodeImpl t) {
         return name.compareTo(t.getName());
     }
 
@@ -83,7 +83,7 @@ public class TestNode implements TreeNode, Comparable<TestNode> {
         return result;
     }
 
-    public void addChild(TestNode node) {
+    public void addChild(TreeNodeImpl node) {
         children.add(node);
         node.setParent(this);
         Collections.sort(children);
@@ -96,7 +96,7 @@ public class TestNode implements TreeNode, Comparable<TestNode> {
     private NodeList visibleChildren() {
         NodeList result = new NodeList();
 
-        for (TestNode node : children) {
+        for (TreeNodeImpl node : children) {
             if (node.isVisible()) {
                 result.add(node);
             }
@@ -107,8 +107,8 @@ public class TestNode implements TreeNode, Comparable<TestNode> {
 
     @Override
     public boolean equals(Object o) {
-        if (o instanceof TestNode) {
-            TestNode node = (TestNode) o;
+        if (o instanceof TreeNodeImpl) {
+            TreeNodeImpl node = (TreeNodeImpl) o;
             if (this.getName().equals(node.getName()))
                 return true;
             else
@@ -142,7 +142,7 @@ public class TestNode implements TreeNode, Comparable<TestNode> {
         this.allowsChildren = allowsChildren;
     }
 
-    public void setParent(TestNode parent) {
+    public void setParent(TreeNodeImpl parent) {
         this.parent = parent;
     }
 

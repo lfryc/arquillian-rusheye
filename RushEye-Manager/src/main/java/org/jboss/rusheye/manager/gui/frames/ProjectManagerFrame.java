@@ -4,7 +4,6 @@
  */
 package org.jboss.rusheye.manager.gui.frames;
 
-import org.jboss.rusheye.manager.gui.frames.InterfaceFrame;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import javax.swing.JPanel;
@@ -24,9 +23,9 @@ import org.jboss.rusheye.manager.gui.view.SingleView;
 import org.jboss.rusheye.manager.project.Project;
 import org.jboss.rusheye.manager.project.observable.Observed;
 import org.jboss.rusheye.manager.project.observable.Observer;
-import org.jboss.rusheye.manager.project.testcase.NodeList;
 import org.jboss.rusheye.manager.project.testcase.TestCase;
-import org.jboss.rusheye.manager.project.testcase.TestNode;
+import org.jboss.rusheye.manager.project.tree.NodeList;
+import org.jboss.rusheye.manager.project.tree.TreeNodeImpl;
 import org.jboss.rusheye.suite.ResultConclusion;
 
 /**
@@ -163,7 +162,7 @@ public class ProjectManagerFrame extends javax.swing.JFrame implements Observer 
      * @param offset how far we search next case.
      */
     private void findNeighbour(int offset) {
-        TestNode node = (TestNode) projectTree.getLastSelectedPathComponent();
+        TreeNodeImpl node = (TreeNodeImpl) projectTree.getLastSelectedPathComponent();
         TreePath parentPath = projectTree.getSelectionPath().getParentPath();
 
         NodeList list = (NodeList) node.getParent().children();

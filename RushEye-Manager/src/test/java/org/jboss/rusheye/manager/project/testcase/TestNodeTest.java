@@ -4,6 +4,7 @@
  */
 package org.jboss.rusheye.manager.project.testcase;
 
+import org.jboss.rusheye.manager.project.tree.TreeNodeImpl;
 import junit.framework.TestCase;
 
 /**
@@ -27,7 +28,7 @@ public class TestNodeTest extends TestCase {
     }
 
     public void testEmptyNode() {
-        TestNode node = new TestNode();
+        TreeNodeImpl node = new TreeNodeImpl();
         node.setName("Parent");
 
         // empty node - no children
@@ -35,12 +36,12 @@ public class TestNodeTest extends TestCase {
     }
 
     public void testNodeWithChildren() {
-        TestNode node = new TestNode();
+        TreeNodeImpl node = new TreeNodeImpl();
         node.setName("Parent");
 
-        TestNode child1 = new TestNode();
+        TreeNodeImpl child1 = new TreeNodeImpl();
         child1.setName("1");
-        TestNode child2 = new TestNode();
+        TreeNodeImpl child2 = new TreeNodeImpl();
         child2.setName("2");
 
         node.addChild(child1);
@@ -66,9 +67,9 @@ public class TestNodeTest extends TestCase {
     }
 
     public void testCompare() {
-        TestNode child1 = new TestNode();
+        TreeNodeImpl child1 = new TreeNodeImpl();
         child1.setName("1");
-        TestNode child2 = new TestNode();
+        TreeNodeImpl child2 = new TreeNodeImpl();
         child2.setName("2");
 
         //comparable
