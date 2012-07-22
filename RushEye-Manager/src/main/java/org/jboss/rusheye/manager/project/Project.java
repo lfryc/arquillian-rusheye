@@ -31,6 +31,7 @@ public class Project implements Observed {
     private File suiteDescriptor;
     private File resultDescriptor;
     String resultDescriptorString = null;
+    private MaskManager maskManager;
     private List<Observer> observers;
 
     public static Project emptyProject() {
@@ -57,6 +58,7 @@ public class Project implements Observed {
 
     public Project() {
         root = new TestCase();
+        maskManager = new MaskManager();
         observers = new ArrayList<Observer>();
     }
 
@@ -258,5 +260,9 @@ public class Project implements Observed {
 
     public TestCase getRoot() {
         return root;
+    }
+    
+    public MaskManager getMaskManager(){
+        return maskManager;
     }
 }

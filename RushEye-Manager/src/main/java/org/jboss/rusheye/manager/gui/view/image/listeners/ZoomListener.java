@@ -18,7 +18,7 @@ import org.jboss.rusheye.manager.gui.view.image.ImageView;
 public class ZoomListener extends ManagerMouseListener implements MouseWheelListener {
 
     protected ImageView parent;
-    protected final double scaleMod = 0.5;
+    protected double scaleMod = 0.5;
     
     public ZoomListener(ImageView parent){
         this.parent = parent;

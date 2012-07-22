@@ -14,6 +14,7 @@ import org.jboss.rusheye.manager.gui.view.image.ImageView;
 import org.jboss.rusheye.manager.gui.view.image.Rule;
 import org.jboss.rusheye.manager.gui.view.image.listeners.MaskZoomListener;
 import org.jboss.rusheye.manager.project.testcase.TestCase;
+import org.jboss.rusheye.manager.utils.ImageUtils;
 
 /**
  *
@@ -66,5 +67,16 @@ public class DrawableImageView extends ImageView {
         picture.addMouseListener(drawListener);
         picture.addMouseWheelListener(drawListener);
         picture.addMouseMotionListener(drawListener);
+    }
+    
+    @Override
+    public void rescale() {
+        //TODO bug in drawing mask in scale other than 1
+        if (allowScale) {
+            this.removeAll();
+            ImageIcon image = new ImageIcon(ImageUtils.scale(img, scale));
+            initComponent(image);
+            this.validate();
+        }
     }
 }
