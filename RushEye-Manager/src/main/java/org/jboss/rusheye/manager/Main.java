@@ -1,6 +1,7 @@
 package org.jboss.rusheye.manager;
 
 import org.jboss.rusheye.manager.gui.frames.InterfaceFrame;
+import org.jboss.rusheye.manager.gui.frames.MaskManagerFrame;
 import org.jboss.rusheye.manager.gui.frames.ProjectManagerFrame;
 import org.jboss.rusheye.manager.project.Project;
 
@@ -21,6 +22,9 @@ public class Main
                 projectFrame = new ProjectManagerFrame();
                 projectFrame.setVisible(true);
                 
+                maskFrame = new MaskManagerFrame();
+                maskFrame.setVisible(false);
+                
                 mainProject = Project.emptyProject();
                 
                 //interfaceFrame.setMenu();
@@ -31,6 +35,7 @@ public class Main
     
     public static InterfaceFrame interfaceFrame;
     public static ProjectManagerFrame projectFrame;
+    public static MaskManagerFrame maskFrame;
     
     public static Project mainProject;
     

@@ -22,8 +22,7 @@ public class MaskedScrollableImage extends ScrollableImage {
 
     public MaskedScrollableImage(ImageIcon icon, int m) {
         super(icon, m);
-        //TODO hack
-        mask = Main.mainProject.getMaskManager().getRoot();
+        mask = Main.mainProject.getMaskManager().getCurrentMask();
     }
 
     @Override

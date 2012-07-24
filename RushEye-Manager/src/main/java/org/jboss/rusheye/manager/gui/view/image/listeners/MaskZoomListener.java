@@ -40,7 +40,9 @@ public class MaskZoomListener extends ZoomListener implements MouseMotionListene
     public void mousePressed(MouseEvent e) {
         if (inside) {
             drawing = true;
+            
             start = new Point(e.getXOnScreen() - (int)(41*parent.getScale()), e.getYOnScreen() - (int)(107*parent.getScale()));
+            
             System.out.println(start);
 
             currentMask = new MaskCase();
@@ -55,16 +57,40 @@ public class MaskZoomListener extends ZoomListener implements MouseMotionListene
         drawing = false;
 
         stop = new Point(e.getXOnScreen() - (int)(41*parent.getScale()), e.getYOnScreen() - (int)(107*parent.getScale()));
-        currentMask.setShape(new Rect(start, stop));
+        
+        currentMask.setShape(calculateRect());
+        
         System.out.println(stop);
     }
 
     public void mouseDragged(MouseEvent e) {
         if (drawing) {
             stop = new Point(e.getXOnScreen() - (int)(41*parent.getScale()), e.getYOnScreen() - (int)(107*parent.getScale()));
-            currentMask.setShape(new Rect(start, stop));
+            
+            currentMask.setShape(calculateRect());
+            
             pic.repaint();
         }
+    }
+    
+    public Rect calculateRect(){
+        if(stop.x-start.x >= 0 && stop.y-start.y >= 0){
+                //4
+                return new Rect(start, stop);
+            }
+            else if(stop.x-start.x >= 0 && stop.y-start.y < 0){
+                //1
+                return new Rect(new Point(start.x,stop.y), new Point(stop.x, start.y));
+            }
+            else if(stop.x-start.x < 0 && stop.y-start.y < 0){
+                //2
+                return new Rect(stop,start);
+            }
+            else if(stop.x-start.x < 0 && stop.y-start.y >= 0){
+                //3
+                return new Rect(new Point(stop.x,start.y), new Point(start.x, stop.y));
+            }
+        return null;
     }
 
     public void mouseMoved(MouseEvent e) {
