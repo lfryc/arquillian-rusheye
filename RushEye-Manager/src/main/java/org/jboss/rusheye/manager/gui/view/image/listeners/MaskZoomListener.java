@@ -43,12 +43,13 @@ public class MaskZoomListener extends ZoomListener implements MouseMotionListene
             
             start = new Point(e.getXOnScreen() - (int)(41*parent.getScale()), e.getYOnScreen() - (int)(107*parent.getScale()));
             
-            System.out.println(start);
+            System.out.println(start + " " + Main.mainProject.getMaskManager().getCurrentMask().getChildCount());
 
             currentMask = new MaskCase();
             currentMask.setShape(new Rect(start, start));
-            //TODO hack
-            Main.mainProject.getMaskManager().getRoot().addChild(currentMask);
+            currentMask.setName("Rect " + (Main.mainProject.getMaskManager().getCurrentMask().getChildCount()+1));
+            Main.mainProject.getMaskManager().getCurrentMask().addChild(currentMask);
+            
         }
     }
 
@@ -60,6 +61,7 @@ public class MaskZoomListener extends ZoomListener implements MouseMotionListene
         
         currentMask.setShape(calculateRect());
         
+        Main.maskFrame.updateTreeModel();
         System.out.println(stop);
     }
 

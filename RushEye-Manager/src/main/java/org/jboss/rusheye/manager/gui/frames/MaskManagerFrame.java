@@ -8,9 +8,7 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeSelectionModel;
 import org.jboss.rusheye.manager.Main;
-import org.jboss.rusheye.manager.gui.CustomTreeRenderer;
 import org.jboss.rusheye.manager.project.testcase.MaskCase;
-import org.jboss.rusheye.manager.project.testcase.TestCase;
 
 /**
  *
@@ -46,14 +44,13 @@ public class MaskManagerFrame extends javax.swing.JFrame {
 
     public void putMaskIntoView() {
         MaskCase node = (MaskCase) maskTree.getLastSelectedPathComponent();
-        Main.mainProject.getMaskManager().setCurrentMask(node);
         
         if (node == null) {
             return;
         }
 
         if (node.getName().startsWith("Mask ")) {
-            
+            Main.mainProject.getMaskManager().setCurrentMask(node);
         }
     }
 
@@ -73,6 +70,7 @@ public class MaskManagerFrame extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         maskTree = new javax.swing.JTree();
         addMaskButton = new javax.swing.JButton();
+        addMaskButton1 = new javax.swing.JButton();
 
         setTitle("Mask Manager");
 
@@ -89,12 +87,21 @@ public class MaskManagerFrame extends javax.swing.JFrame {
 
         jRadioButton1.setText("Selective alpha");
 
+        javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("root");
+        maskTree.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
         jScrollPane3.setViewportView(maskTree);
 
         addMaskButton.setText("Add");
         addMaskButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addMaskButtonActionPerformed(evt);
+            }
+        });
+
+        addMaskButton1.setText("Save");
+        addMaskButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addMaskButton1ActionPerformed(evt);
             }
         });
 
@@ -111,7 +118,8 @@ public class MaskManagerFrame extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(removeMaskButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(addMaskButton, javax.swing.GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE))
+                    .addComponent(addMaskButton, javax.swing.GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE)
+                    .addComponent(addMaskButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -125,9 +133,11 @@ public class MaskManagerFrame extends javax.swing.JFrame {
                 .addComponent(addMaskButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(removeMaskButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(addMaskButton1)
                 .addGap(18, 18, 18)
                 .addComponent(jRadioButton1)
-                .addContainerGap(63, Short.MAX_VALUE))
+                .addContainerGap(80, Short.MAX_VALUE))
         );
 
         pack();
@@ -143,11 +153,19 @@ public class MaskManagerFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_addMaskButtonActionPerformed
 
     private void removeMaskButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeMaskButtonActionPerformed
-        // TODO add your handling code here:
+        MaskCase root = Main.mainProject.getMaskManager().getRoot();
+        
+        MaskCase node = (MaskCase) maskTree.getLastSelectedPathComponent();
+        //TODO
     }//GEN-LAST:event_removeMaskButtonActionPerformed
+
+    private void addMaskButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addMaskButton1ActionPerformed
+        MaskCase node = (MaskCase) maskTree.getLastSelectedPathComponent();
+    }//GEN-LAST:event_addMaskButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addMaskButton;
+    private javax.swing.JButton addMaskButton1;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;

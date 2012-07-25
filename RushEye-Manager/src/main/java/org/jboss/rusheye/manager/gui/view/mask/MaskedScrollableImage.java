@@ -18,16 +18,17 @@ import org.jboss.rusheye.manager.project.testcase.MaskCase;
  */
 public class MaskedScrollableImage extends ScrollableImage {
 
-    private MaskCase mask;
 
     public MaskedScrollableImage(ImageIcon icon, int m) {
         super(icon, m);
-        mask = Main.mainProject.getMaskManager().getCurrentMask();
+        
     }
 
     @Override
     public void paint(Graphics g) {
         super.paint(g);
+        
+        MaskCase  mask = Main.mainProject.getMaskManager().getCurrentMask();
         if (mask != null) {
             for (int i = 0; i < mask.getChildCount(); ++i) {
                 ((MaskCase) mask.getChildAt(i)).getShape().draw(g);
@@ -35,7 +36,4 @@ public class MaskedScrollableImage extends ScrollableImage {
         }
     }
 
-    public void setMask(MaskCase mask) {
-        this.mask = mask;
-    }
 }
