@@ -35,8 +35,8 @@ public class Rect implements Shape {
 
     @Override
     public void draw(Graphics g) {
-        g.setColor(Color.red);
-        g.drawRect(x, y, width, height);
+        g.setColor(new Color(1,0,0,0.5f));
+        g.fillRect(x, y, width, height);
     }
 
     @Override

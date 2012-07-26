@@ -4,19 +4,26 @@
  */
 package org.jboss.rusheye.manager.gui.frames;
 
+import java.io.File;
+import javax.swing.JFileChooser;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 import org.jboss.rusheye.manager.Main;
+import org.jboss.rusheye.manager.gui.view.mask.MaskConverter;
+import org.jboss.rusheye.manager.gui.view.mask.MaskToImageConverter;
 import org.jboss.rusheye.manager.project.testcase.MaskCase;
 import org.jboss.rusheye.manager.project.testcase.MaskType;
+import org.jboss.rusheye.manager.utils.FileChooserUtils;
 
 /**
  *
  * @author hcube
  */
 public class MaskManagerFrame extends javax.swing.JFrame {
+
+    private MaskConverter converter;
 
     /**
      * Creates new form MaskManagerFrame
@@ -31,7 +38,7 @@ public class MaskManagerFrame extends javax.swing.JFrame {
             }
         });
     }
-    
+
     public void createTree() {
         Main.maskFrame.setVisible(true);
         updateTreeModel();
@@ -47,7 +54,7 @@ public class MaskManagerFrame extends javax.swing.JFrame {
 
     public void putMaskIntoView() {
         MaskCase node = (MaskCase) maskTree.getLastSelectedPathComponent();
-        
+
         if (node == null) {
             return;
         }
@@ -153,37 +160,48 @@ public class MaskManagerFrame extends javax.swing.JFrame {
     private void addMaskButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addMaskButtonActionPerformed
         MaskCase root = Main.mainProject.getMaskManager().getRoot();
         MaskCase newCase = new MaskCase();
-        newCase.setName("Mask " + (root.getChildCount()+1));
+        newCase.setName("Mask " + (root.getChildCount() + 1));
         newCase.setType(MaskType.SELECTIVE_ALPHA);
-        
+
         root.addChild(newCase);
-        
+
         this.updateTreeModel();
     }//GEN-LAST:event_addMaskButtonActionPerformed
 
     private void removeMaskButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeMaskButtonActionPerformed
         MaskCase root = Main.mainProject.getMaskManager().getRoot();
-        
+
         MaskCase node = (MaskCase) maskTree.getLastSelectedPathComponent();
         TreePath path = maskTree.getSelectionPath();
-        
+
         System.out.println("Try to remove ");
-        if(!root.getAllChildren().remove(node)){
-            for(int i=0;i<root.getChildCount();++i){
+        if (!root.getAllChildren().remove(node)) {
+            for (int i = 0; i < root.getChildCount(); ++i) {
                 root.getAllChildren().get(i).getAllChildren().remove(node);
             }
         }
-        
+
         this.updateTreeModel();
-        
+
         maskTree.setSelectionPath(path.getParentPath());
         maskTree.scrollPathToVisible(path);
     }//GEN-LAST:event_removeMaskButtonActionPerformed
 
     private void addMaskButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addMaskButton1ActionPerformed
-        MaskCase node = (MaskCase) maskTree.getLastSelectedPathComponent();
-    }//GEN-LAST:event_addMaskButton1ActionPerformed
 
+        JFileChooser fc = FileChooserUtils.saveChooser();
+
+        int returnVal = fc.showSaveDialog(this);
+
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File file = fc.getSelectedFile();
+            MaskCase node = (MaskCase) maskTree.getLastSelectedPathComponent();
+            converter = new MaskToImageConverter(node);
+            converter.save(file);
+        }
+
+
+    }//GEN-LAST:event_addMaskButton1ActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addMaskButton;
     private javax.swing.JButton addMaskButton1;
