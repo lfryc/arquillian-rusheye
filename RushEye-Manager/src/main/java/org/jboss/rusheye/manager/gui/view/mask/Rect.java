@@ -38,4 +38,15 @@ public class Rect implements Shape {
         g.setColor(Color.red);
         g.drawRect(x, y, width, height);
     }
+
+    @Override
+    public String toString() {
+        String result = "";
+        result += "X : " + this.x + "\n";
+        result += "Y : " + this.y + "\n";
+        result += "WIDTH : " + this.width + "\n";
+        result += "HEIGHT : " + this.height + "\n";
+
+        return result;
+    }
 }

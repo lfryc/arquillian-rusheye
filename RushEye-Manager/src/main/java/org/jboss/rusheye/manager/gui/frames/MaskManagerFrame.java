@@ -6,9 +6,11 @@ package org.jboss.rusheye.manager.gui.frames;
 
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 import org.jboss.rusheye.manager.Main;
 import org.jboss.rusheye.manager.project.testcase.MaskCase;
+import org.jboss.rusheye.manager.project.testcase.MaskType;
 
 /**
  *
@@ -39,6 +41,7 @@ public class MaskManagerFrame extends javax.swing.JFrame {
         DefaultTreeModel model = new DefaultTreeModel(Main.mainProject.getMaskManager().getRoot());
         maskTree.setModel(model);
         maskTree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+        maskTree.setExpandsSelectedPaths(true);
         this.validate();
     }
 
@@ -51,6 +54,9 @@ public class MaskManagerFrame extends javax.swing.JFrame {
 
         if (node.getName().startsWith("Mask ")) {
             Main.mainProject.getMaskManager().setCurrentMask(node);
+        }
+        if (node.getName().startsWith("Rect ")) {
+            infoTextArea.setText(node.getShape().toString());
         }
     }
 
@@ -65,7 +71,7 @@ public class MaskManagerFrame extends javax.swing.JFrame {
 
         removeMaskButton = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        infoTextArea = new javax.swing.JTextArea();
         jRadioButton1 = new javax.swing.JRadioButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         maskTree = new javax.swing.JTree();
@@ -81,10 +87,11 @@ public class MaskManagerFrame extends javax.swing.JFrame {
             }
         });
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane2.setViewportView(jTextArea1);
+        infoTextArea.setColumns(20);
+        infoTextArea.setRows(5);
+        jScrollPane2.setViewportView(infoTextArea);
 
+        jRadioButton1.setSelected(true);
         jRadioButton1.setText("Selective alpha");
 
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("root");
@@ -147,6 +154,8 @@ public class MaskManagerFrame extends javax.swing.JFrame {
         MaskCase root = Main.mainProject.getMaskManager().getRoot();
         MaskCase newCase = new MaskCase();
         newCase.setName("Mask " + (root.getChildCount()+1));
+        newCase.setType(MaskType.SELECTIVE_ALPHA);
+        
         root.addChild(newCase);
         
         this.updateTreeModel();
@@ -156,7 +165,19 @@ public class MaskManagerFrame extends javax.swing.JFrame {
         MaskCase root = Main.mainProject.getMaskManager().getRoot();
         
         MaskCase node = (MaskCase) maskTree.getLastSelectedPathComponent();
-        //TODO
+        TreePath path = maskTree.getSelectionPath();
+        
+        System.out.println("Try to remove ");
+        if(!root.getAllChildren().remove(node)){
+            for(int i=0;i<root.getChildCount();++i){
+                root.getAllChildren().get(i).getAllChildren().remove(node);
+            }
+        }
+        
+        this.updateTreeModel();
+        
+        maskTree.setSelectionPath(path.getParentPath());
+        maskTree.scrollPathToVisible(path);
     }//GEN-LAST:event_removeMaskButtonActionPerformed
 
     private void addMaskButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addMaskButton1ActionPerformed
@@ -166,10 +187,10 @@ public class MaskManagerFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addMaskButton;
     private javax.swing.JButton addMaskButton1;
+    private javax.swing.JTextArea infoTextArea;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTree maskTree;
     private javax.swing.JButton removeMaskButton;
     // End of variables declaration//GEN-END:variables
