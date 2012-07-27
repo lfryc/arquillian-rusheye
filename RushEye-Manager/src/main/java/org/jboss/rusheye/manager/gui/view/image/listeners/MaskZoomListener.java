@@ -42,7 +42,7 @@ public class MaskZoomListener extends ZoomListener implements MouseMotionListene
         if (inside) {
             drawing = true;
 
-            start = new Point(e.getX(), e.getY());
+            start = new Point((int)(e.getX()/pic.getScale()), (int)(e.getY()/pic.getScale()));
 
             currentMask = new MaskCase();
             currentMask.setShape(new Rect(start, start));
@@ -57,7 +57,7 @@ public class MaskZoomListener extends ZoomListener implements MouseMotionListene
         drawing = false;
 
 
-        stop = new Point(e.getX(), e.getY());
+        stop = new Point((int)(e.getX()/pic.getScale()), (int)(e.getY()/pic.getScale()));
 
         currentMask.setShape(calculateRect());
 
@@ -69,7 +69,7 @@ public class MaskZoomListener extends ZoomListener implements MouseMotionListene
     public void mouseDragged(MouseEvent e) {
         if (drawing) {
 
-            stop = new Point(e.getX(), e.getY());
+            stop = new Point((int)(e.getX()/pic.getScale()), (int)(e.getY()/pic.getScale()));
 
             currentMask.setShape(calculateRect());
 

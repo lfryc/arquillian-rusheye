@@ -36,5 +36,9 @@ public class MaskedScrollableImage extends ScrollableImage {
             }
         }
     }
+    
+    public double getScale(){
+        return scale;
+    }
 
 }
