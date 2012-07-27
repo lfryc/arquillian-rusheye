@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.jboss.rusheye.manager.gui.view.mask;
+package org.jboss.rusheye.manager.gui.view.image;
 
 import java.awt.Color;
 import javax.swing.BorderFactory;
@@ -13,7 +13,7 @@ import org.jboss.rusheye.manager.gui.view.BottomMenu;
 import org.jboss.rusheye.manager.gui.view.image.ImageView;
 import org.jboss.rusheye.manager.gui.view.image.Rule;
 import org.jboss.rusheye.manager.gui.view.image.listeners.MaskZoomListener;
-import org.jboss.rusheye.manager.project.testcase.TestCase;
+import org.jboss.rusheye.manager.project.TestCase;
 import org.jboss.rusheye.manager.utils.ImageUtils;
 
 /**

@@ -12,7 +12,6 @@ import org.jboss.rusheye.manager.Main;
 import org.jboss.rusheye.manager.exception.ManagerException;
 import org.jboss.rusheye.manager.project.observable.Observed;
 import org.jboss.rusheye.manager.project.observable.Observer;
-import org.jboss.rusheye.manager.project.testcase.TestCase;
 import org.jboss.rusheye.parser.ManagerParser;
 import org.jboss.rusheye.suite.ResultConclusion;
 

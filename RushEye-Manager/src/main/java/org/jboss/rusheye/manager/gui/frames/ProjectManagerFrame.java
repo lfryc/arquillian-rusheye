@@ -23,7 +23,7 @@ import org.jboss.rusheye.manager.gui.view.SingleView;
 import org.jboss.rusheye.manager.project.Project;
 import org.jboss.rusheye.manager.project.observable.Observed;
 import org.jboss.rusheye.manager.project.observable.Observer;
-import org.jboss.rusheye.manager.project.testcase.TestCase;
+import org.jboss.rusheye.manager.project.TestCase;
 import org.jboss.rusheye.manager.project.tree.NodeList;
 import org.jboss.rusheye.manager.project.tree.TreeNodeImpl;
 import org.jboss.rusheye.suite.ResultConclusion;

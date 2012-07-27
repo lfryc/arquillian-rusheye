@@ -6,7 +6,7 @@ package org.jboss.rusheye.manager.project;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.jboss.rusheye.manager.project.testcase.MaskCase;
+import org.jboss.rusheye.manager.gui.view.mask.MaskCase;
 
 /**
  *

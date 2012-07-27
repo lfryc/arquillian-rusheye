@@ -6,7 +6,7 @@ package org.jboss.rusheye.manager.gui.view;
 
 import org.jboss.rusheye.manager.gui.view.image.ImagePool;
 import org.jboss.rusheye.manager.gui.view.image.ImageView;
-import org.jboss.rusheye.manager.project.testcase.TestCase;
+import org.jboss.rusheye.manager.project.TestCase;
 
 /**
  * Double view. It consist of 2 image views.

@@ -2,8 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.jboss.rusheye.manager.gui.view.mask;
+package org.jboss.rusheye.manager.gui.view.mask.converters;
 
+import org.jboss.rusheye.manager.gui.view.mask.converters.MaskConverter;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -12,7 +13,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import org.jboss.rusheye.manager.project.testcase.MaskCase;
+import org.jboss.rusheye.manager.gui.view.mask.MaskCase;
 
 /**
  *

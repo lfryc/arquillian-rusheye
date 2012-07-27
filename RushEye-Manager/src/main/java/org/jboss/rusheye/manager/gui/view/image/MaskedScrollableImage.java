@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.jboss.rusheye.manager.gui.view.mask;
+package org.jboss.rusheye.manager.gui.view.image;
 
 import java.awt.Graphics;
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ import java.util.List;
 import javax.swing.ImageIcon;
 import org.jboss.rusheye.manager.Main;
 import org.jboss.rusheye.manager.gui.view.image.ScrollableImage;
-import org.jboss.rusheye.manager.project.testcase.MaskCase;
+import org.jboss.rusheye.manager.gui.view.mask.MaskCase;
 
 /**
  *

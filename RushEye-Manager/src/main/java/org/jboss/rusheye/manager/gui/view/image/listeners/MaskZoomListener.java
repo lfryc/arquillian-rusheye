@@ -11,9 +11,9 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import org.jboss.rusheye.manager.Main;
 import org.jboss.rusheye.manager.gui.view.image.ImageView;
-import org.jboss.rusheye.manager.gui.view.mask.MaskedScrollableImage;
+import org.jboss.rusheye.manager.gui.view.image.MaskedScrollableImage;
 import org.jboss.rusheye.manager.gui.view.mask.Rect;
-import org.jboss.rusheye.manager.project.testcase.MaskCase;
+import org.jboss.rusheye.manager.gui.view.mask.MaskCase;
 
 /**
  *

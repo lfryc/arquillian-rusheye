@@ -7,7 +7,7 @@ package org.jboss.rusheye.manager.gui.view;
 import javax.swing.JPanel;
 import org.jboss.rusheye.manager.gui.view.image.ImagePool;
 import org.jboss.rusheye.manager.gui.view.image.ImageView;
-import org.jboss.rusheye.manager.project.testcase.TestCase;
+import org.jboss.rusheye.manager.project.TestCase;
 
 /**
  * Single view. It consist of 1 image view.

@@ -15,7 +15,7 @@ import org.jboss.rusheye.manager.gui.view.BottomMenu;
 import org.jboss.rusheye.manager.gui.view.image.listeners.ManagerMouseListener;
 import org.jboss.rusheye.manager.gui.view.image.listeners.ScrollAdjustmentListener;
 import org.jboss.rusheye.manager.gui.view.image.listeners.DragZoomMouseListener;
-import org.jboss.rusheye.manager.project.testcase.TestCase;
+import org.jboss.rusheye.manager.project.TestCase;
 import org.jboss.rusheye.manager.utils.ImageUtils;
 
 /**

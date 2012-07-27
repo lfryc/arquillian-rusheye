@@ -11,10 +11,10 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 import org.jboss.rusheye.manager.Main;
-import org.jboss.rusheye.manager.gui.view.mask.MaskConverter;
-import org.jboss.rusheye.manager.gui.view.mask.MaskToImageConverter;
-import org.jboss.rusheye.manager.project.testcase.MaskCase;
-import org.jboss.rusheye.manager.project.testcase.MaskType;
+import org.jboss.rusheye.manager.gui.view.mask.converters.MaskConverter;
+import org.jboss.rusheye.manager.gui.view.mask.converters.MaskToImageConverter;
+import org.jboss.rusheye.manager.gui.view.mask.MaskCase;
+import org.jboss.rusheye.manager.gui.view.mask.MaskType;
 import org.jboss.rusheye.manager.utils.FileChooserUtils;
 
 /**
@@ -83,7 +83,8 @@ public class MaskManagerFrame extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         maskTree = new javax.swing.JTree();
         addMaskButton = new javax.swing.JButton();
-        addMaskButton1 = new javax.swing.JButton();
+        saveMaskButton = new javax.swing.JButton();
+        jRadioButton2 = new javax.swing.JRadioButton();
 
         setTitle("Mask Manager");
 
@@ -100,6 +101,7 @@ public class MaskManagerFrame extends javax.swing.JFrame {
 
         jRadioButton1.setSelected(true);
         jRadioButton1.setText("Selective alpha");
+        jRadioButton1.setEnabled(false);
 
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("root");
         maskTree.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
@@ -112,12 +114,15 @@ public class MaskManagerFrame extends javax.swing.JFrame {
             }
         });
 
-        addMaskButton1.setText("Save");
-        addMaskButton1.addActionListener(new java.awt.event.ActionListener() {
+        saveMaskButton.setText("Save");
+        saveMaskButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addMaskButton1ActionPerformed(evt);
+                saveMaskButtonActionPerformed(evt);
             }
         });
+
+        jRadioButton2.setText("other future mask type");
+        jRadioButton2.setEnabled(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -127,13 +132,15 @@ public class MaskManagerFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jRadioButton1)
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(removeMaskButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(addMaskButton, javax.swing.GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE)
-                    .addComponent(addMaskButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE))
+                    .addComponent(saveMaskButton, javax.swing.GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jRadioButton1)
+                            .addComponent(jRadioButton2))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -148,10 +155,12 @@ public class MaskManagerFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(removeMaskButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(addMaskButton1)
+                .addComponent(saveMaskButton)
                 .addGap(18, 18, 18)
                 .addComponent(jRadioButton1)
-                .addContainerGap(80, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jRadioButton2)
+                .addContainerGap(52, Short.MAX_VALUE))
         );
 
         pack();
@@ -187,7 +196,7 @@ public class MaskManagerFrame extends javax.swing.JFrame {
         maskTree.scrollPathToVisible(path);
     }//GEN-LAST:event_removeMaskButtonActionPerformed
 
-    private void addMaskButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addMaskButton1ActionPerformed
+    private void saveMaskButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMaskButtonActionPerformed
 
         JFileChooser fc = FileChooserUtils.saveChooser();
 
@@ -201,15 +210,16 @@ public class MaskManagerFrame extends javax.swing.JFrame {
         }
 
 
-    }//GEN-LAST:event_addMaskButton1ActionPerformed
+    }//GEN-LAST:event_saveMaskButtonActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addMaskButton;
-    private javax.swing.JButton addMaskButton1;
     private javax.swing.JTextArea infoTextArea;
     private javax.swing.JRadioButton jRadioButton1;
+    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTree maskTree;
     private javax.swing.JButton removeMaskButton;
+    private javax.swing.JButton saveMaskButton;
     // End of variables declaration//GEN-END:variables
 }

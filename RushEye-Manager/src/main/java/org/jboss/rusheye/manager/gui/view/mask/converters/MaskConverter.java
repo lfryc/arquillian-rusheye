@@ -2,10 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.jboss.rusheye.manager.gui.view.mask;
+package org.jboss.rusheye.manager.gui.view.mask.converters;
 
 import java.io.File;
-import org.jboss.rusheye.manager.project.testcase.MaskCase;
+import org.jboss.rusheye.manager.gui.view.mask.MaskCase;
 
 /**
  *
