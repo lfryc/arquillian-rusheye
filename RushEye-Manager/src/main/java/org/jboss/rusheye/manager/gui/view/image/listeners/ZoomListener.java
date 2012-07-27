@@ -4,11 +4,13 @@
  */
 package org.jboss.rusheye.manager.gui.view.image.listeners;
 
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
+import org.jboss.rusheye.manager.Main;
 import org.jboss.rusheye.manager.gui.view.image.ImageView;
 
 /**
@@ -24,22 +26,20 @@ public class ZoomListener extends ManagerMouseListener implements MouseWheelList
         this.parent = parent;
     }
 
+    @Override
     public void mouseWheelMoved(MouseWheelEvent mwe) {
         if (inside) {
+            
+            Point corner = Main.interfaceFrame.getLocation();
 
             Rectangle visible = parent.getPicture().getVisibleRect();
-            double px = visible.getX() + mwe.getXOnScreen() - 41;
-            double py = visible.getY() + mwe.getYOnScreen() - 107;
+            double px = visible.getX() + mwe.getX() - corner.x - 41;
+            double py = visible.getY() + mwe.getY() - corner.y - 107;
 
             double xMax = parent.getImg().getWidth() * parent.getScale();
             double yMax = parent.getImg().getHeight() * parent.getScale();
             double px2 = px / xMax;
             double py2 = py / yMax;
-
-            //System.out.println(mwe.getXOnScreen() + " " + mwe.getYOnScreen());
-            //System.out.println(px + " " + py);
-            //System.out.println(parent.getImg().getWidth() + " " + parent.getImg().getHeight() + " " + parent.getScale());
-            //System.out.println(px2 + " " + py2);
 
             int notches = mwe.getWheelRotation();
             if (parent != null) {
@@ -57,7 +57,7 @@ public class ZoomListener extends ManagerMouseListener implements MouseWheelList
                 px = px2 * xMax;
                 py = py2 * yMax;
 
-                parent.getPicture().scrollRectToVisible(new Rectangle((int) (px - mwe.getXOnScreen() + 41), (int) (py - mwe.getYOnScreen() + 107), visible.width, visible.height));
+                parent.getPicture().scrollRectToVisible(new Rectangle((int) (px -(mwe.getX() - corner.x - 41)), (int) (py - (mwe.getY() - corner.y - 107)), visible.width, visible.height));
             }
         }
     }
