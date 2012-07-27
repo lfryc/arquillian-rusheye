@@ -40,7 +40,7 @@ public class DrawableImageView extends ImageView {
         columnView.setPreferredWidth(image.getIconWidth());
         rowView.setPreferredHeight(image.getIconHeight());
 
-        picture = new MaskedScrollableImage(image, columnView.getIncrement());
+        picture = new MaskedScrollableImage(image, columnView.getIncrement(),scale);
 
         pictureScrollPane = new JScrollPane(picture);
         pictureScrollPane.setViewportBorder(BorderFactory.createLineBorder(Color.black));

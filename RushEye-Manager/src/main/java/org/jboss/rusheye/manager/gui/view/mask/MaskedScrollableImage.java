@@ -17,11 +17,12 @@ import org.jboss.rusheye.manager.project.testcase.MaskCase;
  * @author cube
  */
 public class MaskedScrollableImage extends ScrollableImage {
+    private double scale = 1;
 
-
-    public MaskedScrollableImage(ImageIcon icon, int m) {
+    public MaskedScrollableImage(ImageIcon icon, int m, double scale) {
         super(icon, m);
         
+        this.scale = scale;
     }
 
     @Override
@@ -31,7 +32,7 @@ public class MaskedScrollableImage extends ScrollableImage {
         MaskCase  mask = Main.mainProject.getMaskManager().getCurrentMask();
         if (mask != null) {
             for (int i = 0; i < mask.getChildCount(); ++i) {
-                ((MaskCase) mask.getChildAt(i)).getShape().draw(g);
+                ((MaskCase) mask.getChildAt(i)).getShape().draw(g,scale);
             }
         }
     }

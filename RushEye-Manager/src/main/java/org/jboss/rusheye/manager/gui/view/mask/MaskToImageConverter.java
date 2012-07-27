@@ -32,7 +32,7 @@ public class MaskToImageConverter extends MaskConverter {
         Graphics2D g2 = image.createGraphics();
         for (int i = 0; i < mask.getChildCount(); ++i) {
             MaskCase m = (MaskCase) mask.getChildAt(i);
-            m.getShape().draw(g2);
+            m.getShape().draw(g2,1);
         }
 
         try {
