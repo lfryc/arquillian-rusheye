@@ -34,7 +34,9 @@ public class MaskManagerFrame extends javax.swing.JFrame {
         maskTree.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
 
             public void valueChanged(TreeSelectionEvent tse) {
+                System.out.println("AAA");
                 putMaskIntoView();
+                
             }
         });
     }
@@ -49,6 +51,9 @@ public class MaskManagerFrame extends javax.swing.JFrame {
         maskTree.setModel(model);
         maskTree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
         maskTree.setExpandsSelectedPaths(true);
+        for (int i = 0; i < maskTree.getRowCount(); i++) {
+            maskTree.expandRow(i);
+        }
         this.validate();
     }
 
@@ -61,6 +66,8 @@ public class MaskManagerFrame extends javax.swing.JFrame {
 
         if (node.getName().startsWith("Mask ")) {
             Main.mainProject.getMaskManager().setCurrentMask(node);
+            infoTextArea.setText(node.getInfo());
+            Main.interfaceFrame.repaint();
         }
         if (node.getName().startsWith("Rect ")) {
             infoTextArea.setText(node.getShape().toString());
@@ -175,6 +182,7 @@ public class MaskManagerFrame extends javax.swing.JFrame {
         root.addChild(newCase);
 
         this.updateTreeModel();
+
     }//GEN-LAST:event_addMaskButtonActionPerformed
 
     private void removeMaskButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeMaskButtonActionPerformed

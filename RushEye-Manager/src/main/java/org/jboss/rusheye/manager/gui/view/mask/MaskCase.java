@@ -33,5 +33,12 @@ public class MaskCase extends TreeNodeImpl {
         this.type = type;
     }
     
+    public String getInfo(){
+        String result ="";
+        result += this.getName() + "\n";
+        result += type + "\n";
+        
+        return result;
+    }
     
 }
