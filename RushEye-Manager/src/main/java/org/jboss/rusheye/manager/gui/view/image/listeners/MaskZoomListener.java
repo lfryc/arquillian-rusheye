@@ -42,19 +42,7 @@ public class MaskZoomListener extends ZoomListener implements MouseMotionListene
         if (inside) {
             drawing = true;
 
-            //start = new Point(e.getXOnScreen() - (int)(41*parent.getScale()), e.getYOnScreen() - (int)(107*parent.getScale()));
-
-            Point corner = Main.interfaceFrame.getLocation();
-            Rectangle visible = parent.getPicture().getVisibleRect();
-            
-            System.out.println(corner + " " + visible.x + " " + visible.y + " " + e.getX() + " " + e.getY());
-            
-            int px = (int) (visible.getX() + e.getX() - corner.x - 41);
-            int py = (int) (visible.getY() + e.getY() - corner.y - 107);
-            
-            start = new Point(px, py);
-
-            System.out.println(start + " " + Main.mainProject.getMaskManager().getCurrentMask().getChildCount());
+            start = new Point(e.getX(), e.getY());
 
             currentMask = new MaskCase();
             currentMask.setShape(new Rect(start, start));
@@ -68,13 +56,8 @@ public class MaskZoomListener extends ZoomListener implements MouseMotionListene
     public void mouseReleased(MouseEvent e) {
         drawing = false;
 
-        Point corner = Main.interfaceFrame.getLocation();
 
-            Rectangle visible = parent.getPicture().getVisibleRect();
-            int px = (int) (visible.getX() + e.getX() - corner.x - 41);
-            int py = (int) (visible.getY() + e.getY() - corner.y - 107);
-
-            stop = new Point(px, py);
+        stop = new Point(e.getX(), e.getY());
 
         currentMask.setShape(calculateRect());
 
@@ -86,13 +69,7 @@ public class MaskZoomListener extends ZoomListener implements MouseMotionListene
     public void mouseDragged(MouseEvent e) {
         if (drawing) {
 
-            Point corner = Main.interfaceFrame.getLocation();
-
-            Rectangle visible = parent.getPicture().getVisibleRect();
-            int px = (int) (visible.getX() + e.getX() - corner.x - 41);
-            int py = (int) (visible.getY() + e.getY() - corner.y - 107);
-
-            stop = new Point(px, py);
+            stop = new Point(e.getX(), e.getY());
 
             currentMask.setShape(calculateRect());
 

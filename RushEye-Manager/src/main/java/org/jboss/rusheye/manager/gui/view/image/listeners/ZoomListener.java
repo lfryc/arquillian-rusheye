@@ -21,20 +21,18 @@ public class ZoomListener extends ManagerMouseListener implements MouseWheelList
 
     protected ImageView parent;
     protected double scaleMod = 0.5;
-    
-    public ZoomListener(ImageView parent){
+
+    public ZoomListener(ImageView parent) {
         this.parent = parent;
     }
 
     @Override
     public void mouseWheelMoved(MouseWheelEvent mwe) {
         if (inside) {
-            
-            Point corner = Main.interfaceFrame.getLocation();
 
             Rectangle visible = parent.getPicture().getVisibleRect();
-            double px = visible.getX() + mwe.getX() - corner.x - 41;
-            double py = visible.getY() + mwe.getY() - corner.y - 107;
+            double px = mwe.getX();
+            double py = mwe.getY();
 
             double xMax = parent.getImg().getWidth() * parent.getScale();
             double yMax = parent.getImg().getHeight() * parent.getScale();
@@ -57,7 +55,7 @@ public class ZoomListener extends ManagerMouseListener implements MouseWheelList
                 px = px2 * xMax;
                 py = py2 * yMax;
 
-                parent.getPicture().scrollRectToVisible(new Rectangle((int) (px -(mwe.getX() - corner.x - 41)), (int) (py - (mwe.getY() - corner.y - 107)), visible.width, visible.height));
+                parent.getPicture().scrollRectToVisible( new Rectangle((int) (px - mwe.getX()), (int) (py - mwe.getY()), visible.width, visible.height));
             }
         }
     }

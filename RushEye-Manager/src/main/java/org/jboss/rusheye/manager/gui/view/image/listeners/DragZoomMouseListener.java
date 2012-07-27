@@ -50,8 +50,6 @@ public class DragZoomMouseListener extends ZoomListener implements MouseMotionLi
 
             double v_x = tmpX - x;
             double v_y = tmpY - y;
-            //System.out.println(tmpX + " " + tmpY + " : " + v_x + " " + v_y);
-
 
             Rectangle parentRect = parent.getPicture().getVisibleRect();
 
