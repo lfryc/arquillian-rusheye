@@ -34,9 +34,8 @@ public class MaskManagerFrame extends javax.swing.JFrame {
         maskTree.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
 
             public void valueChanged(TreeSelectionEvent tse) {
-                System.out.println("AAA");
                 putMaskIntoView();
-                
+
             }
         });
     }
@@ -183,6 +182,7 @@ public class MaskManagerFrame extends javax.swing.JFrame {
 
         this.updateTreeModel();
 
+        Main.mainProject.getMaskManager().setCurrentMask(newCase);
     }//GEN-LAST:event_addMaskButtonActionPerformed
 
     private void removeMaskButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeMaskButtonActionPerformed
