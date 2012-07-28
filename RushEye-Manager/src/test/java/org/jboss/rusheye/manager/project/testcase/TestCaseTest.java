@@ -31,36 +31,36 @@ public class TestCaseTest extends TestCase {
 
     public void testCaseFinding() {
         ManagerParser parser = new ManagerParser();
-        org.jboss.rusheye.manager.project.testcase.TestCase root = parser.parseFileToManagerCases(new File("src/test/resources/suite.xml"));
+        org.jboss.rusheye.manager.project.TestCase root = parser.parseFileToManagerCases(new File("src/test/resources/suite.xml"));
 
         //pattern
-        org.jboss.rusheye.manager.project.testcase.TestCase testCase = (org.jboss.rusheye.manager.project.testcase.TestCase) root.getChildAt(0).getChildAt(0);
+        org.jboss.rusheye.manager.project.TestCase testCase = (org.jboss.rusheye.manager.project.TestCase) root.getChildAt(0).getChildAt(0);
 
         //get path of leaf
         String path = testCase.getPath();
 
         //find the same leaf through root, using path
-        org.jboss.rusheye.manager.project.testcase.TestCase testCase2 = root.findTest(path);
+        org.jboss.rusheye.manager.project.TestCase testCase2 = root.findTest(path);
 
         assertEquals(testCase, testCase2);
     }
 
     public void testFileName() {
         ManagerParser parser = new ManagerParser();
-        org.jboss.rusheye.manager.project.testcase.TestCase root = parser.parseFileToManagerCases(new File("src/test/resources/suite.xml"));
+        org.jboss.rusheye.manager.project.TestCase root = parser.parseFileToManagerCases(new File("src/test/resources/suite.xml"));
 
         //pattern
-        org.jboss.rusheye.manager.project.testcase.TestCase testCase = (org.jboss.rusheye.manager.project.testcase.TestCase) root.getChildAt(0).getChildAt(0);
+        org.jboss.rusheye.manager.project.TestCase testCase = (org.jboss.rusheye.manager.project.TestCase) root.getChildAt(0).getChildAt(0);
 
         assertEquals(testCase.getFilename(), "ActionParameterTestCase.testSelectingNames.png");
     }
     
     public void testVisibility() {
         ManagerParser parser = new ManagerParser();
-        org.jboss.rusheye.manager.project.testcase.TestCase root = parser.parseFileToManagerCases(new File("src/test/resources/suite.xml"));
+        org.jboss.rusheye.manager.project.TestCase root = parser.parseFileToManagerCases(new File("src/test/resources/suite.xml"));
 
         //pattern
-        org.jboss.rusheye.manager.project.testcase.TestCase testCase = (org.jboss.rusheye.manager.project.testcase.TestCase) root.getChildAt(0).getChildAt(0);
+        org.jboss.rusheye.manager.project.TestCase testCase = (org.jboss.rusheye.manager.project.TestCase) root.getChildAt(0).getChildAt(0);
 
         testCase.setConclusion(ResultConclusion.DIFFER);
         

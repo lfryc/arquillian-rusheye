@@ -34,11 +34,11 @@ public class ManagerParserTest extends TestCase {
     public void testParseFileToManagerCases() {
 
         ManagerParser parser = new ManagerParser();
-        org.jboss.rusheye.manager.project.testcase.TestCase root = parser.parseFileToManagerCases(new File("src/test/resources/suite.xml"));
+        org.jboss.rusheye.manager.project.TestCase root = parser.parseFileToManagerCases(new File("src/test/resources/suite.xml"));
 
         assertEquals(root.getChildCount(), 6);
         for (int i = 0; i < root.getChildCount(); ++i) {
-            org.jboss.rusheye.manager.project.testcase.TestCase test = (org.jboss.rusheye.manager.project.testcase.TestCase) root.getChildAt(i);
+            org.jboss.rusheye.manager.project.TestCase test = (org.jboss.rusheye.manager.project.TestCase) root.getChildAt(i);
 
             //test has patterns as leafs
             assertEquals(test.isLeaf(), false);

@@ -33,7 +33,7 @@ public class ProjectTest extends TestCase {
         
         assertNotNull(project);
         
-        org.jboss.rusheye.manager.project.testcase.TestCase testCase = project.findTest("ActionParameterTestCase","testSelectingNames");
+        org.jboss.rusheye.manager.project.TestCase testCase = project.findTest("ActionParameterTestCase","testSelectingNames");
         
         assertNotNull(testCase);
     }
