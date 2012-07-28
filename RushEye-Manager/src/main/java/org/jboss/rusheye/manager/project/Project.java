@@ -42,15 +42,11 @@ public class Project extends ProjectBase  {
 
     public static Project projectFromDescriptor(String descriptorPath) {
         Project tmp = new Project(new File(descriptorPath));
-        tmp.addObserver(Main.projectFrame);
-        tmp.addObserver(Main.statFrame);
         return tmp;
     }
 
     public static Project projectFromDescriptor(File descriptor) {
         Project tmp = new Project(descriptor);
-        tmp.addObserver(Main.projectFrame);
-        tmp.addObserver(Main.statFrame);
         return tmp;
     }
 
@@ -58,10 +54,12 @@ public class Project extends ProjectBase  {
         super();
         root = new TestCase();
         maskManager = new MaskManager();
+        statistics = new RushEyeStatistics(); 
         parser = new ManagerParser();
-        parser.addObserver(this);
-        statistics = new RushEyeStatistics();
+        parser.addObserver(this);   
         
+        this.addObserver(Main.projectFrame);
+        this.addObserver(Main.statFrame);
     }
 
     public Project(File suiteDescriptor) {
@@ -209,6 +207,8 @@ public class Project extends ProjectBase  {
         System.out.println("Update from parser");
         if(o instanceof ManagerParser){
             statistics = ((ManagerParser)o).getStatistics();
+            notifyObservers();
+            System.out.println(observers.size());
         }
     }
     

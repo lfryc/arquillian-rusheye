@@ -191,12 +191,14 @@ public class ManagerParser extends Parser implements Observed {
                     testCase.addChild(newCase);
                     for (Pattern pattern : test.getPatterns()) {
                         System.out.println(pattern.getName());
+                        statistics.addValue(ResultConclusion.NOT_TESTED, 1);
+                        notifyObservers();
                         TestCase patternCase = new TestCase();
                         patternCase.setName(pattern.getName());
                         patternCase.setFilename(pattern.getSource());
                         patternCase.setParent(newCase);
                         newCase.addChild(patternCase);
-                        statistics.addValue(ResultConclusion.NOT_TESTED, 1);
+                        
                     }
                 }
             }

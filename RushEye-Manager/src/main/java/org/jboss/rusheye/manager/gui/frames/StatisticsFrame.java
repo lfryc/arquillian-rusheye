@@ -5,6 +5,7 @@
 package org.jboss.rusheye.manager.gui.frames;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import javax.swing.JFrame;
 import org.jboss.rusheye.manager.Main;
 import org.jboss.rusheye.manager.gui.charts.StatisticsPanel;
@@ -22,11 +23,13 @@ public class StatisticsFrame extends JFrame implements Observer {
     public StatisticsFrame() {
         panel = new StatisticsPanel();
         this.add(panel, BorderLayout.CENTER);
+        this.setSize(new Dimension(420,220));
         this.pack();
     }
 
     @Override
     public void update(Observed o) {
+        System.out.println("Notified");
         panel.update();
     }
 }

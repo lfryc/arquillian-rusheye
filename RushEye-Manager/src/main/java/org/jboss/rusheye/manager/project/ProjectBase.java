@@ -23,7 +23,7 @@ public abstract class ProjectBase implements Observer, Observed {
     protected String maskPath;
     protected File suiteDescriptor;
     protected File resultDescriptor;
-    private List<Observer> observers;
+    protected List<Observer> observers;
 
     public ProjectBase() {
         observers = new ArrayList<Observer>();
@@ -96,7 +96,7 @@ public abstract class ProjectBase implements Observer, Observed {
     /**
      * Part of observer pattern implementation.
      */
-    private void notifyObservers() {
+    protected void notifyObservers() {
         for (Observer o : observers)
             o.update(this);
     }
