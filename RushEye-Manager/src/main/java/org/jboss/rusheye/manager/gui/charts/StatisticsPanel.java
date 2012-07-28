@@ -45,4 +45,8 @@ public class StatisticsPanel extends JPanel {
     public void paint(Graphics g) {
         g.drawImage(image, 0, 0, null);
     }
+    
+    public Image getImage(){
+        return image;
+    }
 }

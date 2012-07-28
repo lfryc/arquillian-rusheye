@@ -379,8 +379,6 @@ public class InterfaceFrame extends javax.swing.JFrame {
 
     private void statisticsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statisticsMenuItemActionPerformed
         Main.statFrame.setVisible(true);
-        Main.statFrame.repaint();
-        Main.statFrame.validate();
     }//GEN-LAST:event_statisticsMenuItemActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem descriptorProjectMenuItem;

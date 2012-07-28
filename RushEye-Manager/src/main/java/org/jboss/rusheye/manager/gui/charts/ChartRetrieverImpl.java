@@ -32,13 +32,13 @@ public class ChartRetrieverImpl implements ChartRetriever {
     public Image generateChart() {
         try {
             Plot plot = Plots.newPlot(Data.newData(statistics.getValues()));
-            plot.addShapeMarkers(Shape.DIAMOND, Color.BLUE, 12);
 
             BarChart chart = GCharts.newBarChart(plot);
 
             AxisStyle axisStyle = AxisStyle.newAxisStyle(Color.BLACK, 13, AxisTextAlignment.CENTER);
-            AxisLabels tests = AxisLabelsFactory.newAxisLabels("Tests numer", 50.0);
+            AxisLabels tests = AxisLabelsFactory.newAxisLabels("Tests", 50.0);
             tests.setAxisStyle(axisStyle);
+            
             AxisLabels con = AxisLabelsFactory.newAxisLabels("Conclusion", 50.0);
             con.setAxisStyle(axisStyle);
 
@@ -47,6 +47,7 @@ public class ChartRetrieverImpl implements ChartRetriever {
                 labels[i] = ResultConclusion.values()[i].toString();
 
             chart.addXAxisLabels(AxisLabelsFactory.newAxisLabels(labels));
+            chart.addYAxisLabels(AxisLabelsFactory.newNumericRangeAxisLabels(0, statistics.calculateSum()));
             chart.addYAxisLabels(tests);
             chart.addXAxisLabels(con);
 

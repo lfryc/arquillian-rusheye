@@ -6,6 +6,7 @@ package org.jboss.rusheye.manager.gui.frames;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import org.jboss.rusheye.manager.gui.charts.StatisticsPanel;
 import org.jboss.rusheye.manager.project.Project;
 import org.jboss.rusheye.manager.project.observable.Observed;
@@ -17,11 +18,14 @@ import org.jboss.rusheye.manager.project.observable.Observer;
  */
 public class StatFrame extends javax.swing.JFrame implements Observer {
 
+    private StatisticsPanel statisticsPanel;
     /**
      * Creates new form StatFrame
      */
     public StatFrame() {
-        initComponents();
+        statisticsPanel = new StatisticsPanel();
+        setSize(new Dimension(600,470));
+        setResizable(false);
     }
 
     @Override
@@ -31,6 +35,11 @@ public class StatFrame extends javax.swing.JFrame implements Observer {
             statisticsPanel.update(((Project) o).getStatistics());
         this.repaint();
         this.validate();
+        
+    }
+    
+    public void paint(Graphics g){
+        g.drawImage(statisticsPanel.getImage(), 0, 20, this);
     }
 
     /**
@@ -42,39 +51,10 @@ public class StatFrame extends javax.swing.JFrame implements Observer {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        statisticsPanel = new org.jboss.rusheye.manager.gui.charts.StatisticsPanel();
-
-        javax.swing.GroupLayout statisticsPanelLayout = new javax.swing.GroupLayout(statisticsPanel);
-        statisticsPanel.setLayout(statisticsPanelLayout);
-        statisticsPanelLayout.setHorizontalGroup(
-            statisticsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 576, Short.MAX_VALUE)
-        );
-        statisticsPanelLayout.setVerticalGroup(
-            statisticsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 426, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(statisticsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(statisticsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+        setResizable(false);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private org.jboss.rusheye.manager.gui.charts.StatisticsPanel statisticsPanel;
     // End of variables declaration//GEN-END:variables
 }

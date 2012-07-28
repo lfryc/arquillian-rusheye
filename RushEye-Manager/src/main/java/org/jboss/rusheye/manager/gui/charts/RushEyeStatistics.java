@@ -45,12 +45,22 @@ public class RushEyeStatistics {
 
         return result;
     }
-    
-    public String toString(){
+
+    public synchronized int calculateSum() {
+        int result = 0;
+        Iterator it = map.values().iterator();
+        while (it.hasNext()) {
+            result += (Integer) it.next();
+        }
+
+        return result;
+    }
+
+    public String toString() {
         String result = "";
         Iterator it = map.values().iterator();
         while (it.hasNext()) {
-            result+= "\t" + ((Integer) it.next());
+            result += "\t" + ((Integer) it.next());
         }
         return result;
     }
