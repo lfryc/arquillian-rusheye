@@ -379,7 +379,7 @@ public class InterfaceFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_maskViewMenuItemActionPerformed
 
     private void statisticsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statisticsMenuItemActionPerformed
-        StatisticsFrame statFrame = new StatisticsFrame();
+        Main.statFrame.setVisible(true);
     }//GEN-LAST:event_statisticsMenuItemActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

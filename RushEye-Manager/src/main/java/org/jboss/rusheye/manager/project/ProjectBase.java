@@ -14,7 +14,7 @@ import org.jboss.rusheye.manager.project.observable.Observer;
  *
  * @author hcube
  */
-public abstract class ProjectBase implements Observed {
+public abstract class ProjectBase implements Observer, Observed {
 
     protected TestCase root;
     protected TestCase currentCase;

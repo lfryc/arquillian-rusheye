@@ -48,6 +48,7 @@ public class ManagerParser extends Parser implements Observed {
 
     @Override
     protected void parseFile(File file, boolean tmpfile) {
+        statistics = new RushEyeStatistics();
         VisualSuite visualSuite = null;
         try {
             XMLValidationSchemaFactory schemaFactory = XMLValidationSchemaFactory.newInstance(XMLValidationSchema.SCHEMA_ID_W3C_SCHEMA);
@@ -141,6 +142,7 @@ public class ManagerParser extends Parser implements Observed {
     }
 
     public TestCase parseFileToManagerCases(File file) {
+        statistics = new RushEyeStatistics();
         TestCase testCase = new TestCase();
         testCase.setName("Test Cases");
         try {
@@ -194,6 +196,7 @@ public class ManagerParser extends Parser implements Observed {
                         patternCase.setFilename(pattern.getSource());
                         patternCase.setParent(newCase);
                         newCase.addChild(patternCase);
+                        statistics.addValue(ResultConclusion.NOT_TESTED, 1);
                     }
                 }
             }

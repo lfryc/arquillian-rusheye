@@ -8,20 +8,25 @@ import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import org.jboss.rusheye.manager.Main;
 import org.jboss.rusheye.manager.gui.charts.StatisticsPanel;
+import org.jboss.rusheye.manager.project.observable.Observed;
+import org.jboss.rusheye.manager.project.observable.Observer;
 
 /**
  *
  * @author hcube
  */
-public class StatisticsFrame extends JFrame {
+public class StatisticsFrame extends JFrame implements Observer {
     
     private StatisticsPanel panel;
 
     public StatisticsFrame() {
         panel = new StatisticsPanel();
-        Main.mainProject.getParser().addObserver(panel);
         this.add(panel, BorderLayout.CENTER);
         this.pack();
-        this.setVisible(true);
+    }
+
+    @Override
+    public void update(Observed o) {
+        panel.update();
     }
 }

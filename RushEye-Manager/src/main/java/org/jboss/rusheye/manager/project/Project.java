@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.List;
 import org.jboss.rusheye.manager.Main;
 import org.jboss.rusheye.manager.exception.ManagerException;
+import org.jboss.rusheye.manager.gui.charts.RushEyeStatistics;
 import org.jboss.rusheye.manager.project.observable.Observed;
 import org.jboss.rusheye.manager.project.observable.Observer;
 import org.jboss.rusheye.parser.ManagerParser;
@@ -25,10 +26,12 @@ public class Project extends ProjectBase  {
     String resultDescriptorString = null;
     private MaskManager maskManager;
     private ManagerParser parser;
+    private RushEyeStatistics statistics;
     
     public static Project emptyProject() {
         Project tmp = new Project();
         tmp.addObserver(Main.projectFrame);
+        tmp.addObserver(Main.statFrame);
         return tmp;
     }
     
@@ -40,12 +43,14 @@ public class Project extends ProjectBase  {
     public static Project projectFromDescriptor(String descriptorPath) {
         Project tmp = new Project(new File(descriptorPath));
         tmp.addObserver(Main.projectFrame);
+        tmp.addObserver(Main.statFrame);
         return tmp;
     }
 
     public static Project projectFromDescriptor(File descriptor) {
         Project tmp = new Project(descriptor);
         tmp.addObserver(Main.projectFrame);
+        tmp.addObserver(Main.statFrame);
         return tmp;
     }
 
@@ -54,6 +59,8 @@ public class Project extends ProjectBase  {
         root = new TestCase();
         maskManager = new MaskManager();
         parser = new ManagerParser();
+        parser.addObserver(this);
+        statistics = new RushEyeStatistics();
         
     }
 
@@ -191,6 +198,18 @@ public class Project extends ProjectBase  {
     
     public ManagerParser getParser(){
         return parser;
+    }
+    
+    public RushEyeStatistics getStatistics(){
+        return statistics;
+    }
+
+    @Override
+    public void update(Observed o) {
+        System.out.println("Update from parser");
+        if(o instanceof ManagerParser){
+            statistics = ((ManagerParser)o).getStatistics();
+        }
     }
     
 }
