@@ -45,4 +45,13 @@ public class RushEyeStatistics {
 
         return result;
     }
+    
+    public String toString(){
+        String result = "";
+        Iterator it = map.values().iterator();
+        while (it.hasNext()) {
+            result+= "\t" + ((Integer) it.next());
+        }
+        return result;
+    }
 }

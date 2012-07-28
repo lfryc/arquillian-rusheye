@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import org.jboss.rusheye.suite.ResultConclusion;
 
 /**
  *
@@ -33,10 +34,35 @@ public class ChartRetrieverImpl implements ChartRetriever {
             Plot plot = Plots.newPlot(Data.newData(statistics.getValues()));
             plot.addShapeMarkers(Shape.DIAMOND, Color.BLUE, 12);
 
-            BarChart barChart = GCharts.newBarChart(plot);
-            barChart.setSize(400, 200);
+            BarChart chart = GCharts.newBarChart(plot);
 
-            URL url = new URL(barChart.toURLString());
+            AxisStyle axisStyle = AxisStyle.newAxisStyle(Color.BLACK, 13, AxisTextAlignment.CENTER);
+            AxisLabels tests = AxisLabelsFactory.newAxisLabels("Tests numer", 50.0);
+            tests.setAxisStyle(axisStyle);
+            AxisLabels con = AxisLabelsFactory.newAxisLabels("Conclusion", 50.0);
+            con.setAxisStyle(axisStyle);
+
+            String labels[] = new String[ResultConclusion.values().length];
+            for (int i = 0; i < ResultConclusion.values().length; ++i)
+                labels[i] = ResultConclusion.values()[i].toString();
+
+            chart.addXAxisLabels(AxisLabelsFactory.newAxisLabels(labels));
+            chart.addYAxisLabels(tests);
+            chart.addXAxisLabels(con);
+
+            chart.setSize(600, 450); 
+            chart.setBarWidth(80);
+            chart.setSpaceWithinGroupsOfBars(20);
+            chart.setDataStacked(true);
+            chart.setTitle("Test results", Color.BLACK, 16);
+            chart.setGrid(100, 10, 3, 2);
+            chart.setBackgroundFill(Fills.newSolidFill(Color.ALICEBLUE));
+            LinearGradientFill fill = Fills.newLinearGradientFill(0, Color.LAVENDER, 100);
+            fill.addColorAndOffset(Color.WHITE, 0);
+            chart.setAreaFill(fill);
+
+
+            URL url = new URL(chart.toURLString());
 
             return java.awt.Toolkit.getDefaultToolkit().getDefaultToolkit().createImage(url);
         } catch (MalformedURLException e) {
@@ -45,7 +71,7 @@ public class ChartRetrieverImpl implements ChartRetriever {
             e.printStackTrace();
         }
 
-        return new BufferedImage(400, 200, BufferedImage.TYPE_INT_ARGB);
+        return new BufferedImage(600, 450, BufferedImage.TYPE_INT_ARGB);
     }
 
     @Override

@@ -32,11 +32,13 @@ public class StatisticsPanel extends JPanel {
         chartRetriever = new ChartRetrieverImpl(stats);
     }
 
-    public void update() {
-        System.out.println("UPDATE PANEL");
+    public void update(RushEyeStatistics stats) {
+        System.out.println("UPDATE PANEL" + stats);
 
-        chartRetriever.setStatistics(Main.mainProject.getStatistics());
+        chartRetriever.setStatistics(stats);
         image = chartRetriever.generateChart();
+        
+        this.repaint();
     }
 
     @Override

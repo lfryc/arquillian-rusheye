@@ -9,6 +9,7 @@ import java.awt.Dimension;
 import javax.swing.JFrame;
 import org.jboss.rusheye.manager.Main;
 import org.jboss.rusheye.manager.gui.charts.StatisticsPanel;
+import org.jboss.rusheye.manager.project.Project;
 import org.jboss.rusheye.manager.project.observable.Observed;
 import org.jboss.rusheye.manager.project.observable.Observer;
 
@@ -22,14 +23,15 @@ public class StatisticsFrame extends JFrame implements Observer {
 
     public StatisticsFrame() {
         panel = new StatisticsPanel();
+        panel.setPreferredSize(new Dimension(640,480));
         this.add(panel, BorderLayout.CENTER);
-        this.setSize(new Dimension(420,220));
         this.pack();
     }
 
     @Override
     public void update(Observed o) {
         System.out.println("Notified");
-        panel.update();
+        if(o instanceof Project)
+        panel.update(((Project)o).getStatistics());
     }
 }
