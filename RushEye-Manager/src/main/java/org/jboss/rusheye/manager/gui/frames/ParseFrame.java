@@ -8,7 +8,7 @@ import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import org.jboss.rusheye.manager.Main;
-import org.jboss.rusheye.manager.gui.ParserThread;
+import org.jboss.rusheye.parser.ParserThread;
 import org.jboss.rusheye.manager.project.observable.Observed;
 import org.jboss.rusheye.manager.project.observable.Observer;
 import org.jboss.rusheye.manager.utils.FileChooserUtils;

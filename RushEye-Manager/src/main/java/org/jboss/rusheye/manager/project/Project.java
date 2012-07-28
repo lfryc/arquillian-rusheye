@@ -20,24 +20,18 @@ import org.jboss.rusheye.suite.ResultConclusion;
  *
  * @author Jakub D.
  */
-public class Project implements Observed {
+public class Project extends ProjectBase  {
 
-    private TestCase root;
-    private TestCase currentCase;
-    private String patternPath;
-    private String samplesPath;
-    private String maskPath;
-    private File suiteDescriptor;
-    private File resultDescriptor;
     String resultDescriptorString = null;
     private MaskManager maskManager;
-    private List<Observer> observers;
-
+    private ManagerParser parser;
+    
     public static Project emptyProject() {
         Project tmp = new Project();
         tmp.addObserver(Main.projectFrame);
         return tmp;
     }
+    
     @Deprecated
     public static Project projectFromDirs(String patternPath, String samplesPath) {
         return new Project(patternPath, samplesPath);
@@ -56,9 +50,11 @@ public class Project implements Observed {
     }
 
     public Project() {
+        super();
         root = new TestCase();
         maskManager = new MaskManager();
-        observers = new ArrayList<Observer>();
+        parser = new ManagerParser();
+        
     }
 
     public Project(File suiteDescriptor) {
@@ -168,13 +164,6 @@ public class Project implements Observed {
         return root.findTest("Test Cases." + testName + "." + patternName);
     }
 
-    /**
-     * Part of observer pattern implementation.
-     */
-    private void notifyObservers() {
-        for (Observer o : observers)
-            o.update(this);
-    }
 
     /**
      * Loads result xml as string.
@@ -195,73 +184,16 @@ public class Project implements Observed {
         }
     }
 
-    public void addObserver(Observer o) {
-        observers.add(o);
-    }
-
-    public void removeObserver(Observer o) {
-        observers.remove(o);
-    }
-
-    public TestCase getCurrentCase() {
-        return currentCase;
-    }
-
-    public void setCurrentCase(TestCase currentCase) {
-        this.currentCase = currentCase;
-    }
-
     public String getResult() {
         return resultDescriptorString;
     }
 
-    public File getSuiteDescriptor() {
-        return suiteDescriptor;
-    }
-
-    public void setSuiteDescriptor(File suiteDescriptor) {
-        this.suiteDescriptor = suiteDescriptor;
-    }
-
-    public String getMaskPath() {
-        return maskPath;
-    }
-
-    public void setMaskPath(String maskPath) {
-        this.maskPath = maskPath;
-    }
-
-    public File getResultDescriptor() {
-        return resultDescriptor;
-    }
-
-    public void setResultDescriptor(File resultDescriptor) {
-        this.resultDescriptor = resultDescriptor;
-    }
-
-    public String getPatternPath() {
-        return patternPath;
-    }
-
-    public void setPatternPath(String patternPath) {
-        this.patternPath = patternPath;
-        notifyObservers();
-    }
-
-    public String getSamplesPath() {
-        return samplesPath;
-    }
-
-    public void setSamplesPath(String samplesPath) {
-        this.samplesPath = samplesPath;
-        notifyObservers();
-    }
-
-    public TestCase getRoot() {
-        return root;
-    }
-    
     public MaskManager getMaskManager(){
         return maskManager;
     }
+    
+    public ManagerParser getParser(){
+        return parser;
+    }
+    
 }

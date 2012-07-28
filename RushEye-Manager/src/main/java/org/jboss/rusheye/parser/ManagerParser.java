@@ -23,7 +23,10 @@ import org.codehaus.stax2.ri.Stax2FilteredStreamReader;
 import org.codehaus.stax2.validation.XMLValidationSchema;
 import org.codehaus.stax2.validation.XMLValidationSchemaFactory;
 import org.jboss.rusheye.manager.Main;
+import org.jboss.rusheye.manager.gui.charts.RushEyeStatistics;
 import org.jboss.rusheye.manager.project.TestCase;
+import org.jboss.rusheye.manager.project.observable.Observed;
+import org.jboss.rusheye.manager.project.observable.Observer;
 import org.jboss.rusheye.suite.*;
 
 /**
@@ -32,9 +35,16 @@ import org.jboss.rusheye.suite.*;
  *
  * @author Jakub D.
  */
-public class ManagerParser extends Parser {
+public class ManagerParser extends Parser implements Observed {
 
-    private List<Test> parsedTests = new ArrayList<Test>();
+    private RushEyeStatistics statistics;
+    private List<Observer> list;
+
+    public ManagerParser() {
+        super();
+        statistics = new RushEyeStatistics();
+        list = new ArrayList<Observer>();
+    }
 
     @Override
     protected void parseFile(File file, boolean tmpfile) {
@@ -105,11 +115,11 @@ public class ManagerParser extends Parser {
                         for (Pattern pattern : testWrapped.getPatterns()) {
                             TestCase managerTest = Main.mainProject.findTest(testWrapped.getName(), pattern.getName());
                             managerTest.setConclusion(pattern.getConclusion());
+                            statistics.addValue(pattern.getConclusion(), 1);
+                            this.notifyObservers();
                             Main.mainProject.setCurrentCase(managerTest);
                             Main.projectFrame.updateIcons();
                         }
-
-                        parsedTests.add(testWrapped);
                     }
                 } catch (WstxParsingException e) {
                     // intentionally blank - wrong end of document detection
@@ -196,7 +206,23 @@ public class ManagerParser extends Parser {
         return testCase;
     }
 
-    public List<Test> getParsedTests() {
-        return parsedTests;
+    @Override
+    public void addObserver(Observer o) {
+        list.add(o);
+    }
+
+    @Override
+    public void removeObserver(Observer o) {
+        list.remove(o);
+    }
+
+    private void notifyObservers() {
+        for (Observer o : list) {
+            o.update(this);
+        }
+    }
+    
+    public RushEyeStatistics getStatistics(){
+        return statistics;
     }
 }

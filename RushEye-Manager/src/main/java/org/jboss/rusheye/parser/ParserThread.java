@@ -2,11 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.jboss.rusheye.manager.gui;
+package org.jboss.rusheye.parser;
 
 import javax.swing.JOptionPane;
 import org.jboss.rusheye.manager.Main;
-import org.jboss.rusheye.parser.Parser;
 
 /**
  * Thread where we run parser instance. Parsing is slow, so we don't want to
@@ -16,9 +15,9 @@ import org.jboss.rusheye.parser.Parser;
  */
 public class ParserThread implements Runnable {
 
-    private Parser parser;
+    private ManagerParser parser;
 
-    public ParserThread(Parser p) {
+    public ParserThread(ManagerParser p) {
         this.parser = p;
     }
 

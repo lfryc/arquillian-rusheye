@@ -1,5 +1,6 @@
 package org.jboss.rusheye.manager;
 
+import org.jboss.rusheye.manager.gui.charts.RushEyeStatistics;
 import org.jboss.rusheye.manager.gui.frames.InterfaceFrame;
 import org.jboss.rusheye.manager.gui.frames.MaskManagerFrame;
 import org.jboss.rusheye.manager.gui.frames.ProjectManagerFrame;
@@ -30,6 +31,7 @@ public class Main
                 //interfaceFrame.setMenu();
             }
         });
+        RushEyeStatistics aa = new RushEyeStatistics();
         
     }
     
