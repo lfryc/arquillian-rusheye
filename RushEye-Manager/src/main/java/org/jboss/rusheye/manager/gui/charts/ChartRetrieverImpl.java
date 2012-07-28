@@ -19,6 +19,10 @@ public class ChartRetrieverImpl implements ChartRetriever {
 
     RushEyeStatistics statistics;
 
+    public ChartRetrieverImpl() {
+        this.statistics = new RushEyeStatistics();
+    }
+
     public ChartRetrieverImpl(RushEyeStatistics stats) {
         this.statistics = stats;
     }
@@ -28,7 +32,7 @@ public class ChartRetrieverImpl implements ChartRetriever {
         try {
             Plot plot = Plots.newPlot(Data.newData(statistics.getValues()));
             plot.addShapeMarkers(Shape.DIAMOND, Color.BLUE, 12);
-            
+
             BarChart barChart = GCharts.newBarChart(plot);
             barChart.setSize(400, 200);
 
@@ -40,7 +44,12 @@ public class ChartRetrieverImpl implements ChartRetriever {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
-        return new BufferedImage(400,200,BufferedImage.TYPE_INT_ARGB);
+
+        return new BufferedImage(400, 200, BufferedImage.TYPE_INT_ARGB);
+    }
+
+    @Override
+    public void setStatistics(RushEyeStatistics stats) {
+        this.statistics = stats;
     }
 }

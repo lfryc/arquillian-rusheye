@@ -59,10 +59,7 @@ public class Project extends ProjectBase  {
 
     public Project(File suiteDescriptor) {
         this();
-
         this.suiteDescriptor = suiteDescriptor;
-
-        ManagerParser parser = new ManagerParser();
         root = parser.parseFileToManagerCases(this.suiteDescriptor);
     }
     

@@ -13,4 +13,6 @@ import java.awt.Image;
 public interface ChartRetriever {
     
     public Image generateChart();
+    
+    public void setStatistics(RushEyeStatistics stats);
 }

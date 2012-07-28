@@ -40,6 +40,14 @@
             <Property name="text" type="java.lang.String" value="Project"/>
           </Properties>
           <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="statisticsMenuItem">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Statistics"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="statisticsMenuItemActionPerformed"/>
+              </Events>
+            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="suiteGenMenuItem">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Generate Suite Descriptor"/>

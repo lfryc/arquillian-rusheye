@@ -227,7 +227,7 @@ public class ParseFrame extends javax.swing.JFrame implements Observer {
         if (!masksField.getText().equals(""))
             props.setProperty("masks-directory", masksField.getText());
 
-        ManagerParser parser = new ManagerParser();
+        ManagerParser parser = Main.mainProject.getParser();
         parser.setProperties(props);
         new Thread(new ParserThread(parser)).start();
 

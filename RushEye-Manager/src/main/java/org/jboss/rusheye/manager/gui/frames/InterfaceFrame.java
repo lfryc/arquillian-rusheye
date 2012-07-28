@@ -117,6 +117,7 @@ public class InterfaceFrame extends javax.swing.JFrame {
         descriptorProjectMenuItem = new javax.swing.JMenuItem();
         dirProjectMenuItem = new javax.swing.JMenuItem();
         projectMenu = new javax.swing.JMenu();
+        statisticsMenuItem = new javax.swing.JMenuItem();
         suiteGenMenuItem = new javax.swing.JMenuItem();
         resultGenMenuItem = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
@@ -164,6 +165,14 @@ public class InterfaceFrame extends javax.swing.JFrame {
         menuBar.add(fileMenu);
 
         projectMenu.setText("Project");
+
+        statisticsMenuItem.setText("Statistics");
+        statisticsMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                statisticsMenuItemActionPerformed(evt);
+            }
+        });
+        projectMenu.add(statisticsMenuItem);
 
         suiteGenMenuItem.setText("Generate Suite Descriptor");
         suiteGenMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -369,6 +378,10 @@ public class InterfaceFrame extends javax.swing.JFrame {
         Main.maskFrame.createTree();
     }//GEN-LAST:event_maskViewMenuItemActionPerformed
 
+    private void statisticsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statisticsMenuItemActionPerformed
+        StatisticsFrame statFrame = new StatisticsFrame();
+    }//GEN-LAST:event_statisticsMenuItemActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem descriptorProjectMenuItem;
     private javax.swing.JMenuItem dirProjectMenuItem;
@@ -387,6 +400,7 @@ public class InterfaceFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem resultMenuItem;
     private javax.swing.JMenuItem samplesPathMenuItem;
     private javax.swing.JMenuItem singleViewMenuItem;
+    private javax.swing.JMenuItem statisticsMenuItem;
     private javax.swing.JMenuItem suiteGenMenuItem;
     private javax.swing.JMenu viewsMenu;
     // End of variables declaration//GEN-END:variables
