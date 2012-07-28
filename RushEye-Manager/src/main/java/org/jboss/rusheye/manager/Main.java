@@ -1,10 +1,7 @@
 package org.jboss.rusheye.manager;
 
 import org.jboss.rusheye.manager.gui.charts.RushEyeStatistics;
-import org.jboss.rusheye.manager.gui.frames.InterfaceFrame;
-import org.jboss.rusheye.manager.gui.frames.MaskManagerFrame;
-import org.jboss.rusheye.manager.gui.frames.StatisticsFrame;
-import org.jboss.rusheye.manager.gui.frames.ProjectManagerFrame;
+import org.jboss.rusheye.manager.gui.frames.*;
 import org.jboss.rusheye.manager.project.Project;
 
 /**
@@ -27,7 +24,7 @@ public class Main
                 maskFrame = new MaskManagerFrame();
                 maskFrame.setVisible(false);
                 
-                statFrame = new StatisticsFrame();
+                statFrame = new StatFrame();
                 statFrame.setVisible(false);
                 
                 mainProject = Project.emptyProject();
@@ -40,7 +37,7 @@ public class Main
     public static InterfaceFrame interfaceFrame;
     public static ProjectManagerFrame projectFrame;
     public static MaskManagerFrame maskFrame;
-    public static StatisticsFrame statFrame;
+    public static StatFrame statFrame;
     
     public static Project mainProject;
     

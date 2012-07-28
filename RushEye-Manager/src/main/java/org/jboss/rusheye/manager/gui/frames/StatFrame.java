@@ -29,6 +29,8 @@ public class StatFrame extends javax.swing.JFrame implements Observer {
         System.out.println("Notified");
         if (o instanceof Project)
             statisticsPanel.update(((Project) o).getStatistics());
+        this.repaint();
+        this.validate();
     }
 
     /**
@@ -41,8 +43,6 @@ public class StatFrame extends javax.swing.JFrame implements Observer {
     private void initComponents() {
 
         statisticsPanel = new org.jboss.rusheye.manager.gui.charts.StatisticsPanel();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         javax.swing.GroupLayout statisticsPanelLayout = new javax.swing.GroupLayout(statisticsPanel);
         statisticsPanel.setLayout(statisticsPanelLayout);

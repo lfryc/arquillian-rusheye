@@ -85,7 +85,8 @@ public abstract class ProjectBase implements Observer, Observed {
 
     @Override
     public void addObserver(Observer o) {
-        observers.add(o);
+        if (o != null)
+            observers.add(o);
     }
 
     @Override

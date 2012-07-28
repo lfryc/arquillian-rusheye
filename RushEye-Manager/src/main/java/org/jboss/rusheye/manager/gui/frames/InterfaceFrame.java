@@ -24,7 +24,6 @@ public class InterfaceFrame extends javax.swing.JFrame {
     public static final int SINGLE = 1;
     public static final int DOUBLE = 2;
     public static final int MASK = 3;
-    
     private int view = InterfaceFrame.DOUBLE;
     private MenuView menuView;
 
@@ -366,7 +365,7 @@ public class InterfaceFrame extends javax.swing.JFrame {
     private void resultMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resultMenuItemActionPerformed
         JFileChooser fc = FileChooserUtils.fileChooser();
         File tmp = FileChooserUtils.chooseFile(fc, this);
-        if (tmp != null){
+        if (tmp != null) {
             Main.mainProject.setResultDescriptor(tmp);
             Main.mainProject.loadResultAsString();
         }
@@ -380,8 +379,9 @@ public class InterfaceFrame extends javax.swing.JFrame {
 
     private void statisticsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statisticsMenuItemActionPerformed
         Main.statFrame.setVisible(true);
+        Main.statFrame.repaint();
+        Main.statFrame.validate();
     }//GEN-LAST:event_statisticsMenuItemActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem descriptorProjectMenuItem;
     private javax.swing.JMenuItem dirProjectMenuItem;

@@ -246,6 +246,8 @@ public class ProjectManagerFrame extends javax.swing.JFrame implements Observer 
 
         jLabel3.setText("Filter :");
 
+        jScrollPane2.setMaximumSize(null);
+
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Test Cases");
         projectTree.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
         jScrollPane2.setViewportView(projectTree);
@@ -343,7 +345,6 @@ public class ProjectManagerFrame extends javax.swing.JFrame implements Observer 
                             .addComponent(jLabel2)
                             .addComponent(jLabel3)
                             .addComponent(resultLabel)
-                            .addComponent(jScrollPane2)
                             .addComponent(jLabel7)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(prevButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -355,7 +356,8 @@ public class ProjectManagerFrame extends javax.swing.JFrame implements Observer 
                                 .addComponent(negButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jSeparator1)
                             .addComponent(jSeparator2)
-                            .addComponent(runAllButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(runAllButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
