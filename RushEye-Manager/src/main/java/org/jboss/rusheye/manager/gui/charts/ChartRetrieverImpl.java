@@ -31,14 +31,15 @@ public class ChartRetrieverImpl implements ChartRetriever {
     @Override
     public Image generateChart() {
         try {
-            Plot plot = Plots.newPlot(Data.newData(statistics.getValues()));
+            Plot plot = Plots.newPlot(DataUtil.scaleWithinRange(0, statistics.calculateSum(), statistics.getValues()));
+
 
             BarChart chart = GCharts.newBarChart(plot);
 
             AxisStyle axisStyle = AxisStyle.newAxisStyle(Color.BLACK, 13, AxisTextAlignment.CENTER);
             AxisLabels tests = AxisLabelsFactory.newAxisLabels("Tests", 50.0);
             tests.setAxisStyle(axisStyle);
-            
+
             AxisLabels con = AxisLabelsFactory.newAxisLabels("Conclusion", 50.0);
             con.setAxisStyle(axisStyle);
 
@@ -47,11 +48,12 @@ public class ChartRetrieverImpl implements ChartRetriever {
                 labels[i] = ResultConclusion.values()[i].toString();
 
             chart.addXAxisLabels(AxisLabelsFactory.newAxisLabels(labels));
-            chart.addYAxisLabels(AxisLabelsFactory.newNumericRangeAxisLabels(0, statistics.calculateSum()));
-            chart.addYAxisLabels(tests);
             chart.addXAxisLabels(con);
 
-            chart.setSize(600, 450); 
+            chart.addYAxisLabels(AxisLabelsFactory.newNumericRangeAxisLabels(0, statistics.calculateSum()));
+            chart.addYAxisLabels(tests);
+
+            chart.setSize(600, 450);
             chart.setBarWidth(80);
             chart.setSpaceWithinGroupsOfBars(20);
             chart.setDataStacked(true);

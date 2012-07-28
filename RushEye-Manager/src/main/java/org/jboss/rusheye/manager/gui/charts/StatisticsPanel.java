@@ -8,10 +8,6 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
-import org.jboss.rusheye.manager.Main;
-import org.jboss.rusheye.manager.project.observable.Observed;
-import org.jboss.rusheye.manager.project.observable.Observer;
-import org.jboss.rusheye.parser.ManagerParser;
 
 /**
  *
@@ -33,7 +29,7 @@ public class StatisticsPanel extends JPanel {
     }
 
     public void update(RushEyeStatistics stats) {
-        System.out.println("UPDATE PANEL" + stats);
+        System.out.println(stats);
 
         chartRetriever.setStatistics(stats);
         image = chartRetriever.generateChart();

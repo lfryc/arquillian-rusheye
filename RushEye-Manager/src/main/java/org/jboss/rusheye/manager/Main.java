@@ -24,7 +24,7 @@ public class Main
                 maskFrame = new MaskManagerFrame();
                 maskFrame.setVisible(false);
                 
-                statFrame = new StatFrame();
+                statFrame = new StatisticsFrame();
                 statFrame.setVisible(false);
                 
                 mainProject = Project.emptyProject();
@@ -37,7 +37,7 @@ public class Main
     public static InterfaceFrame interfaceFrame;
     public static ProjectManagerFrame projectFrame;
     public static MaskManagerFrame maskFrame;
-    public static StatFrame statFrame;
+    public static StatisticsFrame statFrame;
     
     public static Project mainProject;
     
