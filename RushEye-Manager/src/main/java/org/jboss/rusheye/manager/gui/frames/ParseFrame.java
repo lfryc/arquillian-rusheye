@@ -20,7 +20,7 @@ import org.jboss.rusheye.suite.Properties;
  * 
  * @author Jakub D.
  */
-public class ParseFrame extends javax.swing.JFrame implements Observer {
+public class ParseFrame extends javax.swing.JFrame {
 
     /**
      * Creates new form ParseFrame
@@ -227,8 +227,10 @@ public class ParseFrame extends javax.swing.JFrame implements Observer {
         if (!masksField.getText().equals(""))
             props.setProperty("masks-directory", masksField.getText());
 
+        Main.statFrame.setVisible(true);
         ManagerParser parser = Main.mainProject.getParser();
         parser.setProperties(props);
+        
         new Thread(new ParserThread(parser)).start();
 
         Main.mainProject.setResultDescriptor(new File(resultField.getText()));
@@ -319,7 +321,4 @@ public class ParseFrame extends javax.swing.JFrame implements Observer {
     private javax.swing.JTextField storageField;
     // End of variables declaration//GEN-END:variables
 
-    public void update(Observed o) {
-        // TODO
-    }
 }
