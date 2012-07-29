@@ -6,6 +6,7 @@ package org.jboss.rusheye.manager.gui.frames;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
+import org.jboss.rusheye.manager.Main;
 import org.jboss.rusheye.manager.gui.charts.StatisticsPanel;
 import org.jboss.rusheye.manager.project.Project;
 import org.jboss.rusheye.manager.project.observable.Observed;
@@ -32,6 +33,14 @@ public class StatisticsFrame extends javax.swing.JFrame implements Observer {
         System.out.println("Notified");
         if (o instanceof Project)
             statisticsPanel.update(((Project) o).getStatistics());
+        this.repaint();
+        this.validate();
+        
+    }
+    
+    public void update() {
+        System.out.println("Notified2");
+        statisticsPanel.update(Main.mainProject.getStatistics());
         this.repaint();
         this.validate();
         

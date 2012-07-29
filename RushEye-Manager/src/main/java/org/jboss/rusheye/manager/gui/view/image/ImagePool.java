@@ -12,7 +12,8 @@ import java.util.Map;
 import javax.imageio.ImageIO;
 
 /**
- * Map of images. Here we store pattern/sample/diff for every TestCse in Project.
+ * Map of images. Here we store pattern/sample/diff for every TestCse in
+ * Project.
  *
  * @author Jakub D.
  */
@@ -31,8 +32,9 @@ public class ImagePool {
     public void put(String key, BufferedImage value) {
         pool.put(key, value);
     }
+
     /**
-     * 
+     *
      * @param key key for map
      * @param path path to image file
      */
@@ -42,15 +44,16 @@ public class ImagePool {
             img = ImageIO.read(new File(path));
             put(key, img);
         } catch (IOException ex) {
-            ex.printStackTrace();
+            System.out.println("No image found under'" + path + "'. Check your samples/patterns path");
+            //ex.printStackTrace();
         }
     }
 
     public BufferedImage get(String key) {
         return pool.get(key);
     }
-    
-    public void remove(String key){
+
+    public void remove(String key) {
         pool.remove(key);
     }
 }

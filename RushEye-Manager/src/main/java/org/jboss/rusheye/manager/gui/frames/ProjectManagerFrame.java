@@ -42,7 +42,6 @@ public class ProjectManagerFrame extends javax.swing.JFrame implements Observer 
 
         //Custom document listener for filtering purposes
         filterField.getDocument().addDocumentListener(new DocumentListener() {
-
             public void insertUpdate(DocumentEvent de) {
                 String regexp = filterField.getText();
                 if (regexp.equals("")) {
@@ -70,13 +69,14 @@ public class ProjectManagerFrame extends javax.swing.JFrame implements Observer 
         });
 
         projectTree.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
-
             public void valueChanged(TreeSelectionEvent tse) {
                 putTestIntoView();
                 if (Main.mainProject.getCurrentCase() != null && Main.mainProject.getCurrentCase().isLeaf()) {
-                    testNameLabel.setText(((TestCase) Main.mainProject.getCurrentCase().getParent()).getName());
-                    patternNameLabel.setText(Main.mainProject.getCurrentCase().getName());
-                    resultLabel.setText(Main.mainProject.getCurrentCase().getConclusion().toString());
+                    String info = "";
+                    info += ((TestCase) Main.mainProject.getCurrentCase().getParent()).getName() + "\n";
+                    info += Main.mainProject.getCurrentCase().getName() + "\n";
+                    info += Main.mainProject.getCurrentCase().getConclusion().toString();
+                    infoTextArea.setText(info);
                 }
             }
         });
@@ -106,9 +106,10 @@ public class ProjectManagerFrame extends javax.swing.JFrame implements Observer 
         projectTree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
         Main.projectFrame.validate();
     }
-    
+
     /**
-     * Generate Double/Single view based on current test. Fired mainly when we click on test in tree.
+     * Generate Double/Single view based on current test. Fired mainly when we
+     * click on test in tree.
      *
      */
     public void putTestIntoView() {
@@ -145,10 +146,14 @@ public class ProjectManagerFrame extends javax.swing.JFrame implements Observer 
     }
 
     /**
-     * Updates icons for JTree. 
+     * Updates icons for JTree.
      */
     public void updateIcons() {
-        resultLabel.setText(Main.mainProject.getCurrentCase().getConclusion().toString());
+        String info = "";
+        info += ((TestCase) Main.mainProject.getCurrentCase().getParent()).getName() + "\n";
+        info += Main.mainProject.getCurrentCase().getName() + "\n";
+        info += Main.mainProject.getCurrentCase().getConclusion().toString();
+        infoTextArea.setText(info);
         Main.mainProject.getCurrentCase().setChecked(true);
         TreePath path = projectTree.getSelectionPath();
         this.updateTreeModel();
@@ -211,16 +216,13 @@ public class ProjectManagerFrame extends javax.swing.JFrame implements Observer 
         projectTree = new javax.swing.JTree();
         posButton = new javax.swing.JButton();
         negButton = new javax.swing.JButton();
-        testNameLabel = new javax.swing.JLabel();
-        patternNameLabel = new javax.swing.JLabel();
-        resultLabel = new javax.swing.JLabel();
         nextButton = new javax.swing.JButton();
         prevButton = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         filterField = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        infoTextArea = new javax.swing.JTextArea();
         jSeparator2 = new javax.swing.JSeparator();
         runAllButton = new javax.swing.JButton();
         menuBar = new javax.swing.JMenuBar();
@@ -266,12 +268,6 @@ public class ProjectManagerFrame extends javax.swing.JFrame implements Observer 
             }
         });
 
-        testNameLabel.setText("[Test name]");
-
-        patternNameLabel.setText("[Pattern name]");
-
-        resultLabel.setText("[Result]");
-
         nextButton.setText("Next");
         nextButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -290,9 +286,11 @@ public class ProjectManagerFrame extends javax.swing.JFrame implements Observer 
 
         jLabel7.setText("Test cases :");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        infoTextArea.setEditable(false);
+        infoTextArea.setColumns(20);
+        infoTextArea.setLineWrap(true);
+        infoTextArea.setRows(5);
+        jScrollPane1.setViewportView(infoTextArea);
 
         runAllButton.setText("Run all");
 
@@ -336,15 +334,12 @@ public class ProjectManagerFrame extends javax.swing.JFrame implements Observer 
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(testNameLabel)
-                            .addComponent(patternNameLabel)
                             .addComponent(patternsPathField)
                             .addComponent(samplesPathField)
                             .addComponent(filterField)
                             .addComponent(jLabel1)
                             .addComponent(jLabel2)
                             .addComponent(jLabel3)
-                            .addComponent(resultLabel)
                             .addComponent(jLabel7)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(prevButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -380,15 +375,9 @@ public class ProjectManagerFrame extends javax.swing.JFrame implements Observer 
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(testNameLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(patternNameLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(resultLabel)
-                .addGap(9, 9, 9)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(posButton)
                     .addComponent(negButton))
@@ -402,20 +391,26 @@ public class ProjectManagerFrame extends javax.swing.JFrame implements Observer 
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(runAllButton)
-                .addContainerGap(135, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
     /**
-     * Sets current pattern result as PERCEPTUALLY_SAME. Also changes result xml file if available
+     * Sets current pattern result as PERCEPTUALLY_SAME. Also changes result xml
+     * file if available
      *
      * @param evt event triggering method
      */
     private void posButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_posButtonActionPerformed
         ResultConclusion last = Main.mainProject.getCurrentCase().getConclusion();
+        Main.mainProject.getStatistics().addValue(last, -1);
 
         Main.mainProject.getCurrentCase().setConclusion(ResultConclusion.PERCEPTUALLY_SAME);
+        Main.mainProject.getStatistics().addValue(ResultConclusion.PERCEPTUALLY_SAME, 1);
+        Main.statFrame.update();
+
         String result = Main.mainProject.getResult();
         // TODO It's a hack
         if (result != null) {
@@ -439,7 +434,14 @@ public class ProjectManagerFrame extends javax.swing.JFrame implements Observer 
      * @param evt event triggering method
      */
     private void negButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_negButtonActionPerformed
+        ResultConclusion last = Main.mainProject.getCurrentCase().getConclusion();
+        Main.mainProject.getStatistics().addValue(last, -1);
+
         Main.mainProject.getCurrentCase().setConclusion(ResultConclusion.DIFFER);
+        Main.mainProject.getStatistics().addValue(ResultConclusion.DIFFER, 1);
+
+        Main.statFrame.update();
+
         updateIcons();
     }//GEN-LAST:event_negButtonActionPerformed
     /**
@@ -491,6 +493,7 @@ public class ProjectManagerFrame extends javax.swing.JFrame implements Observer 
     private javax.swing.JTextField filterField;
     private javax.swing.JMenuItem filterNotTestedMenuItem;
     private javax.swing.JMenu filtersMenu;
+    private javax.swing.JTextArea infoTextArea;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -499,18 +502,14 @@ public class ProjectManagerFrame extends javax.swing.JFrame implements Observer 
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JButton negButton;
     private javax.swing.JButton nextButton;
-    private javax.swing.JLabel patternNameLabel;
     private javax.swing.JTextField patternsPathField;
     private javax.swing.JButton posButton;
     private javax.swing.JButton prevButton;
     private javax.swing.JTree projectTree;
-    private javax.swing.JLabel resultLabel;
     private javax.swing.JButton runAllButton;
     private javax.swing.JTextField samplesPathField;
-    private javax.swing.JLabel testNameLabel;
     // End of variables declaration//GEN-END:variables
 }
