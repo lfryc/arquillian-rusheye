@@ -61,7 +61,7 @@ public class MaskZoomListener extends ZoomListener implements MouseMotionListene
 
         currentMask.setShape(calculateRect());
 
-        Main.maskFrame.updateTreeModel();
+        Main.projectFrame.updateMaskTreeModel();
         System.out.println(stop);
     }
 

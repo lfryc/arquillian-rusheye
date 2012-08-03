@@ -294,7 +294,7 @@ public class InterfaceFrame extends javax.swing.JFrame {
     private void maskViewMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_maskViewMenuItemActionPerformed
         view = InterfaceFrame.MASK;
         Main.projectFrame.putTestIntoView();
-        Main.maskFrame.createTree();
+        Main.projectFrame.createMaskTree();
     }//GEN-LAST:event_maskViewMenuItemActionPerformed
 
     private void statisticsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statisticsMenuItemActionPerformed

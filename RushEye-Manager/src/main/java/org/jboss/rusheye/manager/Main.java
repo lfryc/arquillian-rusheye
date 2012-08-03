@@ -21,9 +21,6 @@ public class Main
                 projectFrame = new ProjectManagerFrame();
                 projectFrame.setVisible(true);
                 
-                maskFrame = new MaskManagerFrame();
-                maskFrame.setVisible(false);
-                
                 statFrame = new StatisticsFrame();
                 statFrame.setVisible(false);
                 
@@ -36,7 +33,6 @@ public class Main
     
     public static InterfaceFrame interfaceFrame;
     public static ProjectManagerFrame projectFrame;
-    public static MaskManagerFrame maskFrame;
     public static StatisticsFrame statFrame;
     
     public static Project mainProject;
