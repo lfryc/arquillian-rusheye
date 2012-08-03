@@ -6,6 +6,8 @@ package org.jboss.rusheye.manager.project;
 
 import org.jboss.rusheye.manager.project.tree.TreeNodeImpl;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
 import org.jboss.rusheye.core.DefaultImageComparator;
 import org.jboss.rusheye.manager.Main;
 import org.jboss.rusheye.manager.gui.view.image.ImagePool;
@@ -62,12 +64,12 @@ public class TestCase extends TreeNodeImpl {
         ComparisonResult result = new DefaultImageComparator().compare(getImage(ImagePool.PATTERN), getImage(ImagePool.SAMPLE), configuration.getPerception(),
                 configuration.getMasks());
 
-        if (conclusion == null){
+        if (conclusion == null) {
             conclusion = new ResultEvaluator().evaluate(configuration.getPerception(), result);
             Main.mainProject.getStatistics().addValue(conclusion, 1);
             Main.mainProject.getStatistics().addValue(ResultConclusion.NOT_TESTED, -1);
-            
-            Main.statFrame.update();
+
+            Main.statFrame.update(Main.mainProject);
         }
         BufferedImage diff = result.getDiffImage();
 
@@ -152,8 +154,16 @@ public class TestCase extends TreeNodeImpl {
     /**
      * Sets visibility of nodes,based on ResultConclusion of the test.
      */
-    public void setVisibility(ResultConclusion con) {
-        if (conclusion == null || conclusion == con)
+    public void setVisibility(List<ResultConclusion> con) {
+        boolean condition = false;
+        for (ResultConclusion c : con) {
+            if (conclusion == c) {
+                condition = true;
+                break;
+            }
+        }
+
+        if (conclusion == null || condition)
             this.setVisible(true);
         else
             this.setVisible(false);

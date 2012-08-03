@@ -6,6 +6,7 @@ package org.jboss.rusheye.parser;
 
 import com.ctc.wstx.exc.WstxParsingException;
 import java.io.File;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -117,9 +118,11 @@ public class ManagerParser extends Parser implements Observed {
                             TestCase managerTest = Main.mainProject.findTest(testWrapped.getName(), pattern.getName());
                             managerTest.setConclusion(pattern.getConclusion());
                             statistics.addValue(pattern.getConclusion(), 1);
-                            this.notifyObservers();
+                            
                             Main.mainProject.setCurrentCase(managerTest);
                             Main.projectFrame.updateIcons();
+                            
+                            this.notifyObservers();
                         }
                     }
                 } catch (WstxParsingException e) {
@@ -141,10 +144,8 @@ public class ManagerParser extends Parser implements Observed {
         }
     }
 
-    public TestCase parseFileToManagerCases(File file) {
-        statistics = new RushEyeStatistics();
-        TestCase testCase = new TestCase();
-        testCase.setName("Test Cases");
+    public VisualSuite loadSuite(File file) {
+        VisualSuite visualSuite = null;
         try {
             XMLValidationSchemaFactory schemaFactory = XMLValidationSchemaFactory.newInstance(XMLValidationSchema.SCHEMA_ID_W3C_SCHEMA);
             URL schemaURL = getClass().getClassLoader().getResource("org/jboss/rusheye/visual-suite.xsd");
@@ -174,41 +175,64 @@ public class ManagerParser extends Parser implements Observed {
             // skip parsing of the first element - visual-suite
             filteredReader.nextTag();
 
-            //listener.registerListener(new UniqueIdentityChecker(handler.getContext()));
+            visualSuite = new VisualSuite();
 
             while (filteredReader.hasNext()) {
-                // go on the start of the next tag
-                filteredReader.nextTag();
+                try {
+                    // go on the start of the next tag
+                    filteredReader.nextTag();
 
-                Object o = um.unmarshal(reader);
-                if (o instanceof Test) {
-                    Test test = (Test) o;
-                    System.out.println(test.getName());
-                    TestCase newCase = new TestCase();
-                    newCase.setName(test.getName());
-                    newCase.setParent(testCase);
-                    newCase.setAllowsChildren(true);
-                    testCase.addChild(newCase);
-                    for (Pattern pattern : test.getPatterns()) {
-                        System.out.println(pattern.getName());
-                        statistics.addValue(ResultConclusion.NOT_TESTED, 1);
-                        notifyObservers();
-                        TestCase patternCase = new TestCase();
-                        patternCase.setName(pattern.getName());
-                        patternCase.setFilename(pattern.getSource());
-                        patternCase.setParent(newCase);
-                        newCase.addChild(patternCase);
-                        
+                    Object o = um.unmarshal(reader);
+                    if (o instanceof GlobalConfiguration) {
+                        GlobalConfiguration globalConfiguration = (GlobalConfiguration) o;
+                        visualSuite.setGlobalConfiguration(globalConfiguration);
                     }
+                    if (o instanceof Test) {
+                        Test test = (Test) o;
+                        visualSuite.getTests().add(test);
+                    }
+                } catch (WstxParsingException e) {
+                    // intentionally blank - wrong end of document detection
                 }
+
             }
         } catch (XMLStreamException e) {
-            //throw handleParsingException(e, e);
+            throw handleParsingException(e, e);
         } catch (JAXBException e) {
             throw handleParsingException(e, e.getLinkedException());
         }
 
-        return testCase;
+        return visualSuite;
+    }
+
+    public InputStream convertVisualSuiteToStream(VisualSuite suite) {
+        return null;
+    }
+
+    public TestCase parseSuiteToManagerCases(VisualSuite suite) {
+        statistics = new RushEyeStatistics();
+        TestCase root = new TestCase();
+        root.setName("Test Cases");
+        for (Test test : suite.getTests()) {
+            TestCase testCase = new TestCase();
+            testCase.setName(test.getName());
+            testCase.setParent(testCase);
+            testCase.setAllowsChildren(true);
+            
+            for (Pattern pattern : test.getPatterns()) {
+                statistics.addValue(ResultConclusion.NOT_TESTED, 1);
+                TestCase patternCase = new TestCase();
+                patternCase.setName(pattern.getName());
+                patternCase.setFilename(pattern.getSource());
+                testCase.addChild(patternCase);
+            }
+            
+            root.addChild(testCase);
+        }
+        
+        notifyObservers();
+
+        return root;
     }
 
     @Override
@@ -226,8 +250,8 @@ public class ManagerParser extends Parser implements Observed {
             o.update(this);
         }
     }
-    
-    public RushEyeStatistics getStatistics(){
+
+    public RushEyeStatistics getStatistics() {
         return statistics;
     }
 }

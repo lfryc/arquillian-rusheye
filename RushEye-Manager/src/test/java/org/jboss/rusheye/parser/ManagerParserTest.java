@@ -5,8 +5,8 @@
 package org.jboss.rusheye.parser;
 
 import java.io.File;
-import java.util.List;
 import junit.framework.TestCase;
+import org.jboss.rusheye.suite.VisualSuite;
 
 /**
  *
@@ -33,21 +33,53 @@ public class ManagerParserTest extends TestCase {
      */
     public void testParseFileToManagerCases() {
 
-        ManagerParser parser = new ManagerParser();
-        org.jboss.rusheye.manager.project.TestCase root = parser.parseFileToManagerCases(new File("src/test/resources/suite.xml"));
+        // given
 
+        ManagerParser parser = new ManagerParser();
+        VisualSuite suite = parser.loadSuite(new File("src/test/resources/suite.xml"));
+
+        // when
+
+        org.jboss.rusheye.manager.project.TestCase root = parser.parseSuiteToManagerCases(suite);
+
+        // then
+
+        //loaded all 6 tests
         assertEquals(root.getChildCount(), 6);
+
         for (int i = 0; i < root.getChildCount(); ++i) {
             org.jboss.rusheye.manager.project.TestCase test = (org.jboss.rusheye.manager.project.TestCase) root.getChildAt(i);
 
             //test has patterns as leafs
-            assertEquals(test.isLeaf(), false);
+            assertEquals(false, test.isLeaf());
 
             //one pattern per test it this suite
-            assertEquals(test.getChildCount(), 1);
-            
+            assertEquals(1, test.getChildCount());
+
             //pattern should be leaf
-            assertEquals(test.getChildAt(0).isLeaf(), true);
+            assertEquals(true, test.getChildAt(0).isLeaf());
         }
+    }
+
+    
+    /**
+     * Test of loadSuite method, of class ManagerParser.
+     */
+    public void testLoadSuite() {
+
+        //given
+
+        ManagerParser parser = new ManagerParser();
+
+        //when
+
+        VisualSuite suite = parser.loadSuite(new File("src/test/resources/suite.xml"));
+
+        //then
+
+        assertEquals(3, suite.getGlobalConfiguration().getMasks().size());
+        assertEquals(1.0f, suite.getGlobalConfiguration().getPerception().getGlobalDifferenceTreshold());
+        assertEquals(6, suite.getTests().size());
+        assertEquals(1, suite.getTests().get(0).getPatterns().size());
     }
 }

@@ -7,12 +7,10 @@ package org.jboss.rusheye.manager.project;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import org.jboss.rusheye.manager.Main;
 import org.jboss.rusheye.manager.exception.ManagerException;
 import org.jboss.rusheye.manager.gui.charts.RushEyeStatistics;
 import org.jboss.rusheye.manager.project.observable.Observed;
-import org.jboss.rusheye.manager.project.observable.Observer;
 import org.jboss.rusheye.parser.ManagerParser;
 import org.jboss.rusheye.suite.ResultConclusion;
 
@@ -30,24 +28,11 @@ public class Project extends ProjectBase  {
     
     public static Project emptyProject() {
         Project tmp = new Project();
-        tmp.addObserver(Main.projectFrame);
-        tmp.addObserver(Main.statFrame);
         return tmp;
-    }
-    
-    @Deprecated
-    public static Project projectFromDirs(String patternPath, String samplesPath) {
-        return new Project(patternPath, samplesPath);
     }
 
     public static Project projectFromDescriptor(String descriptorPath) {
-        Project tmp = new Project(new File(descriptorPath));
-        return tmp;
-    }
-
-    public static Project projectFromDescriptor(File descriptor) {
-        Project tmp = new Project(descriptor);
-        return tmp;
+        return new Project(new File(descriptorPath));
     }
 
     public Project() {
@@ -57,94 +42,17 @@ public class Project extends ProjectBase  {
         statistics = new RushEyeStatistics(); 
         parser = new ManagerParser();
         parser.addObserver(this);   
+    }
+
+    public Project(File suiteFile) {
+        this();
         
-        this.addObserver(Main.projectFrame);
-        this.addObserver(Main.statFrame);
-    }
-
-    public Project(File suiteDescriptor) {
-        this();
-        this.suiteDescriptor = suiteDescriptor;
-        root = parser.parseFileToManagerCases(this.suiteDescriptor);
+        this.suiteDescriptorFile = suiteFile;
+        this.suiteDescriptor = parser.loadSuite(suiteFile);
+        
+        root = parser.parseSuiteToManagerCases(this.suiteDescriptor);
     }
     
-    @Deprecated
-    public Project(String patternPath, String samplesPath) {
-        this();
-        this.patternPath = patternPath;
-        this.samplesPath = samplesPath;
-        try {
-            root = this.parseDirs();
-        } catch (ManagerException ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    @Deprecated
-    public TestCase parseDirs() throws ManagerException {
-        TestCase test = new TestCase();
-        test.setAllowsChildren(true);
-        test.setName("Test Cases");
-
-        ArrayList<String> patternList = parseDir(patternPath);
-        ArrayList<String> samplesList = parseDir(samplesPath);
-
-        if (patternList.size() != samplesList.size()) {
-            throw new ManagerException("Not the same file number in pattern and samples");
-        }
-
-        String lastCase = "";
-        TestCase tmp = null;
-
-        for (int i = 0; i < patternList.size(); ++i) {
-            if (patternList.get(i).equals(samplesList.get(i))) {
-                String parts[] = patternList.get(i).split("[.]");
-                if (parts.length == 3) {//[case].[test].[extension]
-
-                    if (parts[0].equals(lastCase) == false) {//if we get new case :
-                        if (tmp != null) {
-                            tmp.setParent(test);
-                            tmp.setAllowsChildren(true);
-                            test.addChild(tmp);//add last case
-                        }
-
-                        tmp = new TestCase();//create new case
-                        tmp.setName(parts[0]);
-                        lastCase = parts[0];
-                    }
-
-                    TestCase tmpTest = new TestCase();
-                    tmpTest.setName(parts[1]);
-                    tmpTest.setFilename(patternList.get(i));
-                    tmpTest.setConclusion(ResultConclusion.NOT_TESTED);
-                    tmpTest.setParent(tmp);
-                    tmp.addChild(tmpTest);
-                }
-                if (parts.length == 2) {//normal filename
-                }
-            } else {
-                throw new ManagerException("Pattern and sample name do not match");
-            }
-        }
-
-        System.out.println(test.toString());
-
-        return test;
-    }
-    
-    @Deprecated
-    private ArrayList<String> parseDir(String path) {
-        File folder = new File(path);
-        File[] files = folder.listFiles();
-
-        ArrayList<String> names = new ArrayList<String>();
-        for (int i = 0; i < files.length; ++i) {
-            names.add(files[i].getName());
-        }
-        Collections.sort(names);
-        return names;
-    }
-
     /**
      * Method that search recursively through tests tree.
      *
@@ -207,9 +115,13 @@ public class Project extends ProjectBase  {
         System.out.println("Update from parser");
         if(o instanceof ManagerParser){
             statistics = ((ManagerParser)o).getStatistics();
-            notifyObservers();
-            System.out.println(observers.size());
+            updateFrames();
         }
+    }
+    
+    @Override
+    public void updateFrames(){
+        Main.projectFrame.update(this);
     }
     
 }

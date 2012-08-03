@@ -11,7 +11,7 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="emptyProjectMenuItem">
               <Properties>
-                <Property name="text" type="java.lang.String" value="New empty project"/>
+                <Property name="text" type="java.lang.String" value="Generate suite"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="emptyProjectMenuItemActionPerformed"/>
@@ -19,18 +19,10 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="descriptorProjectMenuItem">
               <Properties>
-                <Property name="text" type="java.lang.String" value="New project from descriptor"/>
+                <Property name="text" type="java.lang.String" value="Open suite"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="descriptorProjectMenuItemActionPerformed"/>
-              </Events>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="dirProjectMenuItem">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="New project from directories"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="dirProjectMenuItemActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>
@@ -46,22 +38,6 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="statisticsMenuItemActionPerformed"/>
-              </Events>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="suiteGenMenuItem">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Generate Suite Descriptor"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="suiteGenMenuItemActionPerformed"/>
-              </Events>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="resultGenMenuItem">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Generate Result Descriptor"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="resultGenMenuItemActionPerformed"/>
               </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator2">

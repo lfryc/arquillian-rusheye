@@ -6,17 +6,14 @@ package org.jboss.rusheye.manager.gui.frames;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
-import org.jboss.rusheye.manager.Main;
 import org.jboss.rusheye.manager.gui.charts.StatisticsPanel;
 import org.jboss.rusheye.manager.project.Project;
-import org.jboss.rusheye.manager.project.observable.Observed;
-import org.jboss.rusheye.manager.project.observable.Observer;
 
 /**
  *
  * @author hcube
  */
-public class StatisticsFrame extends javax.swing.JFrame implements Observer {
+public class StatisticsFrame extends javax.swing.JFrame {
 
     private StatisticsPanel statisticsPanel;
     /**
@@ -28,24 +25,15 @@ public class StatisticsFrame extends javax.swing.JFrame implements Observer {
         setResizable(false);
     }
 
+  
+    public void update(Project project) {
+        statisticsPanel.update(project.getStatistics());
+        this.repaint();
+        this.validate();
+        
+    }
+    
     @Override
-    public void update(Observed o) {
-        System.out.println("Notified");
-        if (o instanceof Project)
-            statisticsPanel.update(((Project) o).getStatistics());
-        this.repaint();
-        this.validate();
-        
-    }
-    
-    public void update() {
-        System.out.println("Notified2");
-        statisticsPanel.update(Main.mainProject.getStatistics());
-        this.repaint();
-        this.validate();
-        
-    }
-    
     public void paint(Graphics g){
         g.drawImage(statisticsPanel.getImage(), 0, 20, this);
     }

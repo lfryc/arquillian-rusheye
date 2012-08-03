@@ -4,13 +4,10 @@
  */
 package org.jboss.rusheye.manager.gui.frames;
 
-import org.jboss.rusheye.manager.gui.frames.CrawlFrame;
 import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import org.jboss.rusheye.manager.Main;
-import org.jboss.rusheye.manager.gui.view.MenuView;
-import org.jboss.rusheye.manager.project.Project;
 import org.jboss.rusheye.manager.utils.FileChooserUtils;
 
 /**
@@ -25,7 +22,6 @@ public class InterfaceFrame extends javax.swing.JFrame {
     public static final int DOUBLE = 2;
     public static final int MASK = 3;
     private int view = InterfaceFrame.DOUBLE;
-    private MenuView menuView;
 
     /**
      * Creates new form InterfaceFrame
@@ -34,14 +30,6 @@ public class InterfaceFrame extends javax.swing.JFrame {
         initComponents();
 
         this.validate();
-    }
-
-    @Deprecated
-    public void setMenu() {
-        menuView = new MenuView();
-        Main.mainProject.addObserver(menuView);
-        mainPanel.removeAll();
-        mainPanel.add(menuView);
     }
 
     public JPanel getMainPanel() {
@@ -57,11 +45,9 @@ public class InterfaceFrame extends javax.swing.JFrame {
     }
 
     /**
-     * Clears text fields an panel when we open new project.
+     * Clears panel when we open new project.
      */
     public void clean() {
-        Main.projectFrame.getPatternsPathField().setText("path...");
-        Main.projectFrame.getSamplesPathField().setText("path...");
         mainPanel.removeAll();
         mainPanel.validate();
     }
@@ -114,11 +100,8 @@ public class InterfaceFrame extends javax.swing.JFrame {
         fileMenu = new javax.swing.JMenu();
         emptyProjectMenuItem = new javax.swing.JMenuItem();
         descriptorProjectMenuItem = new javax.swing.JMenuItem();
-        dirProjectMenuItem = new javax.swing.JMenuItem();
         projectMenu = new javax.swing.JMenu();
         statisticsMenuItem = new javax.swing.JMenuItem();
-        suiteGenMenuItem = new javax.swing.JMenuItem();
-        resultGenMenuItem = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         patternsPathMenuItem = new javax.swing.JMenuItem();
         samplesPathMenuItem = new javax.swing.JMenuItem();
@@ -137,7 +120,7 @@ public class InterfaceFrame extends javax.swing.JFrame {
 
         fileMenu.setText("File");
 
-        emptyProjectMenuItem.setText("New empty project");
+        emptyProjectMenuItem.setText("Generate suite");
         emptyProjectMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 emptyProjectMenuItemActionPerformed(evt);
@@ -145,21 +128,13 @@ public class InterfaceFrame extends javax.swing.JFrame {
         });
         fileMenu.add(emptyProjectMenuItem);
 
-        descriptorProjectMenuItem.setText("New project from descriptor");
+        descriptorProjectMenuItem.setText("Open suite");
         descriptorProjectMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 descriptorProjectMenuItemActionPerformed(evt);
             }
         });
         fileMenu.add(descriptorProjectMenuItem);
-
-        dirProjectMenuItem.setText("New project from directories");
-        dirProjectMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                dirProjectMenuItemActionPerformed(evt);
-            }
-        });
-        fileMenu.add(dirProjectMenuItem);
 
         menuBar.add(fileMenu);
 
@@ -172,22 +147,6 @@ public class InterfaceFrame extends javax.swing.JFrame {
             }
         });
         projectMenu.add(statisticsMenuItem);
-
-        suiteGenMenuItem.setText("Generate Suite Descriptor");
-        suiteGenMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                suiteGenMenuItemActionPerformed(evt);
-            }
-        });
-        projectMenu.add(suiteGenMenuItem);
-
-        resultGenMenuItem.setText("Generate Result Descriptor");
-        resultGenMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                resultGenMenuItemActionPerformed(evt);
-            }
-        });
-        projectMenu.add(resultGenMenuItem);
         projectMenu.add(jSeparator2);
 
         patternsPathMenuItem.setText("Set patterns path");
@@ -280,26 +239,8 @@ public class InterfaceFrame extends javax.swing.JFrame {
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         Main.projectFrame.setVisible(true);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
-    /**
-     * Opens project using 2 directories.
-     *
-     * @param evt event triggering method
-     */
-    private void dirProjectMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dirProjectMenuItemActionPerformed
-        JFileChooser fc = FileChooserUtils.dirChooser();
-        fc.setDialogTitle("Open Pattern Dir");
-        String path1 = FileChooserUtils.chooseFile(fc, this).getAbsolutePath();
-        fc.setDialogTitle("Open Samples Dir");
-        String path2 = FileChooserUtils.chooseFile(fc, this).getAbsolutePath();
-        if (path1 != null && path2 != null) {
-            Main.mainProject = Project.projectFromDirs(path1, path2);
-            Main.projectFrame.getPatternsPathField().setText(path1);
-            Main.projectFrame.getSamplesPathField().setText(path2);
-            Main.projectFrame.createTree();
-        }
-        clean();
-    }//GEN-LAST:event_dirProjectMenuItemActionPerformed
-    /**
+
+   /**
      * Changes view to double view.
      *
      * @param evt event triggering method
@@ -317,37 +258,15 @@ public class InterfaceFrame extends javax.swing.JFrame {
         view = InterfaceFrame.SINGLE;
         Main.projectFrame.putTestIntoView();
     }//GEN-LAST:event_singleViewMenuItemActionPerformed
-    /**
-     * Opens Crawl Frame
-     *
-     * @param evt event triggering method
-     */
-    private void suiteGenMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_suiteGenMenuItemActionPerformed
-        CrawlFrame crawlFrame = new CrawlFrame();
-        crawlFrame.setVisible(true);
-    }//GEN-LAST:event_suiteGenMenuItemActionPerformed
-    /**
-     * Opens Parse Frame
-     *
-     * @param evt event triggering method
-     */
-    private void resultGenMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resultGenMenuItemActionPerformed
-        ParseFrame parseFrame = new ParseFrame();
-        parseFrame.setVisible(true);
-    }//GEN-LAST:event_resultGenMenuItemActionPerformed
-    /**
+
+   /**
      * Opens project using descriptor xml file.
      *
      * @param evt event triggering method
      */
     private void descriptorProjectMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_descriptorProjectMenuItemActionPerformed
-        JFileChooser fc = FileChooserUtils.fileChooser();
-        File tmp = FileChooserUtils.chooseFile(fc, this);
-        if (tmp != null) {
-            Main.mainProject = Project.projectFromDescriptor(tmp);
-            Main.projectFrame.createTree();
-            clean();
-        }
+        WizardFrame wizardFrame = new WizardFrame();
+        wizardFrame.setVisible(true);
     }//GEN-LAST:event_descriptorProjectMenuItemActionPerformed
     /**
      * Opens empty project.
@@ -355,7 +274,8 @@ public class InterfaceFrame extends javax.swing.JFrame {
      * @param evt event triggering method
      */
     private void emptyProjectMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emptyProjectMenuItemActionPerformed
-        Main.mainProject = Project.emptyProject();
+        CrawlFrame crawlFrame = new CrawlFrame();
+        crawlFrame.setVisible(true);
     }//GEN-LAST:event_emptyProjectMenuItemActionPerformed
     /**
      * Opens result descriptor xml, so that we can modify it using tree.
@@ -382,7 +302,6 @@ public class InterfaceFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_statisticsMenuItemActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem descriptorProjectMenuItem;
-    private javax.swing.JMenuItem dirProjectMenuItem;
     private javax.swing.JMenuItem doubleViewMenuItem;
     private javax.swing.JMenuItem emptyProjectMenuItem;
     private javax.swing.JMenu fileMenu;
@@ -394,12 +313,10 @@ public class InterfaceFrame extends javax.swing.JFrame {
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem patternsPathMenuItem;
     private javax.swing.JMenu projectMenu;
-    private javax.swing.JMenuItem resultGenMenuItem;
     private javax.swing.JMenuItem resultMenuItem;
     private javax.swing.JMenuItem samplesPathMenuItem;
     private javax.swing.JMenuItem singleViewMenuItem;
     private javax.swing.JMenuItem statisticsMenuItem;
-    private javax.swing.JMenuItem suiteGenMenuItem;
     private javax.swing.JMenu viewsMenu;
     // End of variables declaration//GEN-END:variables
 }

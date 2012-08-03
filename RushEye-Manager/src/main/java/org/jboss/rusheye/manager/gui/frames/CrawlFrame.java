@@ -65,8 +65,6 @@ public class CrawlFrame extends javax.swing.JFrame {
 
         jLabel3.setText("Patterns directory :");
 
-        patternField.setText("jTextField1");
-
         patternsButton.setText("Set");
         patternsButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -214,7 +212,7 @@ public class CrawlFrame extends javax.swing.JFrame {
 
         String path = Main.mainProject.getPatternPath();
         String masks = null;
-        if (path != null)
+        if (path != null && !path.equals(""))
             tmp.add(new File(path));
         else {
             JOptionPane.showMessageDialog(this, "No pattern path selected", "Crawl", JOptionPane.WARNING_MESSAGE);
@@ -246,12 +244,13 @@ public class CrawlFrame extends javax.swing.JFrame {
             Main.mainProject = Project.projectFromDescriptor(outputField.getText());
             Main.mainProject.setPatternPath(path);
             Main.mainProject.setMaskPath(masks);
-            this.dispose();
 
             Main.projectFrame.createTree();
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+        
+        this.dispose();
     }//GEN-LAST:event_crawlButtonActionPerformed
     /**
      * Method run after set button for loading patterns path is pressed.

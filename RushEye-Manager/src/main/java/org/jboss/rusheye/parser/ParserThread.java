@@ -22,7 +22,7 @@ public class ParserThread implements Runnable {
     }
 
     public void run() {
-        parser.parseFile(Main.mainProject.getSuiteDescriptor());
+        parser.parseFile(Main.mainProject.getSuiteDescriptorFile());
         JOptionPane.showMessageDialog(Main.interfaceFrame, "Parsing done", "Parse", JOptionPane.INFORMATION_MESSAGE);
 
         Main.mainProject.loadResultAsString();

@@ -7,21 +7,24 @@ package org.jboss.rusheye.manager.project;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import org.jboss.rusheye.manager.Main;
 import org.jboss.rusheye.manager.project.observable.Observed;
 import org.jboss.rusheye.manager.project.observable.Observer;
+import org.jboss.rusheye.suite.VisualSuite;
 
 /**
  *
  * @author hcube
  */
-public abstract class ProjectBase implements Observer, Observed {
+public abstract class ProjectBase implements Observer {
 
     protected TestCase root;
     protected TestCase currentCase;
     protected String patternPath;
     protected String samplesPath;
     protected String maskPath;
-    protected File suiteDescriptor;
+    protected File suiteDescriptorFile;
+    protected VisualSuite suiteDescriptor;
     protected File resultDescriptor;
     protected List<Observer> observers;
 
@@ -37,13 +40,6 @@ public abstract class ProjectBase implements Observer, Observed {
         this.currentCase = currentCase;
     }
 
-    public File getSuiteDescriptor() {
-        return suiteDescriptor;
-    }
-
-    public void setSuiteDescriptor(File suiteDescriptor) {
-        this.suiteDescriptor = suiteDescriptor;
-    }
 
     public String getMaskPath() {
         return maskPath;
@@ -67,7 +63,7 @@ public abstract class ProjectBase implements Observer, Observed {
 
     public void setPatternPath(String patternPath) {
         this.patternPath = patternPath;
-        notifyObservers();
+        updateFrames();
     }
 
     public String getSamplesPath() {
@@ -76,29 +72,30 @@ public abstract class ProjectBase implements Observer, Observed {
 
     public void setSamplesPath(String samplesPath) {
         this.samplesPath = samplesPath;
-        notifyObservers();
+        updateFrames();
     }
 
     public TestCase getRoot() {
         return root;
     }
 
-    @Override
-    public void addObserver(Observer o) {
-        if (o != null)
-            observers.add(o);
+    public File getSuiteDescriptorFile() {
+        return suiteDescriptorFile;
     }
 
-    @Override
-    public void removeObserver(Observer o) {
-        observers.remove(o);
+    public void setSuiteDescriptorFile(File suiteDescriptorFile) {
+        this.suiteDescriptorFile = suiteDescriptorFile;
     }
 
-    /**
-     * Part of observer pattern implementation.
-     */
-    protected void notifyObservers() {
-        for (Observer o : observers)
-            o.update(this);
+    public VisualSuite getSuiteDescriptor() {
+        return suiteDescriptor;
     }
+
+    public void setSuiteDescriptor(VisualSuite suiteDescriptor) {
+        this.suiteDescriptor = suiteDescriptor;
+    }
+
+    protected abstract void updateFrames();
+
+
 }
