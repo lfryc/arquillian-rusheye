@@ -224,6 +224,7 @@ public class ManagerParser extends Parser implements Observed {
                 TestCase patternCase = new TestCase();
                 patternCase.setName(pattern.getName());
                 patternCase.setFilename(pattern.getSource());
+                patternCase.setConclusion(ResultConclusion.NOT_TESTED);
                 testCase.addChild(patternCase);
             }
             

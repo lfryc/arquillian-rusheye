@@ -64,7 +64,7 @@ public class TestCase extends TreeNodeImpl {
         ComparisonResult result = new DefaultImageComparator().compare(getImage(ImagePool.PATTERN), getImage(ImagePool.SAMPLE), configuration.getPerception(),
                 configuration.getMasks());
 
-        if (conclusion == null) {
+        if (conclusion == null || conclusion == ResultConclusion.NOT_TESTED) {
             conclusion = new ResultEvaluator().evaluate(configuration.getPerception(), result);
             Main.mainProject.getStatistics().addValue(conclusion, 1);
             Main.mainProject.getStatistics().addValue(ResultConclusion.NOT_TESTED, -1);
@@ -134,9 +134,9 @@ public class TestCase extends TreeNodeImpl {
             for (int i = 0; i < this.getChildCount(); ++i) {
                 TestCase child = (TestCase) this.getChildAt(i);
                 TestCase result = child.findTest(path);
-                if (result != null) {
+                if (result != null)
                     return result;
-                }
+
             }
         }
 

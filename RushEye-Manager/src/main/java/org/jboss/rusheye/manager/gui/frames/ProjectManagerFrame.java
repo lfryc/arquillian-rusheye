@@ -233,7 +233,7 @@ public class ProjectManagerFrame extends javax.swing.JFrame implements Observer 
         if (errorCheckBox.isSelected())
             filter.add(ResultConclusion.ERROR);
 
-
+        System.out.println(filter);
         Main.mainProject.getRoot().setVisibility(filter);
         this.updateTreeModel();
     }
@@ -776,6 +776,12 @@ public class ProjectManagerFrame extends javax.swing.JFrame implements Observer 
     }//GEN-LAST:event_runAllButtonActionPerformed
 
     private void showAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showAllButtonActionPerformed
+        sameCheckBox.setSelected(true);
+        pSameCheckBox.setSelected(true);
+        diffCheckBox.setSelected(true);
+        notCheckBox.setSelected(true);
+        errorCheckBox.setSelected(true);
+        
         Main.mainProject.getRoot().setAllVisible();
         this.updateTreeModel();
     }//GEN-LAST:event_showAllButtonActionPerformed
@@ -890,7 +896,7 @@ public class ProjectManagerFrame extends javax.swing.JFrame implements Observer 
     }//GEN-LAST:event_saveMaskButtonActionPerformed
 
     private void pSameCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pSameCheckBoxActionPerformed
-        // TODO add your handling code here:
+        filter();
     }//GEN-LAST:event_pSameCheckBoxActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
