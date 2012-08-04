@@ -61,7 +61,6 @@ public class InterfaceFrame extends javax.swing.JFrame {
         File dir = FileChooserUtils.openDir("Open Pattern Dir", this);
         if (dir != null) {
             Main.mainProject.setPatternPath(dir.getAbsolutePath());
-            Main.projectFrame.getPatternsPathField().setText(dir.getAbsolutePath());
 
             Main.mainProject.getRoot().removeDiffRecursive();
             Main.projectFrame.putTestIntoView();
@@ -78,7 +77,6 @@ public class InterfaceFrame extends javax.swing.JFrame {
         File dir = FileChooserUtils.openDir("Open Samples Dir", this);
         if (dir != null) {
             Main.mainProject.setSamplesPath(dir.getAbsolutePath());
-            Main.projectFrame.getSamplesPathField().setText(dir.getAbsolutePath());
 
             Main.mainProject.getRoot().removeDiffRecursive();
             Main.projectFrame.putTestIntoView();

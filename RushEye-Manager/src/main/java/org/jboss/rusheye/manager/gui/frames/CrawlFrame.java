@@ -263,7 +263,6 @@ public class CrawlFrame extends javax.swing.JFrame {
             String path = dir.getAbsolutePath();
             if (path != null) {
                 Main.mainProject.setPatternPath(path);
-                Main.projectFrame.getPatternsPathField().setText(path);
                 patternField.setText(path);
             }
         }

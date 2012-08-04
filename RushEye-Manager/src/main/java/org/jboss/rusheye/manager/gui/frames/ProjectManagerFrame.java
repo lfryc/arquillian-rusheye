@@ -46,11 +46,9 @@ import org.jboss.rusheye.suite.ResultConclusion;
  */
 public class ProjectManagerFrame extends javax.swing.JFrame implements Observer {
 
-
     public ProjectManagerFrame() {
         initComponents();
 
-        //Custom document listener for filtering purposes
         filterField.getDocument().addDocumentListener(new DocumentListener() {
 
             public void insertUpdate(DocumentEvent de) {
@@ -92,12 +90,11 @@ public class ProjectManagerFrame extends javax.swing.JFrame implements Observer 
                 }
             }
         });
-        
+
         maskTree.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
 
             public void valueChanged(TreeSelectionEvent tse) {
                 putMaskIntoView();
-
             }
         });
     }
@@ -105,14 +102,7 @@ public class ProjectManagerFrame extends javax.swing.JFrame implements Observer 
     public void update(Project project) {
         this.patternsPathField.setText(project.getPatternPath());
         this.samplesPathField.setText(project.getSamplesPath());
-    }
-
-    public javax.swing.JTextField getPatternsPathField() {
-        return patternsPathField;
-    }
-
-    public javax.swing.JTextField getSamplesPathField() {
-        return samplesPathField;
+        this.masksPathField.setText(project.getMaskPath());
     }
 
     public JTree getTree() {
@@ -130,6 +120,9 @@ public class ProjectManagerFrame extends javax.swing.JFrame implements Observer 
         projectTree.setModel(model);
         projectTree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
         Main.projectFrame.validate();
+        for (int i = 0; i < projectTree.getRowCount(); i++)
+            projectTree.expandRow(i);
+
     }
 
     /**
@@ -237,7 +230,7 @@ public class ProjectManagerFrame extends javax.swing.JFrame implements Observer 
         Main.mainProject.getRoot().setVisibility(filter);
         this.updateTreeModel();
     }
-    
+
     public void createMaskTree() {
         updateMaskTreeModel();
     }
@@ -270,6 +263,14 @@ public class ProjectManagerFrame extends javax.swing.JFrame implements Observer 
         }
     }
 
+    private void setCheckBoxesTo(boolean value) {
+        sameCheckBox.setSelected(value);
+        pSameCheckBox.setSelected(value);
+        diffCheckBox.setSelected(value);
+        notCheckBox.setSelected(value);
+        errorCheckBox.setSelected(value);
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -286,14 +287,12 @@ public class ProjectManagerFrame extends javax.swing.JFrame implements Observer 
         jScrollPane2 = new javax.swing.JScrollPane();
         projectTree = new javax.swing.JTree();
         filterField = new javax.swing.JTextField();
-        negButton = new javax.swing.JButton();
         runAllButton = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         prevButton = new javax.swing.JButton();
         nextButton = new javax.swing.JButton();
         posButton = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
-        jSeparator1 = new javax.swing.JSeparator();
         sameCheckBox = new javax.swing.JCheckBox();
         showAllButton = new javax.swing.JButton();
         showDiffButton = new javax.swing.JButton();
@@ -335,16 +334,10 @@ public class ProjectManagerFrame extends javax.swing.JFrame implements Observer 
 
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Test Cases");
         projectTree.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        projectTree.setRootVisible(false);
         jScrollPane2.setViewportView(projectTree);
 
         filterField.setFont(new java.awt.Font("Ubuntu", 2, 15)); // NOI18N
-
-        negButton.setText("Negative");
-        negButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                negButtonActionPerformed(evt);
-            }
-        });
 
         runAllButton.setText("Run all");
         runAllButton.addActionListener(new java.awt.event.ActionListener() {
@@ -369,7 +362,7 @@ public class ProjectManagerFrame extends javax.swing.JFrame implements Observer 
             }
         });
 
-        posButton.setText("Positive");
+        posButton.setText("Accept");
         posButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 posButtonActionPerformed(evt);
@@ -451,6 +444,16 @@ public class ProjectManagerFrame extends javax.swing.JFrame implements Observer 
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(prevButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(nextButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(runAllButton, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(posButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jSeparator2)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 364, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -459,32 +462,18 @@ public class ProjectManagerFrame extends javax.swing.JFrame implements Observer 
                         .addComponent(filterField))
                     .addComponent(jSeparator4)
                     .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(showSameButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(showDiffButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(showAllButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(showNotButton, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addComponent(prevButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(nextButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(jSeparator1)
-                                .addComponent(jSeparator2)
-                                .addComponent(runAllButton, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(negButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(posButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(showSameButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(showDiffButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(showAllButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(showNotButton, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(notCheckBox)
-                                    .addComponent(pSameCheckBox)
-                                    .addComponent(diffCheckBox)
-                                    .addComponent(errorCheckBox)
-                                    .addComponent(sameCheckBox))))
+                            .addComponent(notCheckBox)
+                            .addComponent(pSameCheckBox)
+                            .addComponent(diffCheckBox)
+                            .addComponent(errorCheckBox)
+                            .addComponent(sameCheckBox))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -519,24 +508,22 @@ public class ProjectManagerFrame extends javax.swing.JFrame implements Observer 
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 264, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(negButton)
-                    .addComponent(posButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(nextButton)
-                    .addComponent(prevButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(runAllButton)
-                .addContainerGap())
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(48, 48, 48)
+                        .addComponent(runAllButton))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(nextButton)
+                            .addComponent(prevButton)
+                            .addComponent(posButton))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(62, 62, 62))
         );
 
         jTabbedPane1.addTab("Manager", jPanel2);
@@ -627,10 +614,25 @@ public class ProjectManagerFrame extends javax.swing.JFrame implements Observer 
         masksPathField.setEnabled(false);
 
         jButton1.setText("Set");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Set");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Set");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -748,40 +750,45 @@ public class ProjectManagerFrame extends javax.swing.JFrame implements Observer 
     }//GEN-LAST:event_prevButtonActionPerformed
 
     private void runAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runAllButtonActionPerformed
-        Properties props = new Properties();
-
-        if (!Main.mainProject.getSamplesPath().equals(""))
-            props.setProperty("samples-directory", Main.mainProject.getSamplesPath());
-        else {
-            JOptionPane.showMessageDialog(this, "No samples path selected", "Parse", JOptionPane.WARNING_MESSAGE);
-        }
-        if (!Main.mainProject.getPatternPath().equals("")) {
-            props.setProperty("patterns-directory", Main.mainProject.getPatternPath());
+        if (Main.mainProject.isParsing()) {
+            Main.mainProject.getParserThread().getParser().setValid(false);
+            runAllButton.setText("Run all");
         } else {
-            JOptionPane.showMessageDialog(this, "No patterns path selected", "Parse", JOptionPane.WARNING_MESSAGE);
+            Properties props = new Properties();
+
+            if (!Main.mainProject.getSamplesPath().equals(""))
+                props.setProperty("samples-directory", Main.mainProject.getSamplesPath());
+            else {
+                JOptionPane.showMessageDialog(this, "No samples path selected", "Parse", JOptionPane.WARNING_MESSAGE);
+            }
+            if (!Main.mainProject.getPatternPath().equals("")) {
+                props.setProperty("patterns-directory", Main.mainProject.getPatternPath());
+            } else {
+                JOptionPane.showMessageDialog(this, "No patterns path selected", "Parse", JOptionPane.WARNING_MESSAGE);
+            }
+            props.setProperty("file-storage-directory", "tmp");
+            props.setProperty("result-output-file", "result.xml");
+
+            if (!Main.mainProject.getMaskPath().equals(""))
+                props.setProperty("masks-directory", Main.mainProject.getMaskPath());
+
+            Main.statFrame.setVisible(true);
+            ManagerParser parser = Main.mainProject.getParser();
+            parser.setProperties(props);
+
+            Main.mainProject.setParserThread(new ParserThread(parser));
+            Main.mainProject.setParsing(true);
+            new Thread(Main.mainProject.getParserThread()).start();
+            runAllButton.setText("Stop");
+
+            Main.mainProject.setResultDescriptor(new File("result.xml"));
+
         }
-        props.setProperty("file-storage-directory", "tmp");
-        props.setProperty("result-output-file", "result.xml");
-
-        if (!Main.mainProject.getMaskPath().equals(""))
-            props.setProperty("masks-directory", Main.mainProject.getMaskPath());
-
-        Main.statFrame.setVisible(true);
-        ManagerParser parser = Main.mainProject.getParser();
-        parser.setProperties(props);
-
-        new Thread(new ParserThread(parser)).start();
-
-        Main.mainProject.setResultDescriptor(new File("result.xml"));
     }//GEN-LAST:event_runAllButtonActionPerformed
 
     private void showAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showAllButtonActionPerformed
-        sameCheckBox.setSelected(true);
-        pSameCheckBox.setSelected(true);
-        diffCheckBox.setSelected(true);
-        notCheckBox.setSelected(true);
-        errorCheckBox.setSelected(true);
-        
+        setCheckBoxesTo(true);
+
         Main.mainProject.getRoot().setAllVisible();
         this.updateTreeModel();
     }//GEN-LAST:event_showAllButtonActionPerformed
@@ -803,50 +810,23 @@ public class ProjectManagerFrame extends javax.swing.JFrame implements Observer 
     }//GEN-LAST:event_errorCheckBoxActionPerformed
 
     private void showSameButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showSameButtonActionPerformed
-        sameCheckBox.setSelected(false);
-        pSameCheckBox.setSelected(false);
-        diffCheckBox.setSelected(false);
-        notCheckBox.setSelected(false);
-        errorCheckBox.setSelected(false);
-        
+        setCheckBoxesTo(false);
         sameCheckBox.setSelected(true);
         pSameCheckBox.setSelected(true);
         filter();
     }//GEN-LAST:event_showSameButtonActionPerformed
 
     private void showNotButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showNotButtonActionPerformed
-        sameCheckBox.setSelected(false);
-        pSameCheckBox.setSelected(false);
-        diffCheckBox.setSelected(false);
-        notCheckBox.setSelected(false);
-        errorCheckBox.setSelected(false);
-        
+        setCheckBoxesTo(false);
         notCheckBox.setSelected(true);
         filter();
     }//GEN-LAST:event_showNotButtonActionPerformed
 
     private void showDiffButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showDiffButtonActionPerformed
-        sameCheckBox.setSelected(false);
-        pSameCheckBox.setSelected(false);
-        diffCheckBox.setSelected(false);
-        notCheckBox.setSelected(false);
-        errorCheckBox.setSelected(false);
-        
+        setCheckBoxesTo(false);
         diffCheckBox.setSelected(true);
         filter();
     }//GEN-LAST:event_showDiffButtonActionPerformed
-
-    private void negButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_negButtonActionPerformed
-        ResultConclusion last = Main.mainProject.getCurrentCase().getConclusion();
-        Main.mainProject.getStatistics().addValue(last, -1);
-
-        Main.mainProject.getCurrentCase().setConclusion(ResultConclusion.DIFFER);
-        Main.mainProject.getStatistics().addValue(ResultConclusion.DIFFER, 1);
-
-        Main.statFrame.update(Main.mainProject);
-
-        updateIcons();
-    }//GEN-LAST:event_negButtonActionPerformed
 
     private void addMaskButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addMaskButtonActionPerformed
         MaskCase root = Main.mainProject.getMaskManager().getRoot();
@@ -899,6 +879,17 @@ public class ProjectManagerFrame extends javax.swing.JFrame implements Observer 
         filter();
     }//GEN-LAST:event_pSameCheckBoxActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addMaskButton;
     private javax.swing.JCheckBox diffCheckBox;
@@ -920,13 +911,11 @@ public class ProjectManagerFrame extends javax.swing.JFrame implements Observer 
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTree maskTree;
     private javax.swing.JTextField masksPathField;
-    private javax.swing.JButton negButton;
     private javax.swing.JButton nextButton;
     private javax.swing.JCheckBox notCheckBox;
     private javax.swing.JCheckBox pSameCheckBox;

@@ -7,9 +7,8 @@ package org.jboss.rusheye.manager.project;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import org.jboss.rusheye.manager.Main;
-import org.jboss.rusheye.manager.project.observable.Observed;
 import org.jboss.rusheye.manager.project.observable.Observer;
+import org.jboss.rusheye.parser.ParserThread;
 import org.jboss.rusheye.suite.VisualSuite;
 
 /**
@@ -26,6 +25,8 @@ public abstract class ProjectBase implements Observer {
     protected File suiteDescriptorFile;
     protected VisualSuite suiteDescriptor;
     protected File resultDescriptor;
+    protected ParserThread parserThread;
+    protected boolean parsing;
     protected List<Observer> observers;
 
     public ProjectBase() {
@@ -96,6 +97,22 @@ public abstract class ProjectBase implements Observer {
     }
 
     protected abstract void updateFrames();
+
+    public ParserThread getParserThread() {
+        return parserThread;
+    }
+
+    public void setParserThread(ParserThread parserThread) {
+        this.parserThread = parserThread;
+    }
+
+    public boolean isParsing() {
+        return parsing;
+    }
+
+    public void setParsing(boolean parsing) {
+        this.parsing = parsing;
+    }
 
 
 }

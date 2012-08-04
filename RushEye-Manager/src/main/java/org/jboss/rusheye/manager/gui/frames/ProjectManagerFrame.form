@@ -48,9 +48,22 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="1" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="prevButton" min="-2" pref="106" max="-2" attributes="0"/>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <Component id="nextButton" min="-2" pref="106" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Component id="runAllButton" alignment="0" min="-2" pref="224" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="posButton" min="-2" pref="106" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="jSeparator2" max="32767" attributes="0"/>
                           <Component id="jScrollPane2" alignment="0" max="32767" attributes="0"/>
                           <Component id="jScrollPane1" alignment="0" pref="364" max="32767" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
@@ -60,38 +73,19 @@
                           </Group>
                           <Component id="jSeparator4" alignment="0" max="32767" attributes="0"/>
                           <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="showSameButton" max="32767" attributes="0"/>
+                                  <Component id="showDiffButton" max="32767" attributes="0"/>
+                                  <Component id="showAllButton" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="showNotButton" alignment="0" pref="142" max="32767" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Component id="prevButton" min="-2" pref="106" max="-2" attributes="0"/>
-                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                          <Component id="nextButton" min="-2" pref="106" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Component id="jSeparator1" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="jSeparator2" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="runAllButton" alignment="0" min="-2" pref="224" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="negButton" min="-2" pref="106" max="-2" attributes="0"/>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="posButton" min="-2" pref="106" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="showSameButton" max="32767" attributes="0"/>
-                                          <Component id="showDiffButton" max="32767" attributes="0"/>
-                                          <Component id="showAllButton" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="showNotButton" alignment="0" pref="142" max="32767" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="notCheckBox" min="-2" max="-2" attributes="0"/>
-                                          <Component id="pSameCheckBox" min="-2" max="-2" attributes="0"/>
-                                          <Component id="diffCheckBox" min="-2" max="-2" attributes="0"/>
-                                          <Component id="errorCheckBox" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="sameCheckBox" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
+                                  <Component id="notCheckBox" min="-2" max="-2" attributes="0"/>
+                                  <Component id="pSameCheckBox" min="-2" max="-2" attributes="0"/>
+                                  <Component id="diffCheckBox" min="-2" max="-2" attributes="0"/>
+                                  <Component id="errorCheckBox" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="sameCheckBox" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
@@ -135,26 +129,26 @@
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jSeparator4" min="-2" pref="10" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane2" pref="264" max="32767" attributes="0"/>
+                      <Component id="jScrollPane2" pref="270" max="32767" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jScrollPane1" min="-2" pref="66" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="negButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="posButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jSeparator1" min="-2" pref="10" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="nextButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="prevButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
+                              <Component id="runAllButton" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="nextButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="prevButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="posButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jSeparator2" min="-2" pref="10" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jSeparator2" min="-2" pref="10" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="runAllButton" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="62" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -194,6 +188,7 @@
                     <Property name="model" type="javax.swing.tree.TreeModel" editor="org.netbeans.modules.form.editors2.TreeModelEditor">
                       <TreeModel code="Test Cases"/>
                     </Property>
+                    <Property name="rootVisible" type="boolean" value="false"/>
                   </Properties>
                 </Component>
               </SubComponents>
@@ -204,14 +199,6 @@
                   <Font name="Ubuntu" size="15" style="2"/>
                 </Property>
               </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="negButton">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Negative"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="negButtonActionPerformed"/>
-              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="runAllButton">
               <Properties>
@@ -244,15 +231,13 @@
             </Component>
             <Component class="javax.swing.JButton" name="posButton">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Positive"/>
+                <Property name="text" type="java.lang.String" value="Accept"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="posButtonActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JSeparator" name="jSeparator2">
-            </Component>
-            <Component class="javax.swing.JSeparator" name="jSeparator1">
             </Component>
             <Component class="javax.swing.JCheckBox" name="sameCheckBox">
               <Properties>
@@ -567,16 +552,25 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Set"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="jButton2">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Set"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="jButton3">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Set"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton3ActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

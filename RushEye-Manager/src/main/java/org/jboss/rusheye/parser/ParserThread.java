@@ -27,4 +27,8 @@ public class ParserThread implements Runnable {
 
         Main.mainProject.loadResultAsString();
     }
+    
+    public ManagerParser getParser(){
+        return parser;
+    }
 }

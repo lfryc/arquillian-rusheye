@@ -40,6 +40,7 @@ public class ManagerParser extends Parser implements Observed {
 
     private RushEyeStatistics statistics;
     private List<Observer> list;
+    private transient boolean valid = true;
 
     public ManagerParser() {
         super();
@@ -87,6 +88,8 @@ public class ManagerParser extends Parser implements Observed {
             listener.registerListener(new UniqueIdentityChecker(handler.getContext()));
 
             while (filteredReader.hasNext()) {
+                if(!isValid())
+                    break;
                 try {
                     // go on the start of the next tag
                     filteredReader.nextTag();
@@ -142,6 +145,8 @@ public class ManagerParser extends Parser implements Observed {
                 FileUtils.deleteQuietly(file);
             }
         }
+        
+        Main.mainProject.setParsing(false);
     }
 
     public VisualSuite loadSuite(File file) {
@@ -254,5 +259,13 @@ public class ManagerParser extends Parser implements Observed {
 
     public RushEyeStatistics getStatistics() {
         return statistics;
+    }
+
+    public boolean isValid() {
+        return valid;
+    }
+
+    public void setValid(boolean valid) {
+        this.valid = valid;
     }
 }
