@@ -68,7 +68,7 @@ public class ManagerResultCollector extends ResultCollectorAdapter {
         pattern.setComparisonResult(comparisonResult);
 
         TestCase managerTest = Main.mainProject.findTest(test.getName(), pattern.getName());
-        if (managerTest.getConclusion() != null)
+        if (managerTest.getConclusion() != null && managerTest.getConclusion() != ResultConclusion.NOT_TESTED)
             pattern.setConclusion(managerTest.getConclusion());
         else
             pattern.setConclusion(conclusion);

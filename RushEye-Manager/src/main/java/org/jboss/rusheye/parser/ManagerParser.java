@@ -50,6 +50,7 @@ public class ManagerParser extends Parser implements Observed {
 
     @Override
     protected void parseFile(File file, boolean tmpfile) {
+        Main.mainProject.setParsing(true);
         statistics = new RushEyeStatistics();
         VisualSuite visualSuite = null;
         try {
@@ -147,6 +148,8 @@ public class ManagerParser extends Parser implements Observed {
         }
         
         Main.mainProject.setParsing(false);
+        valid = true;
+        Main.interfaceFrame.getProjectFrame().toggleRunAll();
     }
 
     public VisualSuite loadSuite(File file) {

@@ -4,13 +4,12 @@
  */
 package org.jboss.rusheye.manager.project;
 
-import org.jboss.rusheye.manager.project.tree.TreeNodeImpl;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.List;
 import org.jboss.rusheye.core.DefaultImageComparator;
 import org.jboss.rusheye.manager.Main;
 import org.jboss.rusheye.manager.gui.view.image.ImagePool;
+import org.jboss.rusheye.manager.project.tree.TreeNodeImpl;
 import org.jboss.rusheye.parser.DefaultConfiguration;
 import org.jboss.rusheye.result.ResultEvaluator;
 import org.jboss.rusheye.suite.ComparisonResult;

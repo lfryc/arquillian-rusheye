@@ -50,7 +50,6 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
         initComponents();
 
         filterField.getDocument().addDocumentListener(new DocumentListener() {
-
             public void insertUpdate(DocumentEvent de) {
                 String regexp = filterField.getText();
                 if (regexp.equals("")) {
@@ -78,7 +77,6 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
         });
 
         projectTree.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
-
             public void valueChanged(TreeSelectionEvent tse) {
                 putTestIntoView();
                 if (Main.mainProject.getCurrentCase() != null && Main.mainProject.getCurrentCase().isLeaf()) {
@@ -92,7 +90,6 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
         });
 
         maskTree.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
-
             public void valueChanged(TreeSelectionEvent tse) {
                 putMaskIntoView();
             }
@@ -211,7 +208,7 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
     public void putMaskIntoView() {
         MaskCase node = (MaskCase) maskTree.getLastSelectedPathComponent();
 
-        if (node == null) 
+        if (node == null)
             return;
 
         if (node.getName().startsWith("Mask ")) {
@@ -248,6 +245,13 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
         Main.mainProject.getRoot().setVisibility(filter);
         this.updateTreeModel();
     }
+    
+    public void toggleRunAll(){
+        if(runAllButton.getText().equals("Run all"))
+            runAllButton.setText("Stop");
+        else
+            runAllButton.setText("Run all");
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -281,6 +285,7 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
         errorCheckBox = new javax.swing.JCheckBox();
         jSeparator4 = new javax.swing.JSeparator();
         showNotButton = new javax.swing.JButton();
+        jProgressBar1 = new javax.swing.JProgressBar();
         masksPanel = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         maskTree = new javax.swing.JTree();
@@ -299,6 +304,14 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
         patternsButton = new javax.swing.JButton();
         samplesButton = new javax.swing.JButton();
         masksButton = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        pixelTresField = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        diffTresField = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        diffAmountField = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
 
         setTitle("ProjectManager");
 
@@ -422,15 +435,6 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
             .addGroup(managerPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(managerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, managerPanelLayout.createSequentialGroup()
-                        .addGroup(managerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(managerPanelLayout.createSequentialGroup()
-                                .addComponent(prevButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(nextButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(runAllButton, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(posButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jSeparator2)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 364, Short.MAX_VALUE)
@@ -452,7 +456,17 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
                             .addComponent(diffCheckBox)
                             .addComponent(errorCheckBox)
                             .addComponent(sameCheckBox))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(managerPanelLayout.createSequentialGroup()
+                        .addGroup(managerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, managerPanelLayout.createSequentialGroup()
+                                .addComponent(prevButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(nextButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(runAllButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(posButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         managerPanelLayout.setVerticalGroup(
@@ -486,10 +500,10 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 216, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addGroup(managerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(managerPanelLayout.createSequentialGroup()
                         .addGap(48, 48, 48)
@@ -501,7 +515,9 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
                             .addComponent(posButton))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(62, 62, 62))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18))
         );
 
         jTabbedPane1.addTab("Manager", managerPanel);
@@ -566,7 +582,7 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
                         .addComponent(saveMaskButton)))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(342, Short.MAX_VALUE))
+                .addContainerGap(276, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Masks", masksPanel);
@@ -612,6 +628,14 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
             }
         });
 
+        jLabel5.setText("One pixel treshold :");
+
+        jLabel6.setText("Global difference treshold :");
+
+        jLabel7.setText("Global difference amount :");
+
+        jLabel8.setText("%");
+
         javax.swing.GroupLayout configPanelLayout = new javax.swing.GroupLayout(configPanel);
         configPanel.setLayout(configPanelLayout);
         configPanelLayout.setHorizontalGroup(
@@ -619,12 +643,7 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
             .addGroup(configPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(configPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(configPanelLayout.createSequentialGroup()
-                        .addGroup(configPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel4))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jSeparator1)
                     .addGroup(configPanelLayout.createSequentialGroup()
                         .addGroup(configPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(patternsPathField)
@@ -634,7 +653,22 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
                         .addGroup(configPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(masksButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(samplesButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(patternsButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(patternsButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(configPanelLayout.createSequentialGroup()
+                        .addGroup(configPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel6)
+                            .addComponent(pixelTresField, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(diffTresField, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel7)
+                            .addGroup(configPanelLayout.createSequentialGroup()
+                                .addComponent(diffAmountField, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel8)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         configPanelLayout.setVerticalGroup(
@@ -658,7 +692,23 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
                 .addGroup(configPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(masksPathField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(masksButton))
-                .addContainerGap(512, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pixelTresField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(diffTresField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(configPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(diffAmountField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8))
+                .addContainerGap(244, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Configuration", configPanel);
@@ -671,7 +721,7 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 766, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jTabbedPane1)
         );
 
         pack();
@@ -730,7 +780,6 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
     private void runAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runAllButtonActionPerformed
         if (Main.mainProject.isParsing()) {
             Main.mainProject.getParserThread().getParser().setValid(false);
-            runAllButton.setText("Run all");
         } else {
             Properties props = new Properties();
 
@@ -738,12 +787,15 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
                 props.setProperty("samples-directory", Main.mainProject.getSamplesPath());
             else {
                 JOptionPane.showMessageDialog(this, "No samples path selected", "Parse", JOptionPane.WARNING_MESSAGE);
+                return;
             }
-            if (!Main.mainProject.getPatternPath().equals("")) {
+            if (!Main.mainProject.getPatternPath().equals("")) 
                 props.setProperty("patterns-directory", Main.mainProject.getPatternPath());
-            } else {
+             else {
                 JOptionPane.showMessageDialog(this, "No patterns path selected", "Parse", JOptionPane.WARNING_MESSAGE);
+                return;
             }
+            
             props.setProperty("file-storage-directory", "tmp");
             props.setProperty("result-output-file", "result.xml");
 
@@ -751,17 +803,17 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
                 props.setProperty("masks-directory", Main.mainProject.getMaskPath());
 
             Main.statFrame.setVisible(true);
+            
             ManagerParser parser = Main.mainProject.getParser();
             parser.setProperties(props);
 
+            this.toggleRunAll();
             Main.mainProject.setParserThread(new ParserThread(parser));
             Main.mainProject.setParsing(true);
             new Thread(Main.mainProject.getParserThread()).start();
-            
-            runAllButton.setText("Stop");
 
             Main.mainProject.setResultDescriptor(new File("result.xml"));
-
+            
         }
     }//GEN-LAST:event_runAllButtonActionPerformed
 
@@ -872,7 +924,9 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addMaskButton;
     private javax.swing.JPanel configPanel;
+    private javax.swing.JTextField diffAmountField;
     private javax.swing.JCheckBox diffCheckBox;
+    private javax.swing.JTextField diffTresField;
     private javax.swing.JCheckBox errorCheckBox;
     private javax.swing.JTextField filterField;
     private javax.swing.JTextArea infoTextArea;
@@ -881,10 +935,16 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JTabbedPane jTabbedPane1;
@@ -898,6 +958,7 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
     private javax.swing.JCheckBox pSameCheckBox;
     private javax.swing.JButton patternsButton;
     private javax.swing.JTextField patternsPathField;
+    private javax.swing.JTextField pixelTresField;
     private javax.swing.JButton posButton;
     private javax.swing.JButton prevButton;
     private javax.swing.JTree projectTree;
