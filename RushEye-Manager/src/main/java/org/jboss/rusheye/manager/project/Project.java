@@ -5,14 +5,10 @@
 package org.jboss.rusheye.manager.project;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Collections;
 import org.jboss.rusheye.manager.Main;
-import org.jboss.rusheye.manager.exception.ManagerException;
 import org.jboss.rusheye.manager.gui.charts.RushEyeStatistics;
 import org.jboss.rusheye.manager.project.observable.Observed;
 import org.jboss.rusheye.parser.ManagerParser;
-import org.jboss.rusheye.suite.ResultConclusion;
 
 /**
  * Class where we store all data about RushEye Manager project.
@@ -125,6 +121,7 @@ public class Project extends ProjectBase {
 
     @Override
     public void updateFrames() {
+        Main.interfaceFrame.getProjectFrame().updateCheckBoxes(statistics);
         Main.interfaceFrame.getProjectFrame().update(this);
         Main.interfaceFrame.getStatFrame().update(this);
     }

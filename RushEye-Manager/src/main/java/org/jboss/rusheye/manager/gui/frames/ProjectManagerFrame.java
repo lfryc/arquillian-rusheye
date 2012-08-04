@@ -20,6 +20,7 @@ import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 import org.jboss.rusheye.manager.Main;
 import org.jboss.rusheye.manager.gui.CustomTreeRenderer;
+import org.jboss.rusheye.manager.gui.charts.RushEyeStatistics;
 import org.jboss.rusheye.manager.gui.view.DoubleView;
 import org.jboss.rusheye.manager.gui.view.MaskView;
 import org.jboss.rusheye.manager.gui.view.SingleView;
@@ -229,6 +230,15 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
         errorCheckBox.setSelected(value);
     }
 
+    public void updateCheckBoxes(RushEyeStatistics stats) {
+        sameCheckBox.setText("Same (" + stats.getValue(ResultConclusion.SAME)+")");
+        pSameCheckBox.setText("Perceptually same (" + stats.getValue(ResultConclusion.PERCEPTUALLY_SAME)+")");
+        diffCheckBox.setText("Differ (" + stats.getValue(ResultConclusion.DIFFER)+")");
+        notCheckBox.setText("Not tested (" + stats.getValue(ResultConclusion.NOT_TESTED)+")");
+        errorCheckBox.setText("Error (" + stats.getValue(ResultConclusion.ERROR)+")");
+        
+    }
+
     private void filter() {
         List<ResultConclusion> filter = new ArrayList<ResultConclusion>();
         if (sameCheckBox.isSelected())
@@ -245,9 +255,9 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
         Main.mainProject.getRoot().setVisibility(filter);
         this.updateTreeModel();
     }
-    
-    public void toggleRunAll(){
-        if(runAllButton.getText().equals("Run all"))
+
+    public void toggleRunAll() {
+        if (runAllButton.getText().equals("Run all"))
             runAllButton.setText("Stop");
         else
             runAllButton.setText("Run all");
@@ -757,6 +767,7 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
             }
         }
         updateIcons();
+        updateCheckBoxes(Main.mainProject.getStatistics());
     }//GEN-LAST:event_posButtonActionPerformed
 
     /**
@@ -789,13 +800,13 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "No samples path selected", "Parse", JOptionPane.WARNING_MESSAGE);
                 return;
             }
-            if (!Main.mainProject.getPatternPath().equals("")) 
+            if (!Main.mainProject.getPatternPath().equals(""))
                 props.setProperty("patterns-directory", Main.mainProject.getPatternPath());
-             else {
+            else {
                 JOptionPane.showMessageDialog(this, "No patterns path selected", "Parse", JOptionPane.WARNING_MESSAGE);
                 return;
             }
-            
+
             props.setProperty("file-storage-directory", "tmp");
             props.setProperty("result-output-file", "result.xml");
 
@@ -803,7 +814,7 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
                 props.setProperty("masks-directory", Main.mainProject.getMaskPath());
 
             Main.interfaceFrame.getStatFrame().setVisible(true);
-            
+
             ManagerParser parser = Main.mainProject.createParser();
             parser.setProperties(props);
 
@@ -813,7 +824,7 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
             new Thread(Main.mainProject.getParserThread()).start();
 
             Main.mainProject.setResultDescriptor(new File("result.xml"));
-            
+
         }
     }//GEN-LAST:event_runAllButtonActionPerformed
 
