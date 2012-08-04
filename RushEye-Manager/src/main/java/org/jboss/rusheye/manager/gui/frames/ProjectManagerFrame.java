@@ -804,7 +804,7 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
 
             Main.statFrame.setVisible(true);
             
-            ManagerParser parser = Main.mainProject.getParser();
+            ManagerParser parser = Main.mainProject.createParser();
             parser.setProperties(props);
 
             this.toggleRunAll();

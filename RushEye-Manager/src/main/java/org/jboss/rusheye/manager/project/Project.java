@@ -19,13 +19,13 @@ import org.jboss.rusheye.suite.ResultConclusion;
  *
  * @author Jakub D.
  */
-public class Project extends ProjectBase  {
+public class Project extends ProjectBase {
 
     String resultDescriptorString = null;
     private MaskManager maskManager;
     private ManagerParser parser;
     private RushEyeStatistics statistics;
-    
+
     public static Project emptyProject() {
         Project tmp = new Project();
         return tmp;
@@ -39,20 +39,25 @@ public class Project extends ProjectBase  {
         super();
         root = new TestCase();
         maskManager = new MaskManager();
-        statistics = new RushEyeStatistics(); 
-        parser = new ManagerParser();
-        parser.addObserver(this);   
+        statistics = new RushEyeStatistics();
+        createParser();
     }
 
     public Project(File suiteFile) {
         this();
-        
+
         this.suiteDescriptorFile = suiteFile;
         this.suiteDescriptor = parser.loadSuite(suiteFile);
-        
+
         root = parser.parseSuiteToManagerCases(this.suiteDescriptor);
     }
-    
+
+    public ManagerParser createParser() {
+        parser = new ManagerParser();
+        parser.addObserver(this);
+        return parser;
+    }
+
     /**
      * Method that search recursively through tests tree.
      *
@@ -73,7 +78,6 @@ public class Project extends ProjectBase  {
     public TestCase findTest(String testName, String patternName) {
         return root.findTest("Test Cases." + testName + "." + patternName);
     }
-
 
     /**
      * Loads result xml as string.
@@ -98,30 +102,29 @@ public class Project extends ProjectBase  {
         return resultDescriptorString;
     }
 
-    public MaskManager getMaskManager(){
+    public MaskManager getMaskManager() {
         return maskManager;
     }
-    
-    public ManagerParser getParser(){
+
+    public ManagerParser getParser() {
         return parser;
     }
-    
-    public RushEyeStatistics getStatistics(){
+
+    public RushEyeStatistics getStatistics() {
         return statistics;
     }
 
     @Override
     public void update(Observed o) {
         System.out.println("Update from parser");
-        if(o instanceof ManagerParser){
-            statistics = ((ManagerParser)o).getStatistics();
+        if (o instanceof ManagerParser) {
+            statistics = ((ManagerParser) o).getStatistics();
             updateFrames();
         }
     }
-    
+
     @Override
-    public void updateFrames(){
+    public void updateFrames() {
         Main.interfaceFrame.getProjectFrame().update(this);
     }
-    
 }
