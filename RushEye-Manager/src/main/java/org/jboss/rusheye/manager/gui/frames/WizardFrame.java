@@ -203,8 +203,6 @@ public class WizardFrame extends javax.swing.JFrame {
         Main.mainProject.setSamplesPath(samplesField.getText());
         Main.mainProject.setMaskPath(masksField.getText());
         
-        System.out.println(Main.mainProject.getSuiteDescriptor().getGlobalConfiguration().getPerception().getOnePixelTreshold());
-        
         Main.interfaceFrame.getProjectFrame().createTree();
         Main.interfaceFrame.clean();
         

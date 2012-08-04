@@ -31,6 +31,9 @@ public class ChartRetrieverImpl implements ChartRetriever {
     @Override
     public Image generateChart() {
         try {
+            if(statistics.calculateSum()==0){
+                return new BufferedImage(600, 450, BufferedImage.TYPE_INT_ARGB);
+            }
             Plot plot = Plots.newPlot(DataUtil.scaleWithinRange(0, statistics.calculateSum(), statistics.getValues()));
 
 

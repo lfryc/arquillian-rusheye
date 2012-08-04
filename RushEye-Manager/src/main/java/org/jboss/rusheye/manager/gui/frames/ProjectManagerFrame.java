@@ -35,6 +35,7 @@ import org.jboss.rusheye.manager.project.tree.TreeNodeImpl;
 import org.jboss.rusheye.manager.utils.FileChooserUtils;
 import org.jboss.rusheye.parser.ManagerParser;
 import org.jboss.rusheye.parser.ParserThread;
+import org.jboss.rusheye.suite.Perception;
 import org.jboss.rusheye.suite.Properties;
 import org.jboss.rusheye.suite.ResultConclusion;
 
@@ -101,6 +102,16 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
         this.patternsPathField.setText(project.getPatternPath());
         this.samplesPathField.setText(project.getSamplesPath());
         this.masksPathField.setText(project.getMaskPath());
+
+        if (project.getSuiteDescriptor() != null) {
+            Perception perception = project.getSuiteDescriptor().getGlobalConfiguration().getPerception();
+            if (perception.getOnePixelTreshold() != null)
+                this.pixelTresField.setText("" + perception.getOnePixelTreshold());
+            if (perception.getGlobalDifferenceTreshold() != null)
+                this.diffTresField.setText("" + perception.getGlobalDifferenceTreshold());
+            if (perception.getGlobalDifferenceAmount() != null)
+                this.diffAmountField.setText("" + perception.getGlobalDifferenceAmount());
+        }
     }
 
     public void createTree() {
@@ -231,12 +242,12 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
     }
 
     public void updateCheckBoxes(RushEyeStatistics stats) {
-        sameCheckBox.setText("Same (" + stats.getValue(ResultConclusion.SAME)+")");
-        pSameCheckBox.setText("Perceptually same (" + stats.getValue(ResultConclusion.PERCEPTUALLY_SAME)+")");
-        diffCheckBox.setText("Differ (" + stats.getValue(ResultConclusion.DIFFER)+")");
-        notCheckBox.setText("Not tested (" + stats.getValue(ResultConclusion.NOT_TESTED)+")");
-        errorCheckBox.setText("Error (" + stats.getValue(ResultConclusion.ERROR)+")");
-        
+        sameCheckBox.setText("Same (" + stats.getValue(ResultConclusion.SAME) + ")");
+        pSameCheckBox.setText("Perceptually same (" + stats.getValue(ResultConclusion.PERCEPTUALLY_SAME) + ")");
+        diffCheckBox.setText("Differ (" + stats.getValue(ResultConclusion.DIFFER) + ")");
+        notCheckBox.setText("Not tested (" + stats.getValue(ResultConclusion.NOT_TESTED) + ")");
+        errorCheckBox.setText("Error (" + stats.getValue(ResultConclusion.ERROR) + ")");
+
     }
 
     private void filter() {
