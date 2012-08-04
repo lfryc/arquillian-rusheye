@@ -245,7 +245,7 @@ public class CrawlFrame extends javax.swing.JFrame {
             Main.mainProject.setPatternPath(path);
             Main.mainProject.setMaskPath(masks);
 
-            Main.projectFrame.createTree();
+            Main.interfaceFrame.getProjectFrame().createTree();
         } catch (IOException ex) {
             ex.printStackTrace();
         }

@@ -22,14 +22,17 @@ public class InterfaceFrame extends javax.swing.JFrame {
     public static final int DOUBLE = 2;
     public static final int MASK = 3;
     private int view = InterfaceFrame.DOUBLE;
+    private ProjectManagerFrame projectFrame;
 
     /**
      * Creates new form InterfaceFrame
      */
     public InterfaceFrame() {
         initComponents();
+        this.setVisible(true);
 
-        this.validate();
+        projectFrame = new ProjectManagerFrame();
+        projectFrame.setVisible(true);
     }
 
     public JPanel getMainPanel() {
@@ -63,7 +66,7 @@ public class InterfaceFrame extends javax.swing.JFrame {
             Main.mainProject.setPatternPath(dir.getAbsolutePath());
 
             Main.mainProject.getRoot().removeDiffRecursive();
-            Main.projectFrame.putTestIntoView();
+            projectFrame.putTestIntoView();
         }
         return dir;
     }
@@ -79,9 +82,24 @@ public class InterfaceFrame extends javax.swing.JFrame {
             Main.mainProject.setSamplesPath(dir.getAbsolutePath());
 
             Main.mainProject.getRoot().removeDiffRecursive();
-            Main.projectFrame.putTestIntoView();
+            projectFrame.putTestIntoView();
         }
         return dir;
+    }
+
+    public File setMasksAction() {
+        File dir = FileChooserUtils.openDir("Open Mask Dir", this);
+        if (dir != null) {
+            Main.mainProject.setMaskPath(dir.getAbsolutePath());
+
+            Main.mainProject.getRoot().removeDiffRecursive();
+            projectFrame.putTestIntoView();
+        }
+        return dir;
+    }
+
+    public ProjectManagerFrame getProjectFrame() {
+        return projectFrame;
     }
 
     /**
@@ -103,6 +121,7 @@ public class InterfaceFrame extends javax.swing.JFrame {
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         patternsPathMenuItem = new javax.swing.JMenuItem();
         samplesPathMenuItem = new javax.swing.JMenuItem();
+        masksPathMenuItem = new javax.swing.JMenuItem();
         resultMenuItem = new javax.swing.JMenuItem();
         viewsMenu = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
@@ -162,6 +181,14 @@ public class InterfaceFrame extends javax.swing.JFrame {
             }
         });
         projectMenu.add(samplesPathMenuItem);
+
+        masksPathMenuItem.setText("Set masks path");
+        masksPathMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                masksPathMenuItemActionPerformed(evt);
+            }
+        });
+        projectMenu.add(masksPathMenuItem);
 
         resultMenuItem.setText("Set result descriptor");
         resultMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -235,17 +262,17 @@ public class InterfaceFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_patternsPathMenuItemActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        Main.projectFrame.setVisible(true);
+        projectFrame.setVisible(true);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
-   /**
+    /**
      * Changes view to double view.
      *
      * @param evt event triggering method
      */
     private void doubleViewMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_doubleViewMenuItemActionPerformed
         view = InterfaceFrame.DOUBLE;
-        Main.projectFrame.putTestIntoView();
+        projectFrame.putTestIntoView();
     }//GEN-LAST:event_doubleViewMenuItemActionPerformed
     /**
      * Changes view to single view.
@@ -254,10 +281,10 @@ public class InterfaceFrame extends javax.swing.JFrame {
      */
     private void singleViewMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_singleViewMenuItemActionPerformed
         view = InterfaceFrame.SINGLE;
-        Main.projectFrame.putTestIntoView();
+        projectFrame.putTestIntoView();
     }//GEN-LAST:event_singleViewMenuItemActionPerformed
 
-   /**
+    /**
      * Opens project using descriptor xml file.
      *
      * @param evt event triggering method
@@ -291,13 +318,17 @@ public class InterfaceFrame extends javax.swing.JFrame {
 
     private void maskViewMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_maskViewMenuItemActionPerformed
         view = InterfaceFrame.MASK;
-        Main.projectFrame.putTestIntoView();
-        Main.projectFrame.createMaskTree();
+        projectFrame.putTestIntoView();
+        projectFrame.createMaskTree();
     }//GEN-LAST:event_maskViewMenuItemActionPerformed
 
     private void statisticsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statisticsMenuItemActionPerformed
         Main.statFrame.setVisible(true);
     }//GEN-LAST:event_statisticsMenuItemActionPerformed
+
+    private void masksPathMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_masksPathMenuItemActionPerformed
+        setMasksAction();
+    }//GEN-LAST:event_masksPathMenuItemActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem descriptorProjectMenuItem;
     private javax.swing.JMenuItem doubleViewMenuItem;
@@ -308,6 +339,7 @@ public class InterfaceFrame extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JMenuItem maskViewMenuItem;
+    private javax.swing.JMenuItem masksPathMenuItem;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem patternsPathMenuItem;
     private javax.swing.JMenu projectMenu;

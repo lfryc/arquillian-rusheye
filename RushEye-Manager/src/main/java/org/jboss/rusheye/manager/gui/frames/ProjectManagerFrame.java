@@ -106,7 +106,7 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
     }
 
     public void createTree() {
-        Main.projectFrame.setVisible(true);
+        this.setVisible(true);
         projectTree.setCellRenderer(new CustomTreeRenderer());
         updateTreeModel();
     }
@@ -115,10 +115,9 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
         DefaultTreeModel model = new DefaultTreeModel(Main.mainProject.getRoot());
         projectTree.setModel(model);
         projectTree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
-        Main.projectFrame.validate();
+        this.validate();
         for (int i = 0; i < projectTree.getRowCount(); i++)
             projectTree.expandRow(i);
-
     }
 
     /**
@@ -132,12 +131,11 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
             return;
 
         if (node.isLeaf()) {
-            Main.mainProject.setCurrentCase(Main.mainProject.findTest(node.getPath()));
+            TestCase current = Main.mainProject.findTest(node.getPath());
+            Main.mainProject.setCurrentCase(current);
 
+            Main.interfaceFrame.clean();
             JPanel panel = Main.interfaceFrame.getMainPanel();
-            panel.removeAll();
-
-            TestCase current = Main.mainProject.getCurrentCase();
 
             switch (Main.interfaceFrame.getView()) {
                 case InterfaceFrame.SINGLE:
@@ -869,7 +867,7 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_samplesButtonActionPerformed
 
     private void masksButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_masksButtonActionPerformed
-        // TODO add your handling code here:
+        Main.interfaceFrame.setMasksAction();
     }//GEN-LAST:event_masksButtonActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addMaskButton;

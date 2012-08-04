@@ -48,6 +48,7 @@ public abstract class ProjectBase implements Observer {
 
     public void setMaskPath(String maskPath) {
         this.maskPath = maskPath;
+        updateFrames();
     }
 
     public File getResultDescriptor() {

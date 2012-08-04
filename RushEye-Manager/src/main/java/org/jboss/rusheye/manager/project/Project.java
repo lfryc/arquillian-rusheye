@@ -121,7 +121,7 @@ public class Project extends ProjectBase  {
     
     @Override
     public void updateFrames(){
-        Main.projectFrame.update(this);
+        Main.interfaceFrame.getProjectFrame().update(this);
     }
     
 }

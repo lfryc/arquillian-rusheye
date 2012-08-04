@@ -123,7 +123,7 @@ public class ManagerParser extends Parser implements Observed {
                             statistics.addValue(pattern.getConclusion(), 1);
                             
                             Main.mainProject.setCurrentCase(managerTest);
-                            Main.projectFrame.updateIcons();
+                            Main.interfaceFrame.getProjectFrame().updateIcons();
                             
                             this.notifyObservers();
                         }

@@ -15,11 +15,7 @@ public class Main
         
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                interfaceFrame=new InterfaceFrame();
-                interfaceFrame.setVisible(true);
-                
-                projectFrame = new ProjectManagerFrame();
-                projectFrame.setVisible(true);
+                interfaceFrame=new InterfaceFrame();                
                 
                 statFrame = new StatisticsFrame();
                 statFrame.setVisible(false);
@@ -32,7 +28,6 @@ public class Main
     }
     
     public static InterfaceFrame interfaceFrame;
-    public static ProjectManagerFrame projectFrame;
     public static StatisticsFrame statFrame;
     
     public static Project mainProject;
