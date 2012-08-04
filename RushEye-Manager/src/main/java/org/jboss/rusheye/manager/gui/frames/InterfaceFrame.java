@@ -5,6 +5,9 @@
 package org.jboss.rusheye.manager.gui.frames;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.nio.channels.FileChannel;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import org.jboss.rusheye.manager.Main;
@@ -130,7 +133,9 @@ public class InterfaceFrame extends javax.swing.JFrame {
         patternsPathMenuItem = new javax.swing.JMenuItem();
         samplesPathMenuItem = new javax.swing.JMenuItem();
         masksPathMenuItem = new javax.swing.JMenuItem();
-        resultMenuItem = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        resultSaveMenuItem = new javax.swing.JMenuItem();
+        resultLoadMenuItem = new javax.swing.JMenuItem();
         viewsMenu = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
@@ -197,14 +202,23 @@ public class InterfaceFrame extends javax.swing.JFrame {
             }
         });
         projectMenu.add(masksPathMenuItem);
+        projectMenu.add(jSeparator1);
 
-        resultMenuItem.setText("Set result descriptor");
-        resultMenuItem.addActionListener(new java.awt.event.ActionListener() {
+        resultSaveMenuItem.setText("Save result descriptor");
+        resultSaveMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                resultMenuItemActionPerformed(evt);
+                resultSaveMenuItemActionPerformed(evt);
             }
         });
-        projectMenu.add(resultMenuItem);
+        projectMenu.add(resultSaveMenuItem);
+
+        resultLoadMenuItem.setText("Load result descriptor");
+        resultLoadMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                resultLoadMenuItemActionPerformed(evt);
+            }
+        });
+        projectMenu.add(resultLoadMenuItem);
 
         menuBar.add(projectMenu);
 
@@ -315,14 +329,14 @@ public class InterfaceFrame extends javax.swing.JFrame {
      *
      * @param evt event triggering method
      */
-    private void resultMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resultMenuItemActionPerformed
+    private void resultLoadMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resultLoadMenuItemActionPerformed
         JFileChooser fc = FileChooserUtils.fileChooser();
         File tmp = FileChooserUtils.chooseFile(fc, this);
         if (tmp != null) {
             Main.mainProject.setResultDescriptor(tmp);
             Main.mainProject.loadResultAsString();
         }
-    }//GEN-LAST:event_resultMenuItemActionPerformed
+    }//GEN-LAST:event_resultLoadMenuItemActionPerformed
 
     private void maskViewMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_maskViewMenuItemActionPerformed
         view = InterfaceFrame.MASK;
@@ -337,12 +351,41 @@ public class InterfaceFrame extends javax.swing.JFrame {
     private void masksPathMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_masksPathMenuItemActionPerformed
         setMasksAction();
     }//GEN-LAST:event_masksPathMenuItemActionPerformed
+
+    private void resultSaveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resultSaveMenuItemActionPerformed
+        JFileChooser fc = FileChooserUtils.saveChooser();
+
+        int returnVal = fc.showSaveDialog(this);
+
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File file = fc.getSelectedFile();
+
+            FileChannel source = null;
+            FileChannel destination = null;
+
+            try {
+                source = new FileInputStream(new File("result.xml")).getChannel();
+                destination = new FileOutputStream(file).getChannel();
+                destination.transferFrom(source, 0, source.size());
+                if (source != null) {
+                    source.close();
+                }
+                if (destination != null) {
+                    destination.close();
+                }
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_resultSaveMenuItemActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem descriptorProjectMenuItem;
     private javax.swing.JMenuItem doubleViewMenuItem;
     private javax.swing.JMenuItem emptyProjectMenuItem;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JPanel mainPanel;
@@ -351,7 +394,8 @@ public class InterfaceFrame extends javax.swing.JFrame {
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem patternsPathMenuItem;
     private javax.swing.JMenu projectMenu;
-    private javax.swing.JMenuItem resultMenuItem;
+    private javax.swing.JMenuItem resultLoadMenuItem;
+    private javax.swing.JMenuItem resultSaveMenuItem;
     private javax.swing.JMenuItem samplesPathMenuItem;
     private javax.swing.JMenuItem singleViewMenuItem;
     private javax.swing.JMenuItem statisticsMenuItem;
