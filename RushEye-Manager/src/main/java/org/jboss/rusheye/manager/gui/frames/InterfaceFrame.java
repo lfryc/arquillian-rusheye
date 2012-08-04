@@ -23,6 +23,7 @@ public class InterfaceFrame extends javax.swing.JFrame {
     public static final int MASK = 3;
     private int view = InterfaceFrame.DOUBLE;
     private ProjectManagerFrame projectFrame;
+    private StatisticsFrame statFrame;
 
     /**
      * Creates new form InterfaceFrame
@@ -33,6 +34,9 @@ public class InterfaceFrame extends javax.swing.JFrame {
 
         projectFrame = new ProjectManagerFrame();
         projectFrame.setVisible(true);
+
+        statFrame = new StatisticsFrame();
+        statFrame.setVisible(false);
     }
 
     public JPanel getMainPanel() {
@@ -100,6 +104,10 @@ public class InterfaceFrame extends javax.swing.JFrame {
 
     public ProjectManagerFrame getProjectFrame() {
         return projectFrame;
+    }
+
+    public StatisticsFrame getStatFrame() {
+        return statFrame;
     }
 
     /**
@@ -323,7 +331,7 @@ public class InterfaceFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_maskViewMenuItemActionPerformed
 
     private void statisticsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statisticsMenuItemActionPerformed
-        Main.statFrame.setVisible(true);
+        statFrame.setVisible(true);
     }//GEN-LAST:event_statisticsMenuItemActionPerformed
 
     private void masksPathMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_masksPathMenuItemActionPerformed

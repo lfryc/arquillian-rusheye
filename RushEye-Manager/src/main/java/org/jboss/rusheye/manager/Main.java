@@ -1,7 +1,6 @@
 package org.jboss.rusheye.manager;
 
-import org.jboss.rusheye.manager.gui.charts.RushEyeStatistics;
-import org.jboss.rusheye.manager.gui.frames.*;
+import org.jboss.rusheye.manager.gui.frames.InterfaceFrame;
 import org.jboss.rusheye.manager.project.Project;
 
 /**
@@ -16,10 +15,7 @@ public class Main
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 interfaceFrame=new InterfaceFrame();                
-                
-                statFrame = new StatisticsFrame();
-                statFrame.setVisible(false);
-                
+
                 mainProject = Project.emptyProject();
                 
             }
@@ -28,8 +24,6 @@ public class Main
     }
     
     public static InterfaceFrame interfaceFrame;
-    public static StatisticsFrame statFrame;
-    
     public static Project mainProject;
     
 }

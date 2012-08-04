@@ -739,7 +739,7 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
 
         Main.mainProject.getCurrentCase().setConclusion(ResultConclusion.PERCEPTUALLY_SAME);
         Main.mainProject.getStatistics().addValue(ResultConclusion.PERCEPTUALLY_SAME, 1);
-        Main.statFrame.update(Main.mainProject);
+        Main.interfaceFrame.getStatFrame().update(Main.mainProject);
 
         String result = Main.mainProject.getResult();
         // TODO It's a hack
@@ -802,7 +802,7 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
             if (!Main.mainProject.getMaskPath().equals(""))
                 props.setProperty("masks-directory", Main.mainProject.getMaskPath());
 
-            Main.statFrame.setVisible(true);
+            Main.interfaceFrame.getStatFrame().setVisible(true);
             
             ManagerParser parser = Main.mainProject.createParser();
             parser.setProperties(props);

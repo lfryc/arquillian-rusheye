@@ -68,7 +68,7 @@ public class TestCase extends TreeNodeImpl {
             Main.mainProject.getStatistics().addValue(conclusion, 1);
             Main.mainProject.getStatistics().addValue(ResultConclusion.NOT_TESTED, -1);
 
-            Main.statFrame.update(Main.mainProject);
+            Main.interfaceFrame.getStatFrame().update(Main.mainProject);
         }
         BufferedImage diff = result.getDiffImage();
 
