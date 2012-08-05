@@ -48,8 +48,7 @@ public class ManagerParser extends Parser implements Observed {
         list = new ArrayList<Observer>();
     }
 
-    @Override
-    protected void parseFile(File file, boolean tmpfile) {
+    protected VisualSuite parseSuiteFile(File file, boolean tmpfile) {
         Main.mainProject.setParsing(true);
         statistics = new RushEyeStatistics();
         VisualSuite visualSuite = null;
@@ -61,7 +60,6 @@ public class ManagerParser extends Parser implements Observed {
             XMLInputFactory2 factory = (XMLInputFactory2) XMLInputFactory.newInstance();
 
             StreamFilter filter = new StreamFilter() {
-
                 @Override
                 public boolean accept(XMLStreamReader reader) {
                     return reader.isStartElement();
@@ -89,7 +87,7 @@ public class ManagerParser extends Parser implements Observed {
             listener.registerListener(new UniqueIdentityChecker(handler.getContext()));
 
             while (filteredReader.hasNext()) {
-                if(!isValid())
+                if (!isValid())
                     break;
                 try {
                     // go on the start of the next tag
@@ -122,10 +120,10 @@ public class ManagerParser extends Parser implements Observed {
                             TestCase managerTest = Main.mainProject.findTest(testWrapped.getName(), pattern.getName());
                             managerTest.setConclusion(pattern.getConclusion());
                             statistics.addValue(pattern.getConclusion(), 1);
-                            
+
                             Main.mainProject.setCurrentCase(managerTest);
                             Main.interfaceFrame.getProjectFrame().updateIcons();
-                            
+
                             this.notifyObservers();
                         }
                     }
@@ -146,10 +144,12 @@ public class ManagerParser extends Parser implements Observed {
                 FileUtils.deleteQuietly(file);
             }
         }
-        
+
         Main.mainProject.setParsing(false);
         valid = true;
         Main.interfaceFrame.getProjectFrame().toggleRunAll();
+        
+        return visualSuite;
     }
 
     public VisualSuite loadSuite(File file) {
@@ -162,7 +162,6 @@ public class ManagerParser extends Parser implements Observed {
             XMLInputFactory2 factory = (XMLInputFactory2) XMLInputFactory.newInstance();
 
             StreamFilter filter = new StreamFilter() {
-
                 @Override
                 public boolean accept(XMLStreamReader reader) {
                     return reader.isStartElement();
@@ -213,10 +212,6 @@ public class ManagerParser extends Parser implements Observed {
         return visualSuite;
     }
 
-    public InputStream convertVisualSuiteToStream(VisualSuite suite) {
-        return null;
-    }
-
     public TestCase parseSuiteToManagerCases(VisualSuite suite) {
         statistics = new RushEyeStatistics();
         TestCase root = new TestCase();
@@ -226,7 +221,7 @@ public class ManagerParser extends Parser implements Observed {
             testCase.setName(test.getName());
             testCase.setParent(testCase);
             testCase.setAllowsChildren(true);
-            
+
             for (Pattern pattern : test.getPatterns()) {
                 statistics.addValue(ResultConclusion.NOT_TESTED, 1);
                 TestCase patternCase = new TestCase();
@@ -235,10 +230,10 @@ public class ManagerParser extends Parser implements Observed {
                 patternCase.setConclusion(ResultConclusion.NOT_TESTED);
                 testCase.addChild(patternCase);
             }
-            
+
             root.addChild(testCase);
         }
-        
+
         notifyObservers();
 
         return root;

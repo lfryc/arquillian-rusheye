@@ -6,6 +6,9 @@ package org.jboss.rusheye.parser;
 
 import java.io.File;
 import junit.framework.TestCase;
+import org.jboss.rusheye.manager.Main;
+import org.jboss.rusheye.manager.exception.ManagerException;
+import org.jboss.rusheye.suite.Properties;
 import org.jboss.rusheye.suite.VisualSuite;
 
 /**
@@ -61,7 +64,6 @@ public class ManagerParserTest extends TestCase {
         }
     }
 
-    
     /**
      * Test of loadSuite method, of class ManagerParser.
      */

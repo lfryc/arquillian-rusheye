@@ -4,8 +4,10 @@
  */
 package org.jboss.rusheye.parser;
 
+import java.io.File;
 import javax.swing.JOptionPane;
 import org.jboss.rusheye.manager.Main;
+import org.jboss.rusheye.suite.VisualSuite;
 
 /**
  * Thread where we run parser instance. Parsing is slow, so we don't want to
@@ -22,8 +24,14 @@ public class ParserThread implements Runnable {
     }
 
     public void run() {
-        parser.parseFile(Main.mainProject.getSuiteDescriptorFile());
+        ManagerSaver saver = new ManagerSaver(Main.mainProject.getSuiteDescriptor());
+        saver.save();
+        
+        VisualSuite suite = parser.parseSuiteFile(new File("tmp.xml"),false);
+        
         JOptionPane.showMessageDialog(Main.interfaceFrame, "Parsing done", "Parse", JOptionPane.INFORMATION_MESSAGE);
+        
+        System.out.println(suite.getTests().size());
 
         Main.mainProject.loadResultAsString();
     }

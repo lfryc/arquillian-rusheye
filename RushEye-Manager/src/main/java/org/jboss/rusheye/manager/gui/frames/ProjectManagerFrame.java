@@ -38,6 +38,7 @@ import org.jboss.rusheye.manager.project.tree.NodeList;
 import org.jboss.rusheye.manager.project.tree.TreeNodeImpl;
 import org.jboss.rusheye.manager.utils.FileChooserUtils;
 import org.jboss.rusheye.parser.ManagerParser;
+import org.jboss.rusheye.parser.ManagerSaver;
 import org.jboss.rusheye.parser.ParserThread;
 import org.jboss.rusheye.suite.Mask;
 import org.jboss.rusheye.suite.Perception;
@@ -985,7 +986,8 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_masksButtonActionPerformed
 
     private void removeSuiteMaskButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeSuiteMaskButtonActionPerformed
-        // TODO add your handling code here:
+        ManagerSaver saver = new ManagerSaver(Main.mainProject.getSuiteDescriptor());
+        saver.save();
     }//GEN-LAST:event_removeSuiteMaskButtonActionPerformed
 
     private void addSuiteMaskButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addSuiteMaskButtonActionPerformed
