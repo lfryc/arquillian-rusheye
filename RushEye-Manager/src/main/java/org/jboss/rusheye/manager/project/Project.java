@@ -5,10 +5,14 @@
 package org.jboss.rusheye.manager.project;
 
 import java.io.*;
+import javax.swing.JOptionPane;
 import org.jboss.rusheye.manager.Main;
+import org.jboss.rusheye.manager.exception.ManagerException;
 import org.jboss.rusheye.manager.gui.charts.RushEyeStatistics;
 import org.jboss.rusheye.manager.project.observable.Observed;
 import org.jboss.rusheye.parser.ManagerParser;
+import org.jboss.rusheye.parser.ParserThread;
+import org.jboss.rusheye.suite.Properties;
 
 /**
  * Class where we store all data about RushEye Manager project.
@@ -124,5 +128,38 @@ public class Project extends ProjectBase {
         Main.interfaceFrame.getProjectFrame().updateCheckBoxes(statistics);
         Main.interfaceFrame.getProjectFrame().update(this);
         Main.interfaceFrame.getStatFrame().update(this);
+    }
+
+    public void parse() throws ManagerException {
+        Properties props = new Properties();
+
+        if (!samplesPath.equals(""))
+            props.setProperty("samples-directory", samplesPath);
+        else
+            throw new ManagerException("No samples path selected");
+
+        if (!patternPath.equals(""))
+            props.setProperty("patterns-directory", patternPath);
+        else
+            throw new ManagerException("No patterns path selected");
+
+
+        props.setProperty("file-storage-directory", "tmp");
+        props.setProperty("result-output-file", "result.xml");
+
+        if (!maskPath.equals(""))
+            props.setProperty("masks-directory", maskPath);
+
+        Main.interfaceFrame.getStatFrame().setVisible(true);
+
+        this.createParser();
+        parser.setProperties(props);
+
+        Main.interfaceFrame.getProjectFrame().toggleRunAll();
+        setParserThread(new ParserThread(parser));
+        setParsing(true);
+        new Thread(getParserThread()).start();
+
+        Main.mainProject.setResultDescriptor(new File("result.xml"));
     }
 }

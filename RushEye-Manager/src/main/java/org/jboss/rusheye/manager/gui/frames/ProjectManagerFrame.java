@@ -9,6 +9,8 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -19,6 +21,7 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 import org.jboss.rusheye.manager.Main;
+import org.jboss.rusheye.manager.exception.ManagerException;
 import org.jboss.rusheye.manager.gui.CustomTreeRenderer;
 import org.jboss.rusheye.manager.gui.charts.RushEyeStatistics;
 import org.jboss.rusheye.manager.gui.view.DoubleView;
@@ -310,11 +313,17 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
         masksPanel = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         maskTree = new javax.swing.JTree();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        infoTextArea1 = new javax.swing.JTextArea();
         addMaskButton = new javax.swing.JButton();
         removeMaskButton = new javax.swing.JButton();
         saveMaskButton = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jSeparator3 = new javax.swing.JSeparator();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList();
+        removeSuiteMaskButton = new javax.swing.JButton();
+        addSuiteMaskButton = new javax.swing.JButton();
+        addToSuiteMaskButton = new javax.swing.JButton();
         configPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         patternsPathField = new javax.swing.JTextField();
@@ -521,10 +530,10 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 216, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(managerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(managerPanelLayout.createSequentialGroup()
                         .addGap(48, 48, 48)
@@ -538,7 +547,7 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
                         .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18))
+                .addContainerGap())
         );
 
         jTabbedPane1.addTab("Manager", managerPanel);
@@ -546,10 +555,6 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
         treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("root");
         maskTree.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
         jScrollPane3.setViewportView(maskTree);
-
-        infoTextArea1.setColumns(20);
-        infoTextArea1.setRows(5);
-        jScrollPane4.setViewportView(infoTextArea1);
 
         addMaskButton.setText("Add");
         addMaskButton.addActionListener(new java.awt.event.ActionListener() {
@@ -565,10 +570,42 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
             }
         });
 
-        saveMaskButton.setText("Save");
+        saveMaskButton.setText("Save image");
         saveMaskButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 saveMaskButtonActionPerformed(evt);
+            }
+        });
+
+        jLabel9.setText("Masks in manager :");
+
+        jLabel10.setText("Masks in suite :");
+
+        jList1.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane4.setViewportView(jList1);
+
+        removeSuiteMaskButton.setText("Remove");
+        removeSuiteMaskButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeSuiteMaskButtonActionPerformed(evt);
+            }
+        });
+
+        addSuiteMaskButton.setText("Add");
+        addSuiteMaskButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addSuiteMaskButtonActionPerformed(evt);
+            }
+        });
+
+        addToSuiteMaskButton.setText("Add to suite");
+        addToSuiteMaskButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addToSuiteMaskButtonActionPerformed(evt);
             }
         });
 
@@ -579,31 +616,56 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
             .addGroup(masksPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(masksPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSeparator3)
                     .addGroup(masksPanelLayout.createSequentialGroup()
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(masksPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(addMaskButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(removeMaskButton, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
-                            .addComponent(saveMaskButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addGroup(masksPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(masksPanelLayout.createSequentialGroup()
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(masksPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(addMaskButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(removeMaskButton, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
+                                    .addComponent(saveMaskButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(addToSuiteMaskButton, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)))
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel10)
+                            .addGroup(masksPanelLayout.createSequentialGroup()
+                                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(masksPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(addSuiteMaskButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(removeSuiteMaskButton, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         masksPanelLayout.setVerticalGroup(
             masksPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(masksPanelLayout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jLabel9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(masksPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(masksPanelLayout.createSequentialGroup()
                         .addComponent(addMaskButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(removeMaskButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(saveMaskButton)))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(276, Short.MAX_VALUE))
+                        .addComponent(saveMaskButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(addToSuiteMaskButton)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(masksPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(masksPanelLayout.createSequentialGroup()
+                        .addComponent(addSuiteMaskButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(removeSuiteMaskButton)))
+                .addContainerGap(204, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Masks", masksPanel);
@@ -729,7 +791,7 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
                 .addGroup(configPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(diffAmountField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8))
-                .addContainerGap(244, Short.MAX_VALUE))
+                .addContainerGap(256, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Configuration", configPanel);
@@ -742,7 +804,9 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 712, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -803,39 +867,11 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
         if (Main.mainProject.isParsing()) {
             Main.mainProject.getParserThread().getParser().setValid(false);
         } else {
-            Properties props = new Properties();
-
-            if (!Main.mainProject.getSamplesPath().equals(""))
-                props.setProperty("samples-directory", Main.mainProject.getSamplesPath());
-            else {
-                JOptionPane.showMessageDialog(this, "No samples path selected", "Parse", JOptionPane.WARNING_MESSAGE);
-                return;
+            try {
+                Main.mainProject.parse();
+            } catch (ManagerException ex) {
+                JOptionPane.showMessageDialog(Main.interfaceFrame, ex.getMessage(), "Parser Exception", JOptionPane.WARNING_MESSAGE);
             }
-            if (!Main.mainProject.getPatternPath().equals(""))
-                props.setProperty("patterns-directory", Main.mainProject.getPatternPath());
-            else {
-                JOptionPane.showMessageDialog(this, "No patterns path selected", "Parse", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-
-            props.setProperty("file-storage-directory", "tmp");
-            props.setProperty("result-output-file", "result.xml");
-
-            if (!Main.mainProject.getMaskPath().equals(""))
-                props.setProperty("masks-directory", Main.mainProject.getMaskPath());
-
-            Main.interfaceFrame.getStatFrame().setVisible(true);
-
-            ManagerParser parser = Main.mainProject.createParser();
-            parser.setProperties(props);
-
-            this.toggleRunAll();
-            Main.mainProject.setParserThread(new ParserThread(parser));
-            Main.mainProject.setParsing(true);
-            new Thread(Main.mainProject.getParserThread()).start();
-
-            Main.mainProject.setResultDescriptor(new File("result.xml"));
-
         }
     }//GEN-LAST:event_runAllButtonActionPerformed
 
@@ -914,9 +950,7 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_removeMaskButtonActionPerformed
 
     private void saveMaskButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMaskButtonActionPerformed
-
         JFileChooser fc = FileChooserUtils.saveChooser();
-
         int returnVal = fc.showSaveDialog(this);
 
         if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -925,7 +959,6 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
             MaskConverter converter = new MaskToImageConverter(node);
             converter.save(file);
         }
-
     }//GEN-LAST:event_saveMaskButtonActionPerformed
 
     private void pSameCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pSameCheckBoxActionPerformed
@@ -943,8 +976,23 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
     private void masksButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_masksButtonActionPerformed
         Main.interfaceFrame.setMasksAction();
     }//GEN-LAST:event_masksButtonActionPerformed
+
+    private void removeSuiteMaskButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeSuiteMaskButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_removeSuiteMaskButtonActionPerformed
+
+    private void addSuiteMaskButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addSuiteMaskButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_addSuiteMaskButtonActionPerformed
+
+    private void addToSuiteMaskButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addToSuiteMaskButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_addToSuiteMaskButtonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addMaskButton;
+    private javax.swing.JButton addSuiteMaskButton;
+    private javax.swing.JButton addToSuiteMaskButton;
     private javax.swing.JPanel configPanel;
     private javax.swing.JTextField diffAmountField;
     private javax.swing.JCheckBox diffCheckBox;
@@ -952,8 +1000,8 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
     private javax.swing.JCheckBox errorCheckBox;
     private javax.swing.JTextField filterField;
     private javax.swing.JTextArea infoTextArea;
-    private javax.swing.JTextArea infoTextArea1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -961,6 +1009,8 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JList jList1;
     private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -968,6 +1018,7 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JPanel managerPanel;
@@ -985,6 +1036,7 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
     private javax.swing.JButton prevButton;
     private javax.swing.JTree projectTree;
     private javax.swing.JButton removeMaskButton;
+    private javax.swing.JButton removeSuiteMaskButton;
     private javax.swing.JButton runAllButton;
     private javax.swing.JCheckBox sameCheckBox;
     private javax.swing.JButton samplesButton;
