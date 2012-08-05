@@ -59,7 +59,7 @@ public class TestCase extends TreeNodeImpl {
      * conclusion.
      */
     public void loadDiff() {
-        Configuration configuration = new DefaultConfiguration();
+        Configuration configuration = Main.mainProject.getSuiteDescriptor().getGlobalConfiguration();
         ComparisonResult result = new DefaultImageComparator().compare(getImage(ImagePool.PATTERN), getImage(ImagePool.SAMPLE), configuration.getPerception(),
                 configuration.getMasks());
 
