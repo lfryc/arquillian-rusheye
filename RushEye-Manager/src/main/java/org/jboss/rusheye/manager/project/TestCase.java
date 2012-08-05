@@ -209,4 +209,16 @@ public class TestCase extends TreeNodeImpl {
         for (int i = 0; i < this.getAllChildren().size(); ++i)
             ((TestCase) this.getAllChildren().get(i)).setAllVisible();
     }
+
+    public int countLeafs() {
+        int sum = 0;
+        for (int i = 0; i < this.getChildCount(); ++i) {
+            TestCase child = (TestCase) this.getChildAt(i);
+            if (child.isLeaf())
+                sum++;
+            else
+                sum += child.countLeafs();
+        }
+        return sum;
+    }
 }

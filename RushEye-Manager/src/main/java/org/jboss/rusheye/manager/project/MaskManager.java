@@ -4,9 +4,6 @@
  */
 package org.jboss.rusheye.manager.project;
 
-import java.util.ArrayList;
-import java.util.List;
-import org.jboss.rusheye.manager.Main;
 import org.jboss.rusheye.manager.gui.view.mask.MaskCase;
 import org.jboss.rusheye.manager.gui.view.mask.MaskType;
 

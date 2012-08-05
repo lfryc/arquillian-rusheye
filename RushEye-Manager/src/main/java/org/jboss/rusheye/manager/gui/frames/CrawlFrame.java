@@ -241,13 +241,11 @@ public class CrawlFrame extends javax.swing.JFrame {
             writer.write(stream.toString());
             writer.close();
 
-            Main.mainProject = Project.projectFromDescriptor(outputField.getText());
-            Main.mainProject.setPatternPath(path);
-            Main.mainProject.setMaskPath(masks);
-
-            Main.interfaceFrame.getProjectFrame().createTree();
-            
-            Main.mainProject.updateFrames();
+            Project project = Project.projectFromDescriptor(outputField.getText());
+            project.setPatternPath(path);
+            project.setMaskPath(masks);
+            Main.mainProject = project;
+            Main.interfaceFrame.initialize(project);
         } catch (IOException ex) {
             ex.printStackTrace();
         }

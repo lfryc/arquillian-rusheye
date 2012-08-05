@@ -40,7 +40,7 @@ public class ManagerParser extends Parser implements Observed {
 
     private RushEyeStatistics statistics;
     private List<Observer> list;
-    private transient boolean valid = true;
+    private volatile boolean valid = true;
 
     public ManagerParser() {
         super();

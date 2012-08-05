@@ -11,6 +11,7 @@ import java.nio.channels.FileChannel;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import org.jboss.rusheye.manager.Main;
+import org.jboss.rusheye.manager.project.Project;
 import org.jboss.rusheye.manager.utils.FileChooserUtils;
 
 /**
@@ -41,6 +42,16 @@ public class InterfaceFrame extends javax.swing.JFrame {
         statFrame = new StatisticsFrame();
         statFrame.setVisible(false);
     }
+    
+    public void initialize(Project project){
+        projectFrame.createTree();
+        projectFrame.createMaskTree();
+        projectFrame.createMaskList();
+        clean();
+        
+        project.updateFrames();
+    }
+
 
     public JPanel getMainPanel() {
         return mainPanel;

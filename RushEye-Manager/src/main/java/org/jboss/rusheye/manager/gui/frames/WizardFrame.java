@@ -198,15 +198,13 @@ public class WizardFrame extends javax.swing.JFrame {
             return;
         }
         
-        Main.mainProject = Project.projectFromDescriptor(suiteField.getText());
-        Main.mainProject.setPatternPath(patternsField.getText());
-        Main.mainProject.setSamplesPath(samplesField.getText());
-        Main.mainProject.setMaskPath(masksField.getText());
+        Project project = Project.projectFromDescriptor(suiteField.getText());
+        project.setPatternPath(patternsField.getText());
+        project.setSamplesPath(samplesField.getText());
+        project.setMaskPath(masksField.getText());
+        Main.mainProject = project;
         
-        Main.interfaceFrame.getProjectFrame().createTree();
-        Main.interfaceFrame.clean();
-        
-        Main.mainProject.updateFrames();
+        Main.interfaceFrame.initialize(project);
         
         this.dispose();
     }//GEN-LAST:event_loadButtonActionPerformed
