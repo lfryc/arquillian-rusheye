@@ -21,7 +21,7 @@ public class MaskManager {
         root.setName("Masks root");
         
         MaskCase newCase = new MaskCase();
-        newCase.setName("Mask " + (root.getChildCount() + 1));
+        newCase.setName("mask-" + (root.getChildCount() + 1));
         newCase.setType(MaskType.SELECTIVE_ALPHA);
 
         root.addChild(newCase);

@@ -932,7 +932,7 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
     private void addMaskButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addMaskButtonActionPerformed
         MaskCase root = Main.mainProject.getMaskManager().getRoot();
         MaskCase newCase = new MaskCase();
-        newCase.setName("Mask " + (root.getChildCount() + 1));
+        newCase.setName("mask-" + (root.getChildCount() + 1));
         newCase.setType(MaskType.SELECTIVE_ALPHA);
 
         root.addChild(newCase);

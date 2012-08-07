@@ -28,7 +28,7 @@ public class MaskToImageConverter extends MaskConverter {
     @Override
     public void save(File file) {
         BufferedImage image =
-                new BufferedImage(1024, 768, BufferedImage.TYPE_INT_ARGB);
+                new BufferedImage(2000, 2000, BufferedImage.TYPE_INT_ARGB);
 
         Graphics2D g2 = image.createGraphics();
         for (int i = 0; i < mask.getChildCount(); ++i) {
