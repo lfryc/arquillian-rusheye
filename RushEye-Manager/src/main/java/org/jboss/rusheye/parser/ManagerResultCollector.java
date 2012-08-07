@@ -6,6 +6,7 @@ package org.jboss.rusheye.parser;
 
 import org.jboss.rusheye.internal.Instantiator;
 import org.jboss.rusheye.manager.Main;
+import org.jboss.rusheye.manager.gui.view.image.ImagePool;
 import org.jboss.rusheye.manager.project.TestCase;
 import org.jboss.rusheye.result.ResultCollectorAdapter;
 import org.jboss.rusheye.result.ResultEvaluator;
@@ -61,9 +62,7 @@ public class ManagerResultCollector extends ResultCollectorAdapter {
             pattern.setOutput(location);
         }
 
-        if (comparisonResult.getDiffImage() != null) {
-            comparisonResult.getDiffImage().flush();
-        }
+
 
         pattern.setComparisonResult(comparisonResult);
 
@@ -72,6 +71,12 @@ public class ManagerResultCollector extends ResultCollectorAdapter {
             pattern.setConclusion(managerTest.getConclusion());
         else
             pattern.setConclusion(conclusion);
+
+
+        if (comparisonResult.getDiffImage() != null) {
+            managerTest.getPool().put(ImagePool.DIFF, comparisonResult.getDiffImage());
+            comparisonResult.getDiffImage().flush();
+        }
 
         statistics.onPatternCompleted(pattern);
     }

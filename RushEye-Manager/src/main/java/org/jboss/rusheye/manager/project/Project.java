@@ -11,6 +11,7 @@ import org.jboss.rusheye.manager.exception.ManagerException;
 import org.jboss.rusheye.manager.gui.charts.RushEyeStatistics;
 import org.jboss.rusheye.manager.project.observable.Observed;
 import org.jboss.rusheye.parser.ManagerParser;
+import org.jboss.rusheye.parser.ManagerSaver;
 import org.jboss.rusheye.parser.ParserThread;
 import org.jboss.rusheye.suite.Properties;
 
@@ -161,5 +162,37 @@ public class Project extends ProjectBase {
         new Thread(getParserThread()).start();
 
         Main.mainProject.setResultDescriptor(new File("result.xml"));
+    }
+
+    public void parseSinglePattern(TestCase t) throws ManagerException {
+        Properties props = new Properties();
+
+        if (!samplesPath.equals(""))
+            props.setProperty("samples-directory", samplesPath);
+        else
+            throw new ManagerException("No samples path selected");
+
+        if (!patternPath.equals(""))
+            props.setProperty("patterns-directory", patternPath);
+        else
+            throw new ManagerException("No patterns path selected");
+
+
+        props.setProperty("file-storage-directory", "tmp");
+        props.setProperty("result-output-file", "result.xml");
+
+        if (!maskPath.equals(""))
+            props.setProperty("masks-directory", maskPath);
+
+        Main.interfaceFrame.getStatFrame().setVisible(true);
+
+        this.createParser();
+        parser.setProperties(props);
+
+        ManagerSaver saver = new ManagerSaver(Main.mainProject.getSuiteDescriptor());
+        saver.save();
+        
+        parser.parseCaseFromSuiteFile(t,new File("tmp.xml"),false);
+
     }
 }

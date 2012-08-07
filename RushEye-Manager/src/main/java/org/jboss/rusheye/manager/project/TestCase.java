@@ -5,16 +5,25 @@
 package org.jboss.rusheye.manager.project;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.jboss.rusheye.core.DefaultImageComparator;
 import org.jboss.rusheye.manager.Main;
+import org.jboss.rusheye.manager.exception.ManagerException;
 import org.jboss.rusheye.manager.gui.view.image.ImagePool;
 import org.jboss.rusheye.manager.project.tree.TreeNodeImpl;
 import org.jboss.rusheye.parser.DefaultConfiguration;
+import org.jboss.rusheye.parser.ManagerParser;
+import org.jboss.rusheye.parser.ManagerSaver;
 import org.jboss.rusheye.result.ResultEvaluator;
 import org.jboss.rusheye.suite.ComparisonResult;
 import org.jboss.rusheye.suite.Configuration;
 import org.jboss.rusheye.suite.ResultConclusion;
+import org.jboss.rusheye.suite.Test;
+import org.jboss.rusheye.suite.VisualSuite;
 
 /**
  * Extension of TreeNodeImpl. It contains data regarding tests, like result
@@ -59,21 +68,30 @@ public class TestCase extends TreeNodeImpl {
      * conclusion.
      */
     public void loadDiff() {
-        Configuration configuration = Main.mainProject.getSuiteDescriptor().getGlobalConfiguration();
-        ComparisonResult result = new DefaultImageComparator().compare(getImage(ImagePool.PATTERN), getImage(ImagePool.SAMPLE), configuration.getPerception(),
-                configuration.getMasks());
+            //Configuration configuration = Main.mainProject.getSuiteDescriptor().getGlobalConfiguration();
 
-        if (conclusion == null || conclusion == ResultConclusion.NOT_TESTED) {
-            conclusion = new ResultEvaluator().evaluate(configuration.getPerception(), result);
-            Main.mainProject.getStatistics().addValue(conclusion, 1);
-            Main.mainProject.getStatistics().addValue(ResultConclusion.NOT_TESTED, -1);
+            Configuration configuration = new DefaultConfiguration();
+            //configuration.getPerception().setOnePixelTreshold(defaultConf.getPerception().getOnePixelTreshold());
+            //configuration.getPerception().setGlobalDifferenceTreshold(defaultConf.getPerception().getGlobalDifferenceTreshold());
+            //configuration.getPerception().setGlobalDifferenceAmount(defaultConf.getPerception().getGlobalDifferenceAmount());
+            // System.out.println(configuration.getPerception().getOnePixelTreshold() + " " +configuration2.getPerception().getOnePixelTreshold());
+            ComparisonResult result = new DefaultImageComparator().compare(getImage(ImagePool.PATTERN), getImage(ImagePool.SAMPLE), configuration.getPerception(),
+                   configuration.getMasks());
 
-            Main.interfaceFrame.getStatFrame().update(Main.mainProject);
-            Main.interfaceFrame.getProjectFrame().updateCheckBoxes(Main.mainProject.getStatistics());
-        }
-        BufferedImage diff = result.getDiffImage();
+            if (conclusion == null || conclusion == ResultConclusion.NOT_TESTED) {
+                conclusion = new ResultEvaluator().evaluate(configuration.getPerception(), result);
+                Main.mainProject.getStatistics().addValue(conclusion, 1);
+                Main.mainProject.getStatistics().addValue(ResultConclusion.NOT_TESTED, -1);
 
-        pool.put(ImagePool.DIFF, diff);
+                Main.interfaceFrame.getStatFrame().update(Main.mainProject);
+                Main.interfaceFrame.getProjectFrame().updateCheckBoxes(Main.mainProject.getStatistics());
+            }
+            BufferedImage diff = result.getDiffImage();
+
+            pool.put(ImagePool.DIFF, diff);
+
+            //Main.mainProject.parseSinglePattern(this);
+
     }
 
     /**
