@@ -46,16 +46,14 @@ public class MaskZoomListener extends ZoomListener implements MouseMotionListene
 
             currentMask = new MaskCase();
             currentMask.setShape(new Rect(start, start));
-            currentMask.setName("Rect " + (Main.mainProject.getMaskManager().getCurrentMask().getChildCount() + 1));
+            currentMask.setName(Main.mainProject.getMaskManager().getCurrentMask().getName() + ".Rect " + (Main.mainProject.getMaskManager().getCurrentMask().getChildCount() + 1));
             Main.mainProject.getMaskManager().getCurrentMask().addChild(currentMask);
-
         }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
         drawing = false;
-
 
         stop = new Point((int)(e.getX()/pic.getScale()), (int)(e.getY()/pic.getScale()));
 

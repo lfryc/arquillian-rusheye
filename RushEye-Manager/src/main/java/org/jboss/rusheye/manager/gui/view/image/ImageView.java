@@ -36,8 +36,9 @@ public class ImageView extends JPanel {
     protected BottomMenu menu;
     protected TestCase testCase;
     protected ScrollAdjustmentListener scrollListener;
-    
-    public ImageView(){}
+
+    public ImageView() {
+    }
 
     public ImageView(TestCase testCase, String key) {
         this.testCase = testCase;
@@ -49,7 +50,8 @@ public class ImageView extends JPanel {
     }
 
     /**
-     * Allows us to change displayed image. 
+     * Allows us to change displayed image.
+     *
      * @param key key to use in ImagePool
      */
     public void changeImage(String key) {
@@ -87,11 +89,11 @@ public class ImageView extends JPanel {
         setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
         setListeners();
-        
+
         add(menu);
     }
-    
-    public void setListeners(){
+
+    public void setListeners() {
         addZoomListener();
         addScrollListener();
     }
@@ -133,8 +135,10 @@ public class ImageView extends JPanel {
     }
 
     private void addScrollListener() {
-        pictureScrollPane.getHorizontalScrollBar().addAdjustmentListener(scrollListener);
-        pictureScrollPane.getVerticalScrollBar().addAdjustmentListener(scrollListener);
+        if (scrollListener != null) {
+            pictureScrollPane.getHorizontalScrollBar().addAdjustmentListener(scrollListener);
+            pictureScrollPane.getVerticalScrollBar().addAdjustmentListener(scrollListener);
+        }
     }
 
     private void addZoomListener() {

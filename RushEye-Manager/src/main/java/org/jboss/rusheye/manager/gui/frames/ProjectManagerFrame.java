@@ -4,15 +4,11 @@
  */
 package org.jboss.rusheye.manager.gui.frames;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
-import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.event.DocumentEvent;
@@ -30,19 +26,13 @@ import org.jboss.rusheye.manager.gui.view.MaskView;
 import org.jboss.rusheye.manager.gui.view.SingleView;
 import org.jboss.rusheye.manager.gui.view.mask.MaskCase;
 import org.jboss.rusheye.manager.gui.view.mask.MaskType;
-import org.jboss.rusheye.manager.gui.view.mask.converters.MaskConverter;
-import org.jboss.rusheye.manager.gui.view.mask.converters.MaskToImageConverter;
 import org.jboss.rusheye.manager.project.Project;
 import org.jboss.rusheye.manager.project.TestCase;
 import org.jboss.rusheye.manager.project.tree.NodeList;
 import org.jboss.rusheye.manager.project.tree.TreeNodeImpl;
-import org.jboss.rusheye.manager.utils.FileChooserUtils;
-import org.jboss.rusheye.parser.ManagerParser;
 import org.jboss.rusheye.parser.ManagerSaver;
-import org.jboss.rusheye.parser.ParserThread;
 import org.jboss.rusheye.suite.Mask;
 import org.jboss.rusheye.suite.Perception;
-import org.jboss.rusheye.suite.Properties;
 import org.jboss.rusheye.suite.ResultConclusion;
 
 /**
@@ -119,7 +109,7 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
                 this.diffAmountField.setText("" + perception.getGlobalDifferenceAmount());
         }
     }
-    
+
     public void createTree() {
         this.setVisible(true);
         projectTree.setCellRenderer(new CustomTreeRenderer());
@@ -207,11 +197,11 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
             }
         }
     }
-    
-    public void createMaskList(){
+
+    public void createMaskList() {
         List<Mask> masks = Main.mainProject.getSuiteDescriptor().getGlobalConfiguration().getMasks();
         DefaultListModel model = new DefaultListModel();
-        for(Mask mask : masks)
+        for (Mask mask : masks)
             model.addElement(mask);
         masksList.setModel(model);
     }
@@ -321,6 +311,7 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
         showNotButton = new javax.swing.JButton();
         jProgressBar1 = new javax.swing.JProgressBar();
         jSeparator5 = new javax.swing.JSeparator();
+        posButton1 = new javax.swing.JButton();
         masksPanel = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         maskTree = new javax.swing.JTree();
@@ -334,7 +325,7 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
         masksList = new javax.swing.JList();
         removeSuiteMaskButton = new javax.swing.JButton();
         addSuiteMaskButton = new javax.swing.JButton();
-        addToSuiteMaskButton = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         configPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         patternsPathField = new javax.swing.JTextField();
@@ -469,6 +460,13 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
             }
         });
 
+        posButton1.setText("Uncheck");
+        posButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                posButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout managerPanelLayout = new javax.swing.GroupLayout(managerPanel);
         managerPanel.setLayout(managerPanelLayout);
         managerPanelLayout.setHorizontalGroup(
@@ -476,17 +474,6 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
             .addGroup(managerPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(managerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(managerPanelLayout.createSequentialGroup()
-                        .addGroup(managerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, managerPanelLayout.createSequentialGroup()
-                                .addComponent(prevButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(nextButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(runAllButton, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(posButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(19, 19, 19))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 364, Short.MAX_VALUE)
                     .addGroup(managerPanelLayout.createSequentialGroup()
@@ -494,21 +481,35 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
                         .addGap(51, 51, 51)
                         .addComponent(filterField))
                     .addComponent(jSeparator4)
+                    .addComponent(jSeparator5)
                     .addGroup(managerPanelLayout.createSequentialGroup()
-                        .addGroup(managerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(showSameButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(showDiffButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(showAllButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(showNotButton, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
                         .addGroup(managerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(notCheckBox)
-                            .addComponent(pSameCheckBox)
-                            .addComponent(diffCheckBox)
-                            .addComponent(errorCheckBox)
-                            .addComponent(sameCheckBox))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jSeparator5))
+                            .addGroup(managerPanelLayout.createSequentialGroup()
+                                .addGroup(managerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, managerPanelLayout.createSequentialGroup()
+                                        .addComponent(prevButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(nextButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(runAllButton, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(managerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(posButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(posButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(managerPanelLayout.createSequentialGroup()
+                                .addGroup(managerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(showSameButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(showDiffButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(showAllButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(showNotButton, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE))
+                                .addGap(18, 18, 18)
+                                .addGroup(managerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(notCheckBox)
+                                    .addComponent(pSameCheckBox)
+                                    .addComponent(diffCheckBox)
+                                    .addComponent(errorCheckBox)
+                                    .addComponent(sameCheckBox))))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         managerPanelLayout.setVerticalGroup(
@@ -542,7 +543,7 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -551,10 +552,13 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
                     .addGroup(managerPanelLayout.createSequentialGroup()
                         .addGap(48, 48, 48)
                         .addComponent(runAllButton))
-                    .addGroup(managerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(nextButton)
-                        .addComponent(prevButton)
-                        .addComponent(posButton)))
+                    .addGroup(managerPanelLayout.createSequentialGroup()
+                        .addGroup(managerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(nextButton)
+                            .addComponent(prevButton)
+                            .addComponent(posButton))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(posButton1)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(31, 31, 31))
@@ -612,10 +616,10 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
             }
         });
 
-        addToSuiteMaskButton.setText("Add to suite");
-        addToSuiteMaskButton.addActionListener(new java.awt.event.ActionListener() {
+        jButton1.setText("Allow draw");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addToSuiteMaskButtonActionPerformed(evt);
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -636,7 +640,7 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
                                     .addComponent(addMaskButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(removeMaskButton, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
                                     .addComponent(saveMaskButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(addToSuiteMaskButton, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)))
+                                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addComponent(jLabel9)
                             .addComponent(jLabel10)
                             .addGroup(masksPanelLayout.createSequentialGroup()
@@ -662,8 +666,8 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
                         .addComponent(removeMaskButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(saveMaskButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(addToSuiteMaskButton)))
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton1)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -933,7 +937,7 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
 
         root.addChild(newCase);
 
-        this.updateTreeModel();
+        this.updateMaskTreeModel();
 
         Main.mainProject.getMaskManager().setCurrentMask(newCase);
     }//GEN-LAST:event_addMaskButtonActionPerformed
@@ -944,29 +948,21 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
         MaskCase node = (MaskCase) maskTree.getLastSelectedPathComponent();
         TreePath path = maskTree.getSelectionPath();
 
-        System.out.println("Try to remove ");
         if (!root.getAllChildren().remove(node)) {
             for (int i = 0; i < root.getChildCount(); ++i) {
                 root.getAllChildren().get(i).getAllChildren().remove(node);
             }
         }
 
-        this.updateTreeModel();
+        this.updateMaskTreeModel();
 
         maskTree.setSelectionPath(path.getParentPath());
         maskTree.scrollPathToVisible(path);
     }//GEN-LAST:event_removeMaskButtonActionPerformed
 
     private void saveMaskButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMaskButtonActionPerformed
-        JFileChooser fc = FileChooserUtils.saveChooser();
-        int returnVal = fc.showSaveDialog(this);
-
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-            File file = fc.getSelectedFile();
-            MaskCase node = (MaskCase) maskTree.getLastSelectedPathComponent();
-            MaskConverter converter = new MaskToImageConverter(node);
-            converter.save(file);
-        }
+        MaskAdder maskAdder = new MaskAdder((MaskCase) maskTree.getLastSelectedPathComponent());
+        maskAdder.setVisible(true);
     }//GEN-LAST:event_saveMaskButtonActionPerformed
 
     private void pSameCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pSameCheckBoxActionPerformed
@@ -994,14 +990,26 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_addSuiteMaskButtonActionPerformed
 
-    private void addToSuiteMaskButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addToSuiteMaskButtonActionPerformed
+    private void posButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_posButton1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_addToSuiteMaskButtonActionPerformed
+    }//GEN-LAST:event_posButton1ActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if (Main.interfaceFrame.getView() != InterfaceFrame.MASK) {
+            Main.interfaceFrame.setView(InterfaceFrame.MASK);
+            putTestIntoView();
+            createMaskTree();
+            jButton1.setText("Disable draw");
+        }
+        else {
+            Main.interfaceFrame.setView(InterfaceFrame.SINGLE);
+            putTestIntoView();
+            jButton1.setText("Allow draw");
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addMaskButton;
     private javax.swing.JButton addSuiteMaskButton;
-    private javax.swing.JButton addToSuiteMaskButton;
     private javax.swing.JPanel configPanel;
     private javax.swing.JTextField diffAmountField;
     private javax.swing.JCheckBox diffCheckBox;
@@ -1009,6 +1017,7 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
     private javax.swing.JCheckBox errorCheckBox;
     private javax.swing.JTextField filterField;
     private javax.swing.JTextArea infoTextArea;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
@@ -1042,6 +1051,7 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
     private javax.swing.JTextField patternsPathField;
     private javax.swing.JTextField pixelTresField;
     private javax.swing.JButton posButton;
+    private javax.swing.JButton posButton1;
     private javax.swing.JButton prevButton;
     private javax.swing.JTree projectTree;
     private javax.swing.JButton removeMaskButton;
