@@ -324,8 +324,7 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
         jScrollPane4 = new javax.swing.JScrollPane();
         masksList = new javax.swing.JList();
         removeSuiteMaskButton = new javax.swing.JButton();
-        addSuiteMaskButton = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        allowDrawButton = new javax.swing.JButton();
         configPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         patternsPathField = new javax.swing.JTextField();
@@ -609,17 +608,10 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
             }
         });
 
-        addSuiteMaskButton.setText("Add");
-        addSuiteMaskButton.addActionListener(new java.awt.event.ActionListener() {
+        allowDrawButton.setText("Allow draw");
+        allowDrawButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addSuiteMaskButtonActionPerformed(evt);
-            }
-        });
-
-        jButton1.setText("Allow draw");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                allowDrawButtonActionPerformed(evt);
             }
         });
 
@@ -640,15 +632,13 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
                                     .addComponent(addMaskButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(removeMaskButton, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
                                     .addComponent(saveMaskButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                    .addComponent(allowDrawButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addComponent(jLabel9)
                             .addComponent(jLabel10)
                             .addGroup(masksPanelLayout.createSequentialGroup()
                                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(masksPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(addSuiteMaskButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(removeSuiteMaskButton, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(removeSuiteMaskButton, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -667,7 +657,7 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(saveMaskButton)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1)))
+                        .addComponent(allowDrawButton)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -675,10 +665,7 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(masksPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(masksPanelLayout.createSequentialGroup()
-                        .addComponent(addSuiteMaskButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(removeSuiteMaskButton)))
+                    .addComponent(removeSuiteMaskButton))
                 .addContainerGap(204, Short.MAX_VALUE))
         );
 
@@ -982,34 +969,30 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_masksButtonActionPerformed
 
     private void removeSuiteMaskButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeSuiteMaskButtonActionPerformed
-        ManagerSaver saver = new ManagerSaver(Main.mainProject.getSuiteDescriptor());
-        saver.save();
+        Main.mainProject.getSuiteDescriptor().getGlobalConfiguration().getMasks().remove(masksList.getSelectedValue());
+        this.createMaskList();
     }//GEN-LAST:event_removeSuiteMaskButtonActionPerformed
-
-    private void addSuiteMaskButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addSuiteMaskButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_addSuiteMaskButtonActionPerformed
 
     private void posButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_posButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_posButton1ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void allowDrawButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_allowDrawButtonActionPerformed
         if (Main.interfaceFrame.getView() != InterfaceFrame.MASK) {
             Main.interfaceFrame.setView(InterfaceFrame.MASK);
             putTestIntoView();
             createMaskTree();
-            jButton1.setText("Disable draw");
+            allowDrawButton.setText("Disable draw");
         }
         else {
             Main.interfaceFrame.setView(InterfaceFrame.SINGLE);
             putTestIntoView();
-            jButton1.setText("Allow draw");
+            allowDrawButton.setText("Allow draw");
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_allowDrawButtonActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addMaskButton;
-    private javax.swing.JButton addSuiteMaskButton;
+    private javax.swing.JButton allowDrawButton;
     private javax.swing.JPanel configPanel;
     private javax.swing.JTextField diffAmountField;
     private javax.swing.JCheckBox diffCheckBox;
@@ -1017,7 +1000,6 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
     private javax.swing.JCheckBox errorCheckBox;
     private javax.swing.JTextField filterField;
     private javax.swing.JTextArea infoTextArea;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;

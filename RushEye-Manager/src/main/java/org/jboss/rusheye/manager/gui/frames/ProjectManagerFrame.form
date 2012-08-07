@@ -366,7 +366,7 @@
                                           <Component id="addMaskButton" alignment="0" max="32767" attributes="0"/>
                                           <Component id="removeMaskButton" alignment="0" pref="128" max="32767" attributes="0"/>
                                           <Component id="saveMaskButton" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="jButton1" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="allowDrawButton" alignment="0" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
@@ -374,10 +374,7 @@
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="jScrollPane4" min="-2" pref="224" max="-2" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="addSuiteMaskButton" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="removeSuiteMaskButton" alignment="0" min="-2" pref="128" max="-2" attributes="0"/>
-                                      </Group>
+                                      <Component id="removeSuiteMaskButton" min="-2" pref="128" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -402,7 +399,7 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="saveMaskButton" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                              <Component id="allowDrawButton" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -412,11 +409,7 @@
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jScrollPane4" min="-2" max="-2" attributes="0"/>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="addSuiteMaskButton" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="removeSuiteMaskButton" min="-2" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="removeSuiteMaskButton" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="204" max="32767" attributes="0"/>
                   </Group>
@@ -506,20 +499,12 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="removeSuiteMaskButtonActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="addSuiteMaskButton">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Add"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addSuiteMaskButtonActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JButton" name="jButton1">
+            <Component class="javax.swing.JButton" name="allowDrawButton">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Allow draw"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="allowDrawButtonActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>
