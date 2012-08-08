@@ -25,6 +25,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.jboss.rusheye.listener.SuiteListener;
+import org.jboss.rusheye.suite.Case;
 import org.jboss.rusheye.suite.Configuration;
 import org.jboss.rusheye.suite.Test;
 
@@ -33,6 +34,7 @@ import org.jboss.rusheye.suite.Test;
  * @version $Revision$
  */
 public abstract class Context {
+    private Case currentCase;
     private Test currentTest;
     private Configuration currentConfiguration;
     private Set<String> testNames = new HashSet<String>();
@@ -45,6 +47,14 @@ public abstract class Context {
 
     public void setCurrentConfiguration(Configuration currentConfiguration) {
         this.currentConfiguration = currentConfiguration;
+    }
+    
+    public Case getCurrentCase() {
+        return currentCase;
+    }
+    
+    public void setCurrentCase(Case currentCase) {
+        this.currentCase = currentCase;
     }
 
     public Test getCurrentTest() {

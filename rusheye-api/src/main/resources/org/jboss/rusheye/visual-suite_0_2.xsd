@@ -25,7 +25,7 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	targetNamespace="http://www.jboss.org/rusheye/visual-suite" xmlns:tns="http://www.jboss.org/rusheye/visual-suite"
 	xmlns:vs="http://www.jboss.org/rusheye/visual-suite" elementFormDefault="qualified"
-	version="1.0">
+	version="0.2">
 
 	<xs:element name="visual-suite">
 		<xs:annotation>
@@ -35,7 +35,7 @@
 		<xs:complexType>
 			<xs:sequence>
 				<xs:element name="global-configuration" type="vs:GlobalConfiguration" />
-				<xs:element name="test" type="vs:Test" maxOccurs="unbounded">
+				<xs:element name="case" type="vs:Case" maxOccurs="unbounded">
 					<xs:unique name="TestMasksMaskIdUnique">
 						<xs:annotation>
 							<xs:documentation>Mask ID have to be unique across all particular
@@ -208,6 +208,17 @@
 			<xs:pattern value="\d+px" />
 		</xs:restriction>
 	</xs:simpleType>
+
+    <xs:complexType name="Case">
+        <xs:sequence>
+            <xs:element name="perception" type="vs:Perception"
+                minOccurs="0" />
+            <xs:element name="mask" type="vs:Mask" minOccurs="0"
+                maxOccurs="unbounded" />
+            <xs:element name="test" type="vs:Test" maxOccurs="unbounded" />
+        </xs:sequence>
+        <xs:attribute name="name" type="xs:Name" use="required" />
+    </xs:complexType>
 
 	<xs:complexType name="Test">
 		<xs:sequence>

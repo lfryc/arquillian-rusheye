@@ -31,6 +31,7 @@ import java.util.concurrent.CountDownLatch;
 
 import org.apache.commons.io.output.TeeOutputStream;
 import org.jboss.rusheye.PassingSAXErrorHandler;
+import org.jboss.rusheye.RushEye;
 import org.jboss.rusheye.suite.Area;
 import org.jboss.rusheye.suite.ComparisonResult;
 import org.jboss.rusheye.suite.Pattern;
@@ -50,6 +51,7 @@ public class TestXmlResultWriter {
     private static final String XML_VALIDATION_FEATURE = "http://xml.org/sax/features/validation";
     private static final String XML_SCHEMA_FEATURE = "http://apache.org/xml/features/validation/schema";
     private static final String XML_SCHEMA_FULL_CHECKING_FEATURE = "http://apache.org/xml/features/validation/schema-full-checking";
+    private static final String XML_SCHEMA_LOCATION = "http://apache.org/xml/properties/schema/external-schemaLocation";
 
     ValidationResultWriter writer = new ValidationResultWriter();
 
@@ -139,6 +141,8 @@ public class TestXmlResultWriter {
                 reader.setFeature(XML_VALIDATION_FEATURE, true);
                 reader.setFeature(XML_SCHEMA_FEATURE, true);
                 reader.setFeature(XML_SCHEMA_FULL_CHECKING_FEATURE, true);
+                reader.setProperty(XML_SCHEMA_LOCATION, RushEye.NAMESPACE_VISUAL_SUITE_RESULT + " "
+                        + "../rusheye-api/src/main/resources/" + RushEye.RESOURCE_VISUAL_SUITE_RESULT);
                 reader.setContentHandler(new DefaultHandler());
                 reader.setErrorHandler(new PassingSAXErrorHandler());
                 reader.parse(new InputSource(in));

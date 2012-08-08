@@ -29,6 +29,10 @@ package org.jboss.rusheye;
  */
 public final class RushEye {
 
+    // note: 1.0 is not available yet, use 1.1 instead once going Final
+    private static final String SCHEMA_VERSION = "0.2";
+    private static final String SCHEMA_VERSION_SUFFIX = "0_2";
+    
     /** Namespace for Visual Suite descriptor */
     public static final String NAMESPACE_VISUAL_SUITE = "http://www.jboss.org/rusheye/visual-suite";
 
@@ -36,10 +40,16 @@ public final class RushEye {
     public static final String NAMESPACE_VISUAL_SUITE_RESULT = "http://www.jboss.org/rusheye/visual-suite-result";
 
     /** Schema Location for Visual Suite descriptor */
-    public static final String SCHEMA_LOCATION_VISUAL_SUITE = "http://www.jboss.org/schema/arquillian/rusheye/visual-suite.xsd";
+    public static final String SCHEMA_LOCATION_VISUAL_SUITE = "http://www.jboss.org/schema/arquillian/rusheye/visual-suite_" + SCHEMA_VERSION_SUFFIX + ".xsd";
 
     /** Schema Location for Visual Suite Result descriptor */
-    public static final String SCHEMA_LOCATION_VISUAL_SUITE_RESULT = "http://www.jboss.org/schema/arquillian/rusheye/visual-suite-result.xsd";
+    public static final String SCHEMA_LOCATION_VISUAL_SUITE_RESULT = "http://www.jboss.org/schema/arquillian/rusheye/visual-suite-result_" + SCHEMA_VERSION_SUFFIX + ".xsd";
+    
+    /** Identifies the class-path resource where Visual Suite descriptor can be found */
+    public static final String RESOURCE_VISUAL_SUITE = "org/jboss/rusheye/visual-suite_" + SCHEMA_VERSION_SUFFIX + ".xsd";
+    
+    /** Identifies the class-path resource where Visual Suite Result descriptor can be found */
+    public static final String RESOURCE_VISUAL_SUITE_RESULT = "org/jboss/rusheye/visual-suite-result_" + SCHEMA_VERSION_SUFFIX + ".xsd";
 
     private RushEye() {
     }

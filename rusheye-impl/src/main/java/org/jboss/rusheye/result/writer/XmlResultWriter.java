@@ -83,7 +83,7 @@ public abstract class XmlResultWriter implements ResultWriter {
                 writer.writeDefaultNamespace(RushEye.NAMESPACE_VISUAL_SUITE_RESULT);
                 writer.writeNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
                 writer.writeAttribute("http://www.w3.org/2001/XMLSchema-instance", "schemaLocation",
-                    RushEye.NAMESPACE_VISUAL_SUITE_RESULT + " " + RushEye.SCHEMA_LOCATION_VISUAL_SUITE_RESULT);
+                        RushEye.NAMESPACE_VISUAL_SUITE_RESULT + " " + RushEye.SCHEMA_LOCATION_VISUAL_SUITE_RESULT);
                 writtenStartDocument = true;
             } catch (XMLStreamException e) {
                 e.printStackTrace();
@@ -151,7 +151,7 @@ public abstract class XmlResultWriter implements ResultWriter {
     private XMLValidationSchema createXMLValidationSchema() throws XMLStreamException {
         XMLValidationSchemaFactory schemaFactory = XMLValidationSchemaFactory
             .newInstance(XMLValidationSchema.SCHEMA_ID_W3C_SCHEMA);
-        URL schemaURL = getClass().getClassLoader().getResource("org/jboss/rusheye/visual-suite-result.xsd");
+        URL schemaURL = getClass().getClassLoader().getResource(RushEye.RESOURCE_VISUAL_SUITE_RESULT);
         XMLValidationSchema schema = schemaFactory.createSchema(schemaURL);
         return schema;
     }

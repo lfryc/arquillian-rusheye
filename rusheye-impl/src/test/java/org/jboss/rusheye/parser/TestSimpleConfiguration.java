@@ -27,6 +27,7 @@ import static org.testng.Assert.fail;
 import java.io.IOException;
 
 import org.jboss.rusheye.listener.SuiteListenerAdapter;
+import org.jboss.rusheye.suite.Case;
 import org.jboss.rusheye.suite.Configuration;
 import org.jboss.rusheye.suite.Pattern;
 import org.jboss.rusheye.suite.VisualSuite;
@@ -59,7 +60,7 @@ public class TestSimpleConfiguration extends AbstractVisualSuiteDefinitionTest {
             startWriter();
             parse();
 
-            assertEquals(assertedListener.state, 5);
+            assertEquals(assertedListener.state, 6);
         } catch (SAXException e) {
             fail();
         } catch (IOException e) {
@@ -94,10 +95,16 @@ public class TestSimpleConfiguration extends AbstractVisualSuiteDefinitionTest {
             assertEquals(state, 3);
             nextState();
         }
+        
+        @Override
+        public void onCaseReady(Case case1) {
+            assertEquals(state, 4);
+            nextState();
+        }
 
         @Override
         public void onSuiteReady(VisualSuite visualSuite) {
-            assertEquals(state, 4);
+            assertEquals(state, 5);
             nextState();
         }
 

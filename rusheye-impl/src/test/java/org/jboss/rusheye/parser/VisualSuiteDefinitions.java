@@ -40,6 +40,7 @@ public final class VisualSuiteDefinitions {
     public static final QName SAMPLE_RETRIEVER = new QName("sample-retriever", RUSHEYE_NS);
     public static final QName PERCEPTION = new QName("perception", RUSHEYE_NS);
     public static final QName MASKS = new QName("masks", RUSHEYE_NS);
+    public static final QName CASE = new QName("case", RUSHEYE_NS);
     public static final QName TEST = new QName("test", RUSHEYE_NS);
     public static final QName PATTERN = new QName("pattern", RUSHEYE_NS);
 

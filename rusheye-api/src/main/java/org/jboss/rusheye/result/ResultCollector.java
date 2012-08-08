@@ -22,6 +22,7 @@
 package org.jboss.rusheye.result;
 
 import org.jboss.rusheye.listener.SuiteListener;
+import org.jboss.rusheye.suite.Case;
 import org.jboss.rusheye.suite.ComparisonResult;
 import org.jboss.rusheye.suite.Pattern;
 import org.jboss.rusheye.suite.Test;
@@ -96,6 +97,22 @@ public interface ResultCollector extends SuiteListener {
      *            the test which was completed
      */
     void onTestCompleted(Test test);
+
+    /**
+     * Fired when case comparison was started
+     * 
+     * @param case1
+     *            which came ready including all of it's tests
+     */
+    void onCaseStarted(Case case1);
+
+    /**
+     * Fired when case comparison was completed
+     * 
+     * @param case1
+     *            which came ready including all of it's tests
+     */
+    void onCaseCompleted(Case case1);
 
     /**
      * Fired when whole suite was completed

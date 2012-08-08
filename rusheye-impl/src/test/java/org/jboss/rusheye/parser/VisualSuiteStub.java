@@ -30,6 +30,7 @@ import static org.jboss.rusheye.parser.VisualSuiteDefinitions.PERCEPTION;
 import static org.jboss.rusheye.parser.VisualSuiteDefinitions.RUSHEYE_NS;
 import static org.jboss.rusheye.parser.VisualSuiteDefinitions.SAMPLE_RETRIEVER;
 import static org.jboss.rusheye.parser.VisualSuiteDefinitions.TEST;
+import static org.jboss.rusheye.parser.VisualSuiteDefinitions.CASE;
 import static org.jboss.rusheye.parser.VisualSuiteDefinitions.VISUAL_SUITE;
 
 import java.util.Iterator;
@@ -52,8 +53,7 @@ public class VisualSuiteStub {
     Document document = DocumentHelper.createDocument();
 
     Element visualSuite = document.addElement(VISUAL_SUITE)
-        .addNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance")
-        .addAttribute("xsi:schemaLocation", RUSHEYE_NS.getURI() + " src/main/resources/visual-suite.xsd");
+        .addNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
 
     Element globalConfiguration = visualSuite.addElement(GLOBAL_CONFIGURATION);
     Element defaultListener = globalConfiguration.addElement(LISTENER).addAttribute("type",
@@ -66,17 +66,19 @@ public class VisualSuiteStub {
         FileSampleRetriever.class.getName());
     Element perception = globalConfiguration.addElement(PERCEPTION);
 
-    Element defaultTest = visualSuite.addElement(TEST).addAttribute("name", "default-test");
+    Element defaultCase = visualSuite.addElement(CASE).addAttribute("name", "default-case");
+    
+    Element defaultTest = defaultCase.addElement(TEST).addAttribute("name", "default-test");
 
     Element defaultPattern = defaultTest.addElement(PATTERN).addAttribute("name", "default-test-pattern");
 
     {
-        Iterator<Element> iterator = visualSuite.elementIterator(TEST);
-        if (iterator.next() != defaultTest) {
+        Iterator<Element> iterator = visualSuite.elementIterator(CASE);
+        if (iterator.next() != defaultCase) {
             throw new IllegalStateException();
         }
         if (iterator.hasNext()) {
-            visualSuite.remove(defaultTest);
+            visualSuite.remove(defaultCase);
         }
     }
 

@@ -25,7 +25,7 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	targetNamespace="http://www.jboss.org/rusheye/visual-suite-result"
 	xmlns:tns="http://www.jboss.org/rusheye/visual-suite-result" xmlns:vsr="http://www.jboss.org/rusheye/visual-suite-result"
-	elementFormDefault="qualified" version="1.0">
+	elementFormDefault="qualified" version="0.2">
 
 	<xs:element name="visual-suite-result">
 		<xs:complexType>

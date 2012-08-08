@@ -22,6 +22,7 @@
 package org.jboss.rusheye.result;
 
 import org.jboss.rusheye.listener.SuiteListenerAdapter;
+import org.jboss.rusheye.suite.Case;
 import org.jboss.rusheye.suite.ComparisonResult;
 import org.jboss.rusheye.suite.Pattern;
 import org.jboss.rusheye.suite.Test;
@@ -57,6 +58,12 @@ public class ResultCollectorAdapter extends SuiteListenerAdapter implements Resu
     }
 
     public void onTestCompleted(Test test) {
+    }
+
+    public void onCaseStarted(Case case1) {
+    }
+
+    public void onCaseCompleted(Case case1) {
     }
 
     public void onSuiteCompleted(VisualSuite visualSuite) {

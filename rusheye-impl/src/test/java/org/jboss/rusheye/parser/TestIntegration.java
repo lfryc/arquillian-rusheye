@@ -23,6 +23,7 @@ package org.jboss.rusheye.parser;
 
 import static org.jboss.rusheye.parser.VisualSuiteDefinitions.PATTERN;
 import static org.jboss.rusheye.parser.VisualSuiteDefinitions.TEST;
+import static org.jboss.rusheye.parser.VisualSuiteDefinitions.CASE;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -94,10 +95,11 @@ public class TestIntegration extends AbstractVisualSuiteDefinitionTest {
     public void testAllSamplesAtOnce() throws IOException, SAXException {
         setup();
 
-        stub.visualSuite.remove(stub.defaultTest);
+        stub.visualSuite.remove(stub.defaultCase);
 
         for (String sample : SAMPLES) {
-            Element test = stub.visualSuite.addElement(TEST).addAttribute("name", sample);
+            Element case1 = stub.visualSuite.addElement(CASE).addAttribute("name", sample);
+            Element test = case1.addElement(TEST).addAttribute("name", sample);
 
             Element pattern = test.addElement(PATTERN);
             pattern.addAttribute("name", sample + "-pattern");

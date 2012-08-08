@@ -29,6 +29,7 @@ import org.jboss.rusheye.core.DefaultImageComparator;
 import org.jboss.rusheye.internal.Instantiator;
 import org.jboss.rusheye.listener.SuiteListener;
 import org.jboss.rusheye.result.ResultCollector;
+import org.jboss.rusheye.suite.Case;
 import org.jboss.rusheye.suite.ComparisonResult;
 import org.jboss.rusheye.suite.Configuration;
 import org.jboss.rusheye.suite.Mask;
@@ -79,6 +80,13 @@ public class CompareListener implements SuiteListener {
         pattern.run();
         resultCollector.onPatternReady(configuration, pattern);
         resultCollector.onPatternStarted(pattern);
+    }
+
+    @Override
+    public void onCaseReady(Case case1) {
+        resultCollector.onCaseReady(case1);
+        resultCollector.onCaseStarted(case1);
+        resultCollector.onCaseCompleted(case1);
     }
 
     @Override
