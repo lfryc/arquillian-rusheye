@@ -27,11 +27,9 @@ public class ParserThread implements Runnable {
         ManagerSaver saver = new ManagerSaver(Main.mainProject.getSuiteDescriptor());
         saver.save();
         
-        VisualSuite suite = parser.parseSuiteFile(new File("tmp.xml"),false);
+        parser.parseSuiteFile(new File("tmp.xml"),false);
         
         JOptionPane.showMessageDialog(Main.interfaceFrame, "Parsing done", "Parse", JOptionPane.INFORMATION_MESSAGE);
-        
-        System.out.println(suite.getTests().size());
 
         Main.mainProject.loadResultAsString();
     }

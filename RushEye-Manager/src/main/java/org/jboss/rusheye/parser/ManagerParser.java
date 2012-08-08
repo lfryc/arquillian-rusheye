@@ -48,7 +48,7 @@ public class ManagerParser extends Parser implements Observed {
         list = new ArrayList<Observer>();
     }
 
-    protected VisualSuite parseSuiteFile(File file, boolean tmpfile) {
+    protected void parseSuiteFile(File file, boolean tmpfile) {
         Main.mainProject.setParsing(true);
         statistics = new RushEyeStatistics();
         VisualSuite visualSuite = null;
@@ -149,108 +149,6 @@ public class ManagerParser extends Parser implements Observed {
         valid = true;
         Main.interfaceFrame.getProjectFrame().toggleRunAll();
 
-        return visualSuite;
-    }
-
-    public VisualSuite parseCaseFromSuiteFile(TestCase t, File file, boolean tmpfile) {
-        VisualSuite visualSuite = null;
-        try {
-            XMLValidationSchemaFactory schemaFactory = XMLValidationSchemaFactory.newInstance(XMLValidationSchema.SCHEMA_ID_W3C_SCHEMA);
-            URL schemaURL = getClass().getClassLoader().getResource("org/jboss/rusheye/visual-suite.xsd");
-            XMLValidationSchema schema = schemaFactory.createSchema(schemaURL);
-
-            XMLInputFactory2 factory = (XMLInputFactory2) XMLInputFactory.newInstance();
-
-            StreamFilter filter = new StreamFilter() {
-                @Override
-                public boolean accept(XMLStreamReader reader) {
-                    return reader.isStartElement();
-                }
-            };
-
-            XMLStreamReader2 reader = factory.createXMLStreamReader(file);
-            XMLStreamReader2 filteredReader = new Stax2FilteredStreamReader(reader, filter);
-
-            reader.validateAgainst(schema);
-
-            JAXBContext ctx = JAXBContext.newInstance(VisualSuite.class.getPackage().getName());
-            Unmarshaller um = ctx.createUnmarshaller();
-
-            UnmarshallerMultiListener listener = new UnmarshallerMultiListener();
-            um.setListener(listener);
-
-            // skip parsing of the first element - visual-suite
-            filteredReader.nextTag();
-
-            visualSuite = new VisualSuite();
-            handler.setVisualSuite(visualSuite);
-            handler.getContext().invokeListeners().onSuiteStarted(visualSuite);
-
-            listener.registerListener(new UniqueIdentityChecker(handler.getContext()));
-
-            while (filteredReader.hasNext()) {
-                try {
-                    // go on the start of the next tag
-                    filteredReader.nextTag();
-
-                    Object o = um.unmarshal(reader);
-                    if (o instanceof GlobalConfiguration) {
-                        GlobalConfiguration globalConfiguration = (GlobalConfiguration) o;
-                        handler.getContext().setCurrentConfiguration(globalConfiguration);
-                        visualSuite.setGlobalConfiguration(globalConfiguration);
-                        handler.getContext().invokeListeners().onConfigurationReady(visualSuite);
-
-                        RetriverInjector retriverInjector = new RetriverInjector(this);
-                        for (Mask mask : globalConfiguration.getMasks()) {
-                            retriverInjector.afterUnmarshal(mask, null);
-                        }
-                        listener.registerListener(retriverInjector);
-                    }
-                    if (o instanceof Test) {
-                        Test test = (Test) o;
-                        handler.getContext().setCurrentConfiguration(test);
-                        handler.getContext().setCurrentTest(test);
-                        for (Pattern pattern : test.getPatterns()) {
-                            TestCase managerTest = Main.mainProject.findTest(test.getName(), pattern.getName());
-                            if(!t.getName().equals(pattern.getName()))
-                                continue;
-                            handler.getContext().invokeListeners().onPatternReady(test, pattern);
-                        }
-                        Test testWrapped = ConfigurationCompiler.wrap(test, visualSuite.getGlobalConfiguration());
-                        handler.getContext().invokeListeners().onTestReady(testWrapped);
-
-                        for (Pattern pattern : testWrapped.getPatterns()) {
-                            TestCase managerTest = Main.mainProject.findTest(testWrapped.getName(), pattern.getName());
-                            if(!managerTest.getName().equals(pattern.getName()))
-                                continue;
-                            managerTest.setConclusion(pattern.getConclusion());
-                            statistics.addValue(pattern.getConclusion(), 1);
-
-                            Main.mainProject.setCurrentCase(managerTest);
-                            Main.interfaceFrame.getProjectFrame().updateIcons();
-
-                            this.notifyObservers();
-                        }
-                    }
-                } catch (WstxParsingException e) {
-                    // intentionally blank - wrong end of document detection
-                }
-
-            }
-        } catch (XMLStreamException e) {
-            throw handleParsingException(e, e);
-        } catch (JAXBException e) {
-            throw handleParsingException(e, e.getLinkedException());
-        } finally {
-            if (visualSuite != null && handler.getContext() != null) {
-                handler.getContext().invokeListeners().onSuiteReady(visualSuite);
-            }
-            if (tmpfile) {
-                FileUtils.deleteQuietly(file);
-            }
-        }
-
-        return visualSuite;
     }
 
     public VisualSuite loadSuite(File file) {
