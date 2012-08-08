@@ -108,7 +108,7 @@
 					<executions>
 						<execution>
 							<id>rusheye-checkstyle-report</id>
-							<phase>process-sources</phase>
+							<phase>verify</phase>
 							<goals>
 								<goal>check</goal>
 							</goals>
@@ -147,7 +147,7 @@
 					<executions>
 						<execution>
 							<id>rusheye-license-check</id>
-							<phase>process-sources</phase>
+							<phase>verify</phase>
 							<goals>
 								<goal>check</goal>
 							</goals>
