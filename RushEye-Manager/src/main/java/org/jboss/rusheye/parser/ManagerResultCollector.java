@@ -74,7 +74,6 @@ public class ManagerResultCollector extends ResultCollectorAdapter {
 
 
         if (comparisonResult.getDiffImage() != null) {
-            managerTest.getPool().put(ImagePool.DIFF, comparisonResult.getDiffImage());
             comparisonResult.getDiffImage().flush();
         }
 
