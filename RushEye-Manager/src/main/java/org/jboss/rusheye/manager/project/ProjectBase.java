@@ -19,9 +19,9 @@ public abstract class ProjectBase implements Observer {
 
     protected TestCase root;
     protected TestCase currentCase;
-    protected String patternPath;
-    protected String samplesPath;
-    protected String maskPath;
+    protected String patternPath = "";
+    protected String samplesPath = "";
+    protected String maskPath = "";
     protected File suiteDescriptorFile;
     protected VisualSuite suiteDescriptor;
     protected File resultDescriptor;
@@ -40,7 +40,6 @@ public abstract class ProjectBase implements Observer {
     public void setCurrentCase(TestCase currentCase) {
         this.currentCase = currentCase;
     }
-
 
     public String getMaskPath() {
         return maskPath;
@@ -114,6 +113,4 @@ public abstract class ProjectBase implements Observer {
     public void setParsing(boolean parsing) {
         this.parsing = parsing;
     }
-
-
 }
