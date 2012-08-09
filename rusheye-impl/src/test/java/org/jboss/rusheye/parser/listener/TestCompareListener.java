@@ -28,12 +28,14 @@ import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.when;
 
 import java.awt.image.BufferedImage;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Set;
 
 import org.jboss.rusheye.comparison.ImageComparator;
 import org.jboss.rusheye.result.ResultCollector;
 import org.jboss.rusheye.result.ResultCollectorAdapter;
+import org.jboss.rusheye.suite.Case;
 import org.jboss.rusheye.suite.ComparisonResult;
 import org.jboss.rusheye.suite.Pattern;
 import org.jboss.rusheye.suite.Perception;
@@ -65,6 +67,9 @@ public class TestCompareListener {
 
     @Mock
     VisualSuite visualSuite;
+    
+    @Mock
+    Case case1;
 
     @Mock
     org.jboss.rusheye.suite.Test test;
@@ -108,11 +113,13 @@ public class TestCompareListener {
         LinkedList<Pattern> patterns = new LinkedList<Pattern>();
         patterns.add(pattern);
 
-        doReturn(sample).when(test).getSample();
-        doReturn(patterns).when(test).getPatterns();
-        doReturn(sampleImage).when(sample).get();
+        when(case1.getTests()).thenReturn(Arrays.asList(test));
+        when(test.getPatterns()).thenReturn(Arrays.asList(pattern));
+        when(test.getSample()).thenReturn(sample);
+        when(pattern.get()).thenReturn(patternImage);
+        when(sample.get()).thenReturn(sampleImage);
         doNothing().when(sample).run();
-        doReturn(patternImage).when(pattern).get();
+        doNothing().when(pattern).run();
 
         sampleOrder = inOrder(sample);
         patternOrder = inOrder(pattern);
@@ -130,6 +137,7 @@ public class TestCompareListener {
         compareListener.onConfigurationReady(visualSuite);
         compareListener.onPatternReady(test, pattern);
         compareListener.onTestReady(test);
+        compareListener.onCaseReady(case1);
         compareListener.onSuiteReady(visualSuite);
 
         // order verification
@@ -144,6 +152,8 @@ public class TestCompareListener {
         col.onConfigurationReady(visualSuite);
         col.onPatternReady(test, pattern);
         col.onPatternStarted(pattern);
+        col.onCaseReady(case1);
+        col.onCaseStarted(case1);
         col.onTestReady(test);
         col.onTestStarted(test);
         col.onSampleStarted(test);
@@ -151,6 +161,7 @@ public class TestCompareListener {
         col.onPatternLoaded(test, pattern);
         col.onPatternCompleted(test, pattern, comparisonResult);
         col.onTestCompleted(test);
+        col.onCaseCompleted(case1);
         col.onSuiteReady(visualSuite);
         col.onSuiteCompleted(visualSuite);
     }

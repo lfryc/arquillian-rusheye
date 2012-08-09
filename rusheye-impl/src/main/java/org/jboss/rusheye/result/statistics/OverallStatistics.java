@@ -32,6 +32,7 @@ import java.util.Map.Entry;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.jboss.rusheye.result.ResultStatistics;
+import org.jboss.rusheye.suite.Case;
 import org.jboss.rusheye.suite.Pattern;
 import org.jboss.rusheye.suite.Properties;
 import org.jboss.rusheye.suite.ResultConclusion;
@@ -87,6 +88,11 @@ public class OverallStatistics implements ResultStatistics {
 
         printerWriter.println("[ " + bestConclusion + " ] " + test.getName());
         printerWriter.flush();
+    }
+    
+    @Override
+    public void onCaseCompleted(Case case1) {
+        
     }
 
     @Override

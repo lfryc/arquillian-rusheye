@@ -36,8 +36,8 @@ import org.codehaus.stax2.XMLStreamWriter2;
 import org.codehaus.stax2.validation.XMLValidationSchema;
 import org.codehaus.stax2.validation.XMLValidationSchemaFactory;
 import org.jboss.rusheye.RushEye;
+import org.jboss.rusheye.suite.Case;
 import org.jboss.rusheye.suite.Properties;
-import org.jboss.rusheye.suite.Test;
 import org.jboss.rusheye.suite.annotations.VisualSuiteResult;
 import org.jboss.rusheye.suite.utils.NullingProxy;
 
@@ -59,17 +59,17 @@ public abstract class XmlResultWriter implements ResultWriter {
         this.properties = properties;
     }
 
-    public boolean write(Test test) {
+    public boolean write(Case case1) {
         if (!tryInitializeWriter()) {
             return false;
         }
 
-        return writeSafely(new WriterContext(test));
+        return writeSafely(new WriterContext(case1));
     }
 
     private boolean writeSafely(WriterContext context) {
         tryWriteStartDocument();
-        tryWriteTest(context);
+        tryWriteCase(context);
 
         return !writerFailed;
     }
@@ -92,12 +92,12 @@ public abstract class XmlResultWriter implements ResultWriter {
         }
     }
 
-    private void tryWriteTest(WriterContext context) {
+    private void tryWriteCase(WriterContext context) {
         if (!writerFailed) {
             try {
-                Test test = context.getTest();
-                test = NullingProxy.handle(test, VisualSuiteResult.class);
-                marshaller.marshal(test, writer);
+                Case case1 = context.getCase();
+                case1 = NullingProxy.handle(case1, VisualSuiteResult.class);
+                marshaller.marshal(case1, writer);
                 writer.flush();
             } catch (Exception e) {
                 e.printStackTrace();

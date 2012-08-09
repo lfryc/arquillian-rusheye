@@ -35,6 +35,7 @@ import java.util.Arrays;
 import org.jboss.rusheye.result.ResultStatistics;
 import org.jboss.rusheye.result.ResultStorage;
 import org.jboss.rusheye.result.writer.ResultWriter;
+import org.jboss.rusheye.suite.Case;
 import org.jboss.rusheye.suite.ComparisonResult;
 import org.jboss.rusheye.suite.Pattern;
 import org.jboss.rusheye.suite.Perception;
@@ -77,6 +78,9 @@ public class TestResultCollectorImpl {
     @Mock
     org.jboss.rusheye.suite.Test test2;
 
+    @Mock
+    Case case1;
+
     @Spy
     Pattern pattern1 = new Pattern();
 
@@ -98,6 +102,7 @@ public class TestResultCollectorImpl {
     public void beforeClass() {
         MockitoAnnotations.initMocks(this);
 
+        when(case1.getTests()).thenReturn(Arrays.asList(test1, test2));
         when(test1.getPerception()).thenReturn(perception);
         when(test1.getPatterns()).thenReturn(Arrays.asList(pattern1));
         when(test2.getPerception()).thenReturn(perception);
@@ -108,8 +113,8 @@ public class TestResultCollectorImpl {
         when(comparisonResult.getTotalPixels()).thenReturn(100);
         when(comparisonResult.getDifferentPixels()).thenReturn(4);
         when(comparisonResult.getDiffImage()).thenReturn(image);
-        when(storage.store(any(org.jboss.rusheye.suite.Test.class), any(Pattern.class), any(BufferedImage.class)))
-            .thenReturn("some-location");
+        when(storage.store(any(org.jboss.rusheye.suite.Test.class), any(Pattern.class), any(BufferedImage.class))).thenReturn(
+                "some-location");
     }
 
     @Test
@@ -165,6 +170,7 @@ public class TestResultCollectorImpl {
         collector.onPatternCompleted(test2, pattern1, comparisonResult);
         collector.onPatternCompleted(test2, pattern2, comparisonResult);
         collector.onTestCompleted(test2);
+        collector.onCaseCompleted(case1);
         collector.onSuiteCompleted(visualSuite);
 
         order = inOrder(image, storage, statistics, writer);
@@ -177,7 +183,6 @@ public class TestResultCollectorImpl {
         order.verify(image).flush();
         order.verify(statistics).onPatternCompleted(any(Pattern.class));
 
-        order.verify(writer).write(test1);
         order.verify(statistics).onTestCompleted(test1);
 
         order.verify(storage).store(test2, pattern1, image);
@@ -188,8 +193,10 @@ public class TestResultCollectorImpl {
         order.verify(image).flush();
         order.verify(statistics).onPatternCompleted(any(Pattern.class));
 
-        order.verify(writer).write(test2);
         order.verify(statistics).onTestCompleted(test2);
+
+        order.verify(writer).write(case1);
+        order.verify(statistics).onCaseCompleted(case1);
 
         order.verify(writer).close();
         order.verify(statistics).onSuiteCompleted();
@@ -226,6 +233,11 @@ public class TestResultCollectorImpl {
         }
 
         @Override
+        public void onCaseCompleted(Case case_) {
+            statistics.onCaseCompleted(case_);
+        }
+
+        @Override
         public void onSuiteCompleted() {
             statistics.onSuiteCompleted();
         }
@@ -239,8 +251,8 @@ public class TestResultCollectorImpl {
         }
 
         @Override
-        public boolean write(org.jboss.rusheye.suite.Test test) {
-            return writer.write(test);
+        public boolean write(Case case1) {
+            return writer.write(case1);
         }
 
         @Override

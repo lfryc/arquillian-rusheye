@@ -21,39 +21,20 @@
  */
 package org.jboss.rusheye.result.writer;
 
-import java.util.Iterator;
-
-import org.jboss.rusheye.suite.Pattern;
-import org.jboss.rusheye.suite.Test;
+import org.jboss.rusheye.suite.Case;
 
 /**
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
 public class WriterContext {
-    private Test test;
-    private Iterator<Pattern> patternIterator;
-    private Pattern currentPattern;
+    private Case case1;
 
-    public WriterContext(Test test) {
-        this.test = test;
-        this.patternIterator = test.getPatterns().iterator();
+    public WriterContext(Case case1) {
+        this.case1 = case1;
     }
 
-    public Test getTest() {
-        return test;
-    }
-
-    public boolean hasNextDetail() {
-        return patternIterator.hasNext();
-    }
-
-    public Pattern getNextDetail() {
-        currentPattern = patternIterator.next();
-        return currentPattern;
-    }
-
-    public Pattern getCurrentDetail() {
-        return currentPattern;
+    public Case getCase() {
+        return case1;
     }
 }

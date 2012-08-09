@@ -30,7 +30,7 @@
 	<xs:element name="visual-suite-result">
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="test" type="vsr:TestType" maxOccurs="unbounded" />
+				<xs:element name="case" type="vsr:CaseType" maxOccurs="unbounded" />
 			</xs:sequence>
 		</xs:complexType>
 		<xs:unique name="TestNameUnique">
@@ -43,6 +43,13 @@
 		</xs:unique>
 	</xs:element>
 
+    <xs:complexType name="CaseType">
+        <xs:sequence>
+            <xs:element name="test" type="vsr:TestType" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="name" type="xs:Name" use="required" />
+    </xs:complexType>
+    
 	<xs:complexType name="TestType">
 		<xs:sequence>
 			<xs:element name="pattern" type="vsr:PatternType" maxOccurs="unbounded"/>

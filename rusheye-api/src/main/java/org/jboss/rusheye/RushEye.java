@@ -30,8 +30,7 @@ package org.jboss.rusheye;
 public final class RushEye {
 
     // note: 1.0 is not available yet, use 1.1 instead once going Final
-    private static final String SCHEMA_VERSION = "0.2";
-    private static final String SCHEMA_VERSION_SUFFIX = "0_2";
+    public static final String SCHEMA_VERSION_SUFFIX = "0_2";
     
     /** Namespace for Visual Suite descriptor */
     public static final String NAMESPACE_VISUAL_SUITE = "http://www.jboss.org/rusheye/visual-suite";

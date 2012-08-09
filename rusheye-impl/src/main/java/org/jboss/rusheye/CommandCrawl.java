@@ -240,9 +240,9 @@ public class CommandCrawl extends CommandBase {
                 if (caseDir.isDirectory()) {
                     String name = caseDir.getName();
                     
-                    Element case_ = root.addElement(QName.get("case", ns));
-                    case_.addAttribute("name", name);
-                    addTests(caseDir, case_);
+                    Element case1 = root.addElement(QName.get("case", ns));
+                    case1.addAttribute("name", name);
+                    addTests(caseDir, case1);
                 }
             }
         }
@@ -258,7 +258,7 @@ public class CommandCrawl extends CommandBase {
         return files;
     }
 
-    private void addTests(File dir, Element case_) {
+    private void addTests(File dir, Element case1) {
         if (dir.exists() && dir.isDirectory()) {
             tests: for (File testFile : sortFiles(dir.listFiles())) {
                 for (MaskType mask : MaskType.values()) {
@@ -269,7 +269,7 @@ public class CommandCrawl extends CommandBase {
                 if (testFile.isDirectory() && testFile.listFiles().length > 0) {
                     String name = testFile.getName();
 
-                    Element test = case_.addElement(QName.get("test", ns));
+                    Element test = case1.addElement(QName.get("test", ns));
                     test.addAttribute("name", name);
 
                     addPatterns(testFile, test);
@@ -278,7 +278,7 @@ public class CommandCrawl extends CommandBase {
                 if (testFile.isFile()) {
                     String name = substringBeforeLast(testFile.getName(), ".");
 
-                    Element test = case_.addElement(QName.get("test", ns));
+                    Element test = case1.addElement(QName.get("test", ns));
                     test.addAttribute("name", name);
 
                     String source = getRelativePath(patternBase, testFile);
