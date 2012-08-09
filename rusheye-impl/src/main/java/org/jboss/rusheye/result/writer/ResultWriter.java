@@ -21,8 +21,8 @@
  */
 package org.jboss.rusheye.result.writer;
 
+import org.jboss.rusheye.suite.Case;
 import org.jboss.rusheye.suite.Properties;
-import org.jboss.rusheye.suite.Test;
 
 /**
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
@@ -31,7 +31,7 @@ import org.jboss.rusheye.suite.Test;
 public interface ResultWriter {
     void setProperties(Properties properties);
 
-    boolean write(Test test);
+    boolean write(Case case1);
 
     void close();
 }

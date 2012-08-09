@@ -43,7 +43,7 @@ public class AbstractTestOfTestElement extends AbstractVisualSuiteDefinitionTest
     protected Element pattern;
 
     protected void addTest(String name) {
-        test = stub.visualSuite.addElement(TEST);
+        test = stub.defaultCase.addElement(TEST);
         if (name != null) {
             test.addAttribute("name", name);
         }

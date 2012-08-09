@@ -21,6 +21,7 @@
  */
 package org.jboss.rusheye.listener;
 
+import org.jboss.rusheye.suite.Case;
 import org.jboss.rusheye.suite.Configuration;
 import org.jboss.rusheye.suite.Pattern;
 import org.jboss.rusheye.suite.Properties;
@@ -101,6 +102,14 @@ public interface SuiteListener {
      */
     void onPatternReady(Configuration configuration, Pattern pattern);
 
+    /**
+     * Fired when particular case and all of its tests are ready.
+     * 
+     * @param case1
+     *            which came ready including all of it's tests
+     */
+    void onCaseReady(Case case1);
+    
     /**
      * Fired when particular test and all of it's patterns are ready.
      * 

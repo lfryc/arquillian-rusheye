@@ -45,11 +45,13 @@ import org.codehaus.stax2.XMLStreamReader2;
 import org.codehaus.stax2.ri.Stax2FilteredStreamReader;
 import org.codehaus.stax2.validation.XMLValidationSchema;
 import org.codehaus.stax2.validation.XMLValidationSchemaFactory;
+import org.jboss.rusheye.RushEye;
 import org.jboss.rusheye.exception.ConfigurationException;
 import org.jboss.rusheye.exception.ConfigurationValidationException;
 import org.jboss.rusheye.exception.ParsingException;
 import org.jboss.rusheye.listener.SuiteListenerAdapter;
 import org.jboss.rusheye.listener.SuiteListener;
+import org.jboss.rusheye.suite.Case;
 import org.jboss.rusheye.suite.GlobalConfiguration;
 import org.jboss.rusheye.suite.Mask;
 import org.jboss.rusheye.suite.Pattern;
@@ -111,7 +113,7 @@ public class Parser {
         try {
             XMLValidationSchemaFactory schemaFactory = XMLValidationSchemaFactory
                 .newInstance(XMLValidationSchema.SCHEMA_ID_W3C_SCHEMA);
-            URL schemaURL = getClass().getClassLoader().getResource("org/jboss/rusheye/visual-suite.xsd");
+            URL schemaURL = getClass().getClassLoader().getResource(RushEye.RESOURCE_VISUAL_SUITE);
             XMLValidationSchema schema = schemaFactory.createSchema(schemaURL);
 
             XMLInputFactory2 factory = (XMLInputFactory2) XMLInputFactory.newInstance();
@@ -171,16 +173,33 @@ public class Parser {
                         }
                         listener.registerListener(retriverInjector);
                     }
-                    if (o instanceof Test) {
-                        Test test = (Test) o;
-                        handler.getContext().setCurrentConfiguration(test);
-                        handler.getContext().setCurrentTest(test);
-                        for (Pattern pattern : test.getPatterns()) {
-                            handler.getContext().invokeListeners().onPatternReady(test, pattern);
+                    if (o instanceof Case) {
+                        Case case1 = (Case) o;
+                        Case caseWrapped = ConfigurationCompiler.wrap(case1, visualSuite.getGlobalConfiguration());
+                        handler.getContext().setCurrentConfiguration(caseWrapped);
+                        handler.getContext().setCurrentCase(caseWrapped);
+                        for (Test test : caseWrapped.getTests()) {
+                            Test testWrapped = ConfigurationCompiler.wrap(test, caseWrapped);
+                            handler.getContext().setCurrentConfiguration(testWrapped);
+                            handler.getContext().setCurrentTest(testWrapped);
+                            for (Pattern pattern : testWrapped.getPatterns()) {
+                                handler.getContext().invokeListeners().onPatternReady(testWrapped, pattern);
+                            }
+                            handler.getContext().invokeListeners().onTestReady(testWrapped);
                         }
-                        Test testWrapped = ConfigurationCompiler.wrap(test, visualSuite.getGlobalConfiguration());
-                        handler.getContext().invokeListeners().onTestReady(testWrapped);
+                        handler.getContext().invokeListeners().onCaseReady(caseWrapped);
+                        
                     }
+//                    if (o instanceof Test) {
+//                        Test test = (Test) o;
+//                        handler.getContext().setCurrentConfiguration(test);
+//                        handler.getContext().setCurrentTest(test);
+//                        for (Pattern pattern : test.getPatterns()) {
+//                            handler.getContext().invokeListeners().onPatternReady(test, pattern);
+//                        }
+//                        Test testWrapped = ConfigurationCompiler.wrap(test, visualSuite.getGlobalConfiguration());
+//                        handler.getContext().invokeListeners().onTestReady(testWrapped);
+//                    }
                 } catch (WstxParsingException e) {
                     // intentionally blank - wrong end of document detection
                 }

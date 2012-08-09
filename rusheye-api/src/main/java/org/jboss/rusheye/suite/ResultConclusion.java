@@ -49,7 +49,7 @@ public enum ResultConclusion {
     NOT_TESTED,
 
     /**
-     * The error occured during process of comparison.
+     * The error occurred during process of comparison.
      */
     ERROR
 }

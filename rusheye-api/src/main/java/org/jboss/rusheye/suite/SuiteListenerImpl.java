@@ -116,6 +116,12 @@ public class SuiteListenerImpl extends TypeProperties implements SuiteListener {
 
     }
 
+    @Override
+    public void onCaseReady(Case case1) {
+        initializeListener();
+        suiteListener.onCaseReady(case1);
+    }
+
     /*
      * (non-Javadoc)
      * 

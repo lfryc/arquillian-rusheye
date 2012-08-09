@@ -27,6 +27,7 @@ import org.jboss.rusheye.result.ResultEvaluator;
 import org.jboss.rusheye.result.ResultStatistics;
 import org.jboss.rusheye.result.ResultStorage;
 import org.jboss.rusheye.result.writer.ResultWriter;
+import org.jboss.rusheye.suite.Case;
 import org.jboss.rusheye.suite.ComparisonResult;
 import org.jboss.rusheye.suite.Pattern;
 import org.jboss.rusheye.suite.Properties;
@@ -89,8 +90,13 @@ public class ResultCollectorImpl extends ResultCollectorAdapter {
 
     @Override
     public void onTestCompleted(Test test) {
-        writer.write(test);
         statistics.onTestCompleted(test);
+    }
+    
+    @Override
+    public void onCaseCompleted(Case case1) {
+        writer.write(case1);
+        statistics.onCaseCompleted(case1);
     }
 
     @Override

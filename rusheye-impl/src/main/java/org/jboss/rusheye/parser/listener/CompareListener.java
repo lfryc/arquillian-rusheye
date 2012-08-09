@@ -28,7 +28,9 @@ import org.jboss.rusheye.comparison.ImageComparator;
 import org.jboss.rusheye.core.DefaultImageComparator;
 import org.jboss.rusheye.internal.Instantiator;
 import org.jboss.rusheye.listener.SuiteListener;
+import org.jboss.rusheye.parser.ConfigurationCompiler;
 import org.jboss.rusheye.result.ResultCollector;
+import org.jboss.rusheye.suite.Case;
 import org.jboss.rusheye.suite.ComparisonResult;
 import org.jboss.rusheye.suite.Configuration;
 import org.jboss.rusheye.suite.Mask;
@@ -75,43 +77,58 @@ public class CompareListener implements SuiteListener {
 
     @Override
     public void onPatternReady(Configuration configuration, Pattern pattern) {
+        resultCollector.onPatternReady(configuration, pattern);
         pattern.include(properties);
         pattern.run();
-        resultCollector.onPatternReady(configuration, pattern);
         resultCollector.onPatternStarted(pattern);
     }
 
     @Override
     public void onTestReady(Test test) {
         resultCollector.onTestReady(test);
-        resultCollector.onTestStarted(test);
+    }
 
-        resultCollector.onSampleStarted(test);
+    @Override
+    public void onCaseReady(Case case1) {
+        resultCollector.onCaseReady(case1);
+        resultCollector.onCaseStarted(case1);
         
-        Sample sample = test.getSample();
-        sample.include(properties);
-        BufferedImage sampleImage = getSampleImage(sample);
-        
-        for (Mask mask : test.getMasks()) {
-            mask.include(properties);
+        for (Test test : case1.getTests()) {
+            Test testWrapped = ConfigurationCompiler.wrap(test, case1);
+            
+            resultCollector.onTestStarted(testWrapped);
+            
+            Sample sample = test.getSample();
+            sample.include(properties);
+            resultCollector.onSampleStarted(testWrapped);
+
+            BufferedImage sampleImage = getSampleImage(sample);
+            resultCollector.onSampleLoaded(testWrapped);
+            
+            for (Mask mask : testWrapped.getMasks()) {
+                mask.include(properties);
+            }
+            
+            resultCollector.onSampleLoaded(test);
+
+            for (Pattern pattern : test.getPatterns()) {
+                BufferedImage patternImage = getPatternImage(pattern);
+                resultCollector.onPatternLoaded(testWrapped, pattern);
+
+                ComparisonResult comparisonResult = imageComparator.compare(patternImage, sampleImage,
+                    testWrapped.getPerception(), testWrapped.getSelectiveAlphaMasks());
+                resultCollector.onPatternCompleted(testWrapped, pattern, comparisonResult);
+            }
+            resultCollector.onTestCompleted(testWrapped);
         }
         
-        resultCollector.onSampleLoaded(test);
 
-        for (Pattern pattern : test.getPatterns()) {
-            BufferedImage patternImage = getPatternImage(pattern);
-            resultCollector.onPatternLoaded(test, pattern);
-
-            ComparisonResult comparisonResult = imageComparator.compare(patternImage, sampleImage,
-                test.getPerception(), test.getSelectiveAlphaMasks());
-            resultCollector.onPatternCompleted(test, pattern, comparisonResult);
-        }
-        resultCollector.onTestCompleted(test);
+        resultCollector.onCaseCompleted(case1);
     }
 
     private BufferedImage getSampleImage(Sample sample) {
-        sample.run();
         try {
+            sample.run();
             return sample.get();
         } catch (ExecutionException e) {
             throw new IllegalStateException(e);

@@ -37,7 +37,7 @@ import javax.xml.bind.annotation.XmlType;
  * @version $Revision$
  */
 @XmlAccessorType(XmlAccessType.PROPERTY)
-@XmlType(name = "VisualSuite", propOrder = { "globalConfiguration", "tests" })
+@XmlType(name = "VisualSuite", propOrder = { "globalConfiguration", "cases" })
 @XmlRootElement(name = "visual-suite")
 public class VisualSuite {
 
@@ -45,7 +45,7 @@ public class VisualSuite {
     protected GlobalConfiguration globalConfiguration;
 
     /** The list of tests */
-    protected List<Test> tests;
+    protected List<Case> cases;
 
     /**
      * Gets the global configuration.
@@ -68,15 +68,15 @@ public class VisualSuite {
     }
 
     /**
-     * Gets the test.
+     * Gets the case.
      * 
-     * @return the test
+     * @return the case
      */
-    @XmlElement(name = "test", required = true)
-    public List<Test> getTests() {
-        if (tests == null) {
-            tests = new ArrayList<Test>();
+    @XmlElement(name = "case", required = true)
+    public List<Case> getCases() {
+        if (cases == null) {
+            cases = new ArrayList<Case>();
         }
-        return this.tests;
+        return this.cases;
     }
 }

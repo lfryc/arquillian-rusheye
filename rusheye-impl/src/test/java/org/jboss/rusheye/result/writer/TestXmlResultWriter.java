@@ -31,7 +31,9 @@ import java.util.concurrent.CountDownLatch;
 
 import org.apache.commons.io.output.TeeOutputStream;
 import org.jboss.rusheye.PassingSAXErrorHandler;
+import org.jboss.rusheye.RushEye;
 import org.jboss.rusheye.suite.Area;
+import org.jboss.rusheye.suite.Case;
 import org.jboss.rusheye.suite.ComparisonResult;
 import org.jboss.rusheye.suite.Pattern;
 import org.jboss.rusheye.suite.Rectangle;
@@ -50,6 +52,7 @@ public class TestXmlResultWriter {
     private static final String XML_VALIDATION_FEATURE = "http://xml.org/sax/features/validation";
     private static final String XML_SCHEMA_FEATURE = "http://apache.org/xml/features/validation/schema";
     private static final String XML_SCHEMA_FULL_CHECKING_FEATURE = "http://apache.org/xml/features/validation/schema-full-checking";
+    private static final String XML_SCHEMA_LOCATION = "http://apache.org/xml/properties/schema/external-schemaLocation";
 
     ValidationResultWriter writer = new ValidationResultWriter();
 
@@ -57,12 +60,15 @@ public class TestXmlResultWriter {
 
     @org.testng.annotations.Test
     public void testXmlResultWriter() throws InterruptedException {
+        Case case_ = new Case();
         Test test = new Test();
         Pattern pattern = new Pattern();
         ComparisonResult comparisonResult = new ComparisonResult();
         Rectangle rectangle = new Rectangle();
         Area area = new Area();
 
+        case_.setName("caseName");
+        case_.getTests().add(test);
         test.setName("testName");
         test.getPatterns().add(pattern);
         pattern.setName("patternName");
@@ -81,7 +87,7 @@ public class TestXmlResultWriter {
         rectangle.setMin(new Point(10, 11));
         rectangle.setMax(new Point(12, 13));
 
-        writer.write(test);
+        writer.write(case_);
         writer.close();
 
         latch.await();
@@ -139,6 +145,8 @@ public class TestXmlResultWriter {
                 reader.setFeature(XML_VALIDATION_FEATURE, true);
                 reader.setFeature(XML_SCHEMA_FEATURE, true);
                 reader.setFeature(XML_SCHEMA_FULL_CHECKING_FEATURE, true);
+                reader.setProperty(XML_SCHEMA_LOCATION, RushEye.NAMESPACE_VISUAL_SUITE_RESULT + " "
+                        + "../rusheye-api/src/main/resources/" + RushEye.RESOURCE_VISUAL_SUITE_RESULT);
                 reader.setContentHandler(new DefaultHandler());
                 reader.setErrorHandler(new PassingSAXErrorHandler());
                 reader.parse(new InputSource(in));

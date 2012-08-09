@@ -30,6 +30,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -161,7 +163,7 @@ public class CommandCrawl extends CommandBase {
         addRetrievers(globalConfiguration);
         addPerception(globalConfiguration);
         addMasksByType(maskBase, globalConfiguration);
-        addTests(patternBase, root);
+        addCases(patternBase, root);
     }
 
     private void addSuiteListener(Element globalConfiguration) {
@@ -231,10 +233,34 @@ public class CommandCrawl extends CommandBase {
             }
         }
     }
-
-    private void addTests(File dir, Element root) {
+    
+    private void addCases(File dir, Element root) {
         if (dir.exists() && dir.isDirectory()) {
-            tests: for (File testFile : dir.listFiles()) {
+            for (File caseDir : dir.listFiles()) {
+                if (caseDir.isDirectory()) {
+                    String name = caseDir.getName();
+                    
+                    Element case1 = root.addElement(QName.get("case", ns));
+                    case1.addAttribute("name", name);
+                    addTests(caseDir, case1);
+                }
+            }
+        }
+    }
+    
+    private File[] sortFiles(File[] files) {
+        Arrays.sort(files, new Comparator<File>() {
+            @Override
+            public int compare(File f1, File f2) {
+                return f1.getName().compareTo(f2.getName());
+            }
+        });
+        return files;
+    }
+
+    private void addTests(File dir, Element case1) {
+        if (dir.exists() && dir.isDirectory()) {
+            tests: for (File testFile : sortFiles(dir.listFiles())) {
                 for (MaskType mask : MaskType.values()) {
                     if (testFile.getName().equals("masks-" + mask.value())) {
                         continue tests;
@@ -243,7 +269,7 @@ public class CommandCrawl extends CommandBase {
                 if (testFile.isDirectory() && testFile.listFiles().length > 0) {
                     String name = testFile.getName();
 
-                    Element test = root.addElement(QName.get("test", ns));
+                    Element test = case1.addElement(QName.get("test", ns));
                     test.addAttribute("name", name);
 
                     addPatterns(testFile, test);
@@ -252,7 +278,7 @@ public class CommandCrawl extends CommandBase {
                 if (testFile.isFile()) {
                     String name = substringBeforeLast(testFile.getName(), ".");
 
-                    Element test = root.addElement(QName.get("test", ns));
+                    Element test = case1.addElement(QName.get("test", ns));
                     test.addAttribute("name", name);
 
                     String source = getRelativePath(patternBase, testFile);
@@ -267,7 +293,7 @@ public class CommandCrawl extends CommandBase {
 
     private void addPatterns(File dir, Element test) {
         if (dir.exists() && dir.isDirectory()) {
-            for (File file : dir.listFiles()) {
+            for (File file : sortFiles(dir.listFiles())) {
                 if (file.isFile()) {
                     String name = substringBeforeLast(file.getName(), ".");
                     String source = getRelativePath(patternBase, file);

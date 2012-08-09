@@ -23,11 +23,14 @@ package org.jboss.rusheye.parser;
 
 import static org.jboss.rusheye.parser.VisualSuiteDefinitions.MASK;
 
+import java.io.IOException;
 import java.util.Collection;
+import java.util.concurrent.ExecutionException;
 
 import org.jboss.rusheye.suite.Mask;
 import org.jboss.rusheye.suite.MaskType;
 import org.testng.annotations.Test;
+import org.xml.sax.SAXException;
 
 /**
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
@@ -54,6 +57,13 @@ public class TestOfTestMask extends TestMask {
     @Override
     Collection<Mask> getCurrentIgnoreBitmapMasks() {
         return handler.getContext().getCurrentTest().getIgnoreBitmapMasks();
+    }
+    
+    @Override
+    @Test
+    public void testMaskFullyEquiped() throws IOException, SAXException, InterruptedException, ExecutionException {
+        // TODO Auto-generated method stub
+        super.testMaskFullyEquiped();
     }
 
     private void moveDefaultPatternAfterMasks() {

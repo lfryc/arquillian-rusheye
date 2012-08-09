@@ -21,6 +21,7 @@
  */
 package org.jboss.rusheye.listener;
 
+import org.jboss.rusheye.suite.Case;
 import org.jboss.rusheye.suite.Configuration;
 import org.jboss.rusheye.suite.Pattern;
 import org.jboss.rusheye.suite.Properties;
@@ -48,6 +49,10 @@ public class SuiteListenerAdapter implements SuiteListener {
     }
 
     public void onConfigurationReady(VisualSuite visualSuite) {
+    }
+    
+    @Override
+    public void onCaseReady(Case case1) {   
     }
 
     public void onTestReady(Test test) {
