@@ -5,6 +5,7 @@
 package org.jboss.rusheye.manager.gui;
 
 import java.awt.Component;
+import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeCellRenderer;
@@ -13,12 +14,12 @@ import org.jboss.rusheye.suite.ResultConclusion;
 
 /**
  * Custom renderer for JTree. Manages icons.
- * 
+ *
  * @author Jakub D.
  */
 public class CustomTreeRenderer extends DefaultTreeCellRenderer {
 
-    ImageIcon same, notTested, diff, pSame;
+    private ImageIcon same, notTested, diff, pSame;
 
     /**
      * COstructor where we initialize icons.
@@ -39,16 +40,22 @@ public class CustomTreeRenderer extends DefaultTreeCellRenderer {
         if (value instanceof TestCase) {
             TestCase node = (TestCase) value;
             if (node.isLeaf()) {
-                if (node.getConclusion() == ResultConclusion.SAME)
-                    setIcon(same);
-                else if (node.getConclusion() == ResultConclusion.PERCEPTUALLY_SAME)
-                    setIcon(pSame);
-                else if (node.getConclusion() == ResultConclusion.DIFFER)
-                    setIcon(diff);
-                else if (node.getConclusion() == ResultConclusion.NOT_TESTED || node.getConclusion() == null)
-                    setIcon(notTested);
+                setIcon(getTestCaseIcon(node));
             }
         }
         return this;
+    }
+
+    private ImageIcon getTestCaseIcon(TestCase test) {
+            if (test.getConclusion() == ResultConclusion.SAME)
+                return same;
+            else if (test.getConclusion() == ResultConclusion.PERCEPTUALLY_SAME)
+                return pSame;
+            else if (test.getConclusion() == ResultConclusion.DIFFER)
+                return diff;
+            else if (test.getConclusion() == ResultConclusion.NOT_TESTED || test.getConclusion() == null)
+                return notTested;
+            else
+                return new ImageIcon(new BufferedImage(16,16,BufferedImage.TYPE_INT_ARGB));
     }
 }

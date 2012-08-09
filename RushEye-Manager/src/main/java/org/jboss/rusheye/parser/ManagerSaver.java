@@ -10,6 +10,8 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Arrays;
+import java.util.Comparator;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
@@ -25,6 +27,7 @@ import org.jboss.rusheye.result.writer.FileResultWriter;
 import org.jboss.rusheye.retriever.mask.MaskFileRetriever;
 import org.jboss.rusheye.retriever.pattern.PatternFileRetriever;
 import org.jboss.rusheye.retriever.sample.FileSampleRetriever;
+import org.jboss.rusheye.suite.Case;
 import org.jboss.rusheye.suite.Mask;
 import org.jboss.rusheye.suite.Test;
 import org.jboss.rusheye.suite.VisualSuite;
@@ -34,35 +37,32 @@ import org.jboss.rusheye.suite.VisualSuite;
  * @author hcube
  */
 public class ManagerSaver {
-    private VisualSuite suite;
-    
 
+    private VisualSuite suite;
     private Document document;
     private Namespace ns;
-    
-    
-    public ManagerSaver(VisualSuite s){
+
+    public ManagerSaver(VisualSuite s) {
         this.suite = s;
     }
-    
-    public void save(){
-        try{
-        OutputStream os = new FileOutputStream("tmp.xml");
-        crawl(os);
-        os.close();
-        }catch(Exception e){
+
+    public void save() {
+        try {
+            OutputStream os = new FileOutputStream("tmp.xml");
+            crawl(os);
+            os.close();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
-   
-    public void crawl(OutputStream os){
+
+    public void crawl(OutputStream os) {
         document = DocumentHelper.createDocument();
         addDocumentRoot();
         writeDocument(os);
     }
-    
-    private void writeDocument(OutputStream os){
+
+    private void writeDocument(OutputStream os) {
         OutputFormat format = OutputFormat.createPrettyPrint();
 
         try {
@@ -91,7 +91,7 @@ public class ManagerSaver {
         addRetrievers(globalConfiguration);
         addPerception(globalConfiguration);
         addMasks(globalConfiguration);
-        addTests(root);
+        addCases(root);
     }
 
     private void addSuiteListener(Element globalConfiguration) {
@@ -126,36 +126,47 @@ public class ManagerSaver {
         }
     }
 
-    private void addMasks( Element base) {
-            for (Mask m : suite.getGlobalConfiguration().getMasks()) {
+    private void addMasks(Element base) {
+        for (Mask m : suite.getGlobalConfiguration().getMasks()) {
 
-                Element mask = base.addElement(QName.get("mask", ns)).addAttribute("id", m.getId())
-                        .addAttribute("type", m.getType().value()).addAttribute("source", m.getSource());
+            Element mask = base.addElement(QName.get("mask", ns)).addAttribute("id", m.getId())
+                    .addAttribute("type", m.getType().value()).addAttribute("source", m.getSource());
 
-                    if(m.getVerticalAlign()!=null)
-                    mask.addAttribute("vertical-align",m.getVerticalAlign().value());
-                                        if(m.getHorizontalAlign()!=null)
-                    mask.addAttribute("horizontal-align",m.getHorizontalAlign().value());
-            }
-        
+            if (m.getVerticalAlign() != null)
+                mask.addAttribute("vertical-align", m.getVerticalAlign().value());
+            if (m.getHorizontalAlign() != null)
+                mask.addAttribute("horizontal-align", m.getHorizontalAlign().value());
+        }
+
     }
 
-    private void addTests(Element root) {
-        for(Test t : suite.getTests()){
-                    Element test = root.addElement(QName.get("test", ns));
-                    test.addAttribute("name", t.getName());
+    private void addCases(Element root) {
 
-                    addPatterns(t,test);
-            }
+        for (Case c : suite.getCases()) {
+            String name = c.getName();
+
+            Element case1 = root.addElement(QName.get("case", ns));
+            case1.addAttribute("name", name);
+            addTests(case1,c);
+
+        }
+
     }
 
+    private void addTests(Element case1, Case caseInstance) {
+        for (Test t : caseInstance.getTests()) {
+            Element test = case1.addElement(QName.get("test", ns));
+            test.addAttribute("name", t.getName());
 
-    private void addPatterns(Test t, Element test) {
-        for(org.jboss.rusheye.suite.Pattern p : t.getPatterns() ){
-                    Element pattern = test.addElement(QName.get("pattern", ns));
-                    pattern.addAttribute("name", p.getName());
-                    pattern.addAttribute("source", p.getSource());
+            addPatterns(t, test);
         }
     }
 
+    private void addPatterns(Test t, Element test) {
+        for (org.jboss.rusheye.suite.Pattern p : t.getPatterns()) {
+            Element pattern = test.addElement(QName.get("pattern", ns));
+            pattern.addAttribute("name", p.getName());
+            pattern.addAttribute("source", p.getSource());
+        }
+    }
 }

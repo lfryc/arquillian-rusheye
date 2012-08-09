@@ -23,6 +23,7 @@ import org.codehaus.stax2.XMLStreamReader2;
 import org.codehaus.stax2.ri.Stax2FilteredStreamReader;
 import org.codehaus.stax2.validation.XMLValidationSchema;
 import org.codehaus.stax2.validation.XMLValidationSchemaFactory;
+import org.jboss.rusheye.RushEye;
 import org.jboss.rusheye.manager.Main;
 import org.jboss.rusheye.manager.gui.charts.RushEyeStatistics;
 import org.jboss.rusheye.manager.project.TestCase;
@@ -54,7 +55,7 @@ public class ManagerParser extends Parser implements Observed {
         VisualSuite visualSuite = null;
         try {
             XMLValidationSchemaFactory schemaFactory = XMLValidationSchemaFactory.newInstance(XMLValidationSchema.SCHEMA_ID_W3C_SCHEMA);
-            URL schemaURL = getClass().getClassLoader().getResource("org/jboss/rusheye/visual-suite.xsd");
+            URL schemaURL = getClass().getClassLoader().getResource(RushEye.RESOURCE_VISUAL_SUITE);
             XMLValidationSchema schema = schemaFactory.createSchema(schemaURL);
 
             XMLInputFactory2 factory = (XMLInputFactory2) XMLInputFactory.newInstance();
@@ -106,26 +107,33 @@ public class ManagerParser extends Parser implements Observed {
                         }
                         listener.registerListener(retriverInjector);
                     }
-                    if (o instanceof Test) {
-                        Test test = (Test) o;
-                        handler.getContext().setCurrentConfiguration(test);
-                        handler.getContext().setCurrentTest(test);
-                        for (Pattern pattern : test.getPatterns()) {
-                            handler.getContext().invokeListeners().onPatternReady(test, pattern);
+                    if (o instanceof Case) {
+                        Case case1 = (Case) o;
+                        Case caseWrapped = ConfigurationCompiler.wrap(case1, visualSuite.getGlobalConfiguration());
+                        handler.getContext().setCurrentConfiguration(caseWrapped);
+                        handler.getContext().setCurrentCase(caseWrapped);
+                        for (Test test : caseWrapped.getTests()) {
+                            Test testWrapped = ConfigurationCompiler.wrap(test, caseWrapped);
+                            handler.getContext().setCurrentConfiguration(testWrapped);
+                            handler.getContext().setCurrentTest(testWrapped);
+                            for (Pattern pattern : testWrapped.getPatterns()) {
+                                handler.getContext().invokeListeners().onPatternReady(testWrapped, pattern);
+                            }
+                            handler.getContext().invokeListeners().onTestReady(testWrapped);
+
+                            for (Pattern pattern : testWrapped.getPatterns()) {
+                                TestCase managerTest = Main.mainProject.findTest(testWrapped.getName(), pattern.getName());
+                                managerTest.setConclusion(pattern.getConclusion());
+                                statistics.addValue(pattern.getConclusion(), 1);
+
+                                Main.mainProject.setCurrentCase(managerTest);
+                                Main.interfaceFrame.getProjectFrame().updateIcons();
+
+                                this.notifyObservers();
+                            }
                         }
-                        Test testWrapped = ConfigurationCompiler.wrap(test, visualSuite.getGlobalConfiguration());
-                        handler.getContext().invokeListeners().onTestReady(testWrapped);
+                        handler.getContext().invokeListeners().onCaseReady(caseWrapped);
 
-                        for (Pattern pattern : testWrapped.getPatterns()) {
-                            TestCase managerTest = Main.mainProject.findTest(testWrapped.getName(), pattern.getName());
-                            managerTest.setConclusion(pattern.getConclusion());
-                            statistics.addValue(pattern.getConclusion(), 1);
-
-                            Main.mainProject.setCurrentCase(managerTest);
-                            Main.interfaceFrame.getProjectFrame().updateIcons();
-
-                            this.notifyObservers();
-                        }
                     }
                 } catch (WstxParsingException e) {
                     // intentionally blank - wrong end of document detection
@@ -155,7 +163,7 @@ public class ManagerParser extends Parser implements Observed {
         VisualSuite visualSuite = null;
         try {
             XMLValidationSchemaFactory schemaFactory = XMLValidationSchemaFactory.newInstance(XMLValidationSchema.SCHEMA_ID_W3C_SCHEMA);
-            URL schemaURL = getClass().getClassLoader().getResource("org/jboss/rusheye/visual-suite.xsd");
+            URL schemaURL = getClass().getClassLoader().getResource(RushEye.RESOURCE_VISUAL_SUITE);
             XMLValidationSchema schema = schemaFactory.createSchema(schemaURL);
 
             XMLInputFactory2 factory = (XMLInputFactory2) XMLInputFactory.newInstance();
@@ -193,9 +201,9 @@ public class ManagerParser extends Parser implements Observed {
                         GlobalConfiguration globalConfiguration = (GlobalConfiguration) o;
                         visualSuite.setGlobalConfiguration(globalConfiguration);
                     }
-                    if (o instanceof Test) {
-                        Test test = (Test) o;
-                        visualSuite.getTests().add(test);
+                    if (o instanceof Case) {
+                        Case case1 = (Case) o;
+                        visualSuite.getCases().add(case1);
                     }
                 } catch (WstxParsingException e) {
                     // intentionally blank - wrong end of document detection
@@ -215,24 +223,27 @@ public class ManagerParser extends Parser implements Observed {
         statistics = new RushEyeStatistics();
         TestCase root = new TestCase();
         root.setName("Test Cases");
-        for (Test test : suite.getTests()) {
-            TestCase testCase = new TestCase();
-            testCase.setName(test.getName());
-            testCase.setParent(testCase);
-            testCase.setAllowsChildren(true);
+        for (Case case1 : suite.getCases()) {
+            TestCase caseCase = new TestCase();
+            caseCase.setName(case1.getName());
+            caseCase.setAllowsChildren(true);
+            for (Test test : case1.getTests()) {
+                TestCase testCase = new TestCase();
+                testCase.setName(test.getName());
+                testCase.setAllowsChildren(true);
 
-            for (Pattern pattern : test.getPatterns()) {
-                statistics.addValue(ResultConclusion.NOT_TESTED, 1);
-                TestCase patternCase = new TestCase();
-                patternCase.setName(pattern.getName());
-                patternCase.setFilename(pattern.getSource());
-                patternCase.setConclusion(ResultConclusion.NOT_TESTED);
-                testCase.addChild(patternCase);
+                for (Pattern pattern : test.getPatterns()) {
+                    statistics.addValue(ResultConclusion.NOT_TESTED, 1);
+                    TestCase patternCase = new TestCase();
+                    patternCase.setName(pattern.getName());
+                    patternCase.setFilename(pattern.getSource());
+                    patternCase.setConclusion(ResultConclusion.NOT_TESTED);
+                    testCase.addChild(patternCase);
+                }
+
+                root.addChild(caseCase);
             }
-
-            root.addChild(testCase);
         }
-
         notifyObservers();
 
         return root;

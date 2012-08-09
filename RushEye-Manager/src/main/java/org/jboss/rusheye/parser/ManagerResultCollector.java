@@ -82,9 +82,15 @@ public class ManagerResultCollector extends ResultCollectorAdapter {
 
     @Override
     public void onTestCompleted(Test test) {
-        writer.write(test);
         statistics.onTestCompleted(test);
     }
+    
+    @Override
+    public void onCaseCompleted(Case case1) {
+        writer.write(case1);
+        statistics.onCaseCompleted(case1);
+    }
+
 
     @Override
     public void onSuiteCompleted(VisualSuite visualSuite) {
