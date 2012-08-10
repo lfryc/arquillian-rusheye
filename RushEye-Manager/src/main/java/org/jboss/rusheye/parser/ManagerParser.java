@@ -240,9 +240,9 @@ public class ManagerParser extends Parser implements Observed {
                     patternCase.setConclusion(ResultConclusion.NOT_TESTED);
                     testCase.addChild(patternCase);
                 }
-
-                root.addChild(caseCase);
+                caseCase.addChild(testCase);
             }
+            root.addChild(caseCase);
         }
         notifyObservers();
 

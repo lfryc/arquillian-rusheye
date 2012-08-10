@@ -199,7 +199,6 @@
                     <Property name="model" type="javax.swing.tree.TreeModel" editor="org.netbeans.modules.form.editors2.TreeModelEditor">
                       <TreeModel code="Test Cases"/>
                     </Property>
-                    <Property name="rootVisible" type="boolean" value="false"/>
                   </Properties>
                 </Component>
               </SubComponents>

@@ -357,7 +357,6 @@ public class ProjectManagerFrame extends javax.swing.JFrame {
 
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Test Cases");
         projectTree.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
-        projectTree.setRootVisible(false);
         jScrollPane2.setViewportView(projectTree);
 
         filterField.setFont(new java.awt.Font("Ubuntu", 2, 15)); // NOI18N
