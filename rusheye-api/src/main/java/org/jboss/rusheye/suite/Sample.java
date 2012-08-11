@@ -47,10 +47,13 @@ public class Sample extends ImageSource {
     @Resource
     @XmlTransient
     private SampleRetriever sampleRetriever;
+    
+    @XmlTransient
+    private Case case1;
 
     @Override
     public BufferedImage retrieve() throws Exception {
-        return sampleRetriever.retrieve(source, this);
+        return sampleRetriever.retrieve(case1.getName() + "/" + source, this);
     }
 
     /**
@@ -61,5 +64,9 @@ public class Sample extends ImageSource {
      */
     public void setSampleRetriever(SampleRetriever sampleRetriever) {
         this.sampleRetriever = sampleRetriever;
+    }
+    
+    public void setCase(Case case1) {
+        this.case1 = case1;
     }
 }

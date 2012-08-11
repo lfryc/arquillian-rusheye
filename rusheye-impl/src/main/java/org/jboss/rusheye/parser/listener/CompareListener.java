@@ -99,6 +99,7 @@ public class CompareListener implements SuiteListener {
             resultCollector.onTestStarted(testWrapped);
             
             Sample sample = test.getSample();
+            sample.setCase(case1);
             sample.include(properties);
             resultCollector.onSampleStarted(testWrapped);
 
