@@ -54,11 +54,7 @@ public class CommandBase {
     }
 
     protected void printErrorMessage(Exception e) {
-        if (isDebug()) {
-            e.printStackTrace();
-        } else {
-            System.err.println(e.getMessage());
-        }
+        e.printStackTrace();
     }
 
     protected String validateInputFile(String name, File file) {

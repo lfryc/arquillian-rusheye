@@ -48,12 +48,14 @@ public class FileSampleRetriever extends AbstractSampleRetriever {
 
         Set<String> sources = new TreeSet<String>();
 
-        for (String sourceFilename : samplesDirectory.list()) {
-            String extension = StringUtils.substringAfterLast(sourceFilename, ".");
-            checkExtensionUniformity(extension, sourceFilename);
-
-            String sourceName = StringUtils.substringBeforeLast(sourceFilename, ".");
-            sources.add(sourceName);
+        for (File caseDir : samplesDirectory.listFiles()) {
+            for (String sourceFilename : caseDir.list()) {
+                String extension = StringUtils.substringAfterLast(sourceFilename, ".");
+                checkExtensionUniformity(extension, sourceFilename);
+    
+                String sourceName = caseDir.getName() + "/" + StringUtils.substringBeforeLast(sourceFilename, ".");
+                sources.add(sourceName);
+            }
         }
 
         return Collections.unmodifiableSet(sources);
